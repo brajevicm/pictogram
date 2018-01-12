@@ -32,12 +32,12 @@ public class User {
   @Size(min = 8, max = 255)
   private String password;
 
-  @Column(name = "firstName", length = 32)
+  @Column(name = "first_name", length = 32)
   @NotNull
   @Size(min = 2, max = 32)
   private String firstName;
 
-  @Column(name = "lastName", length = 32)
+  @Column(name = "last_name", length = 32)
   @NotNull
   @Size(min = 2, max = 32)
   private String lastName;
@@ -47,23 +47,28 @@ public class User {
   @Size(min = 4, max = 255)
   private String email;
 
-  @Column(name = "enabled")
-  @NotNull
-  private boolean enabled;
-
   @Column(name = "profile_image")
   @NotNull
   @Size(min = 3, max = 255)
   private String profileImage;
+
+  @Column(name = "enabled")
+  @NotNull
+  private boolean enabled;
 
   @Column(name = "created_date")
   @Temporal(TemporalType.TIME)
   @NotNull
   private Date createdDate;
 
+  @Column(name = "last_password_reset_date")
+  @Temporal(TemporalType.TIME)
+  @NotNull
+  private Date lastPasswordResetDate;
+
   @ManyToMany(fetch = FetchType.EAGER)
   @JoinTable(
-    name = "user_authority",
+    name = "user_authorities",
     joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")}
   )
@@ -117,14 +122,6 @@ public class User {
     this.email = email;
   }
 
-  public boolean isEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
-
   public String getProfileImage() {
     return profileImage;
   }
@@ -133,12 +130,28 @@ public class User {
     this.profileImage = profileImage;
   }
 
+  public boolean isEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
+
   public Date getCreatedDate() {
     return createdDate;
   }
 
   public void setCreatedDate(Date createdDate) {
     this.createdDate = createdDate;
+  }
+
+  public Date getLastPasswordResetDate() {
+    return lastPasswordResetDate;
+  }
+
+  public void setLastPasswordResetDate(Date lastPasswordResetDate) {
+    this.lastPasswordResetDate = lastPasswordResetDate;
   }
 
   public List<Authority> getAuthorities() {
@@ -158,9 +171,10 @@ public class User {
       ", firstName='" + firstName + '\'' +
       ", lastName='" + lastName + '\'' +
       ", email='" + email + '\'' +
-      ", enabled=" + enabled +
       ", profileImage='" + profileImage + '\'' +
+      ", enabled=" + enabled +
       ", createdDate=" + createdDate +
+      ", lastPasswordResetDate=" + lastPasswordResetDate +
       ", authorities=" + authorities +
       '}';
   }

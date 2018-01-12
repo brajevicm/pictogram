@@ -134,8 +134,13 @@ public class JwtTokenUtil implements Serializable {
   public Boolean validateToken(String token, UserDetails userDetails) {
     JwtUser user = (JwtUser) userDetails;
     final String username = getUsernameFromToken(token);
+    final Date created = getIssuedAtDateFromToken(token);
 
-    return (username.equals(user.getUsername()) && !isTokenExpired(token));
+    return (
+      username.equals(user.getUsername())
+        && !isTokenExpired(token)
+        && !isCreatedBeforeLastPasswordReset(created, user.getLastPasswordResetDate())
+    );
   }
 
   public String refreshToken(String token) {

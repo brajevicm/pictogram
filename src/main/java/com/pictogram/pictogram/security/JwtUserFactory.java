@@ -27,9 +27,12 @@ public final class JwtUserFactory {
       user.getFirstName(),
       user.getLastName(),
       user.getEmail(),
-      mapToGrantedAuthorities(user.getAuthorities()),
-      user.isEnabled()
-    );
+      user.getProfileImage(),
+      user.isEnabled(),
+      user.getCreatedDate(),
+      user.getLastPasswordResetDate(),
+      mapToGrantedAuthorities(user.getAuthorities())
+      );
   }
 
   private static List<GrantedAuthority> mapToGrantedAuthorities(List<Authority> authorities) {

@@ -14,6 +14,7 @@ import java.util.List;
 @Table(name = "authorities")
 public class Authority {
 
+  @Id
   @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
   @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
