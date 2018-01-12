@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
+
 @SpringBootApplication
 public class PictogramApplication {
 

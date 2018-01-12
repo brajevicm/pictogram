@@ -6,5 +6,6 @@ package com.pictogram.pictogram.security.model;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public class AuthorityName {
+public enum AuthorityName {
+  ROLE_USER, ROLE_ADMIN
 }
