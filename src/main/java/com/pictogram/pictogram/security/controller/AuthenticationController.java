@@ -21,10 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Arrays;
@@ -38,6 +35,7 @@ import java.util.Date;
  * Mail: brajevicms@gmail.com
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
 public class AuthenticationController {
 
   @Value("${jwt.header}")
@@ -107,7 +105,7 @@ public class AuthenticationController {
     newUser.setCreatedDate(createdDate);
     newUser.setAuthorities(Collections.singletonList(authority));
     newUser.setLastPasswordResetDate(createdDate);
-    
+
     userRepository.save(newUser);
 
     return ResponseEntity.ok("User successfully created");
