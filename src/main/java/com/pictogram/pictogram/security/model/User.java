@@ -18,8 +18,9 @@ public class User {
 
   @Id
   @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-  @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+//  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
+//  @SequenceGenerator(name = "user_seq", sequenceName = "user_seq", allocationSize = 1)
   private Long id;
 
   @Column(name = "username", length = 32, unique = true)
@@ -57,16 +58,16 @@ public class User {
   private boolean enabled;
 
   @Column(name = "created_date")
-  @Temporal(TemporalType.TIME)
+  @Temporal(TemporalType.TIMESTAMP)
   @NotNull
   private Date createdDate;
 
   @Column(name = "last_password_reset_date")
-  @Temporal(TemporalType.TIME)
-  @NotNull
+  @Temporal(TemporalType.TIMESTAMP)
+//  @NotNull
   private Date lastPasswordResetDate;
 
-  @ManyToMany(fetch = FetchType.EAGER)
+  @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(
     name = "user_authorities",
     joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},

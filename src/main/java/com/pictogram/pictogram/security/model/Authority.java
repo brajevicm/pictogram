@@ -16,8 +16,9 @@ public class Authority {
 
   @Id
   @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
-  @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
+  @GeneratedValue(strategy = GenerationType.AUTO)
+//  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
+//  @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
   private Long id;
 
   @Column(name = "name", length = 32)
@@ -25,7 +26,7 @@ public class Authority {
   @Enumerated(EnumType.STRING)
   private AuthorityName name;
 
-  @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY)
+  @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<User> users;
 
   public Long getId() {

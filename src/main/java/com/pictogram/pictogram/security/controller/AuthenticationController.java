@@ -4,6 +4,10 @@ import com.pictogram.pictogram.security.JwtAuthenticationRequest;
 import com.pictogram.pictogram.security.JwtAuthenticationResponse;
 import com.pictogram.pictogram.security.JwtTokenUtil;
 import com.pictogram.pictogram.security.JwtUser;
+import com.pictogram.pictogram.security.model.Authority;
+import com.pictogram.pictogram.security.model.AuthorityName;
+import com.pictogram.pictogram.security.model.User;
+import com.pictogram.pictogram.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +19,17 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 
 /**
  * Project: pictogram
@@ -42,6 +51,9 @@ public class AuthenticationController {
 
   @Autowired
   UserDetailsService userDetailsService;
+
+  @Autowired
+  UserRepository userRepository;
 
   @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
   public ResponseEntity<?> createAuthenticationToken(
@@ -74,5 +86,30 @@ public class AuthenticationController {
     } else {
       return ResponseEntity.badRequest().body(null);
     }
+  }
+
+  @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST)
+  public ResponseEntity<?> registerUser(@RequestBody User user) throws AuthenticationException {
+    Date createdDate = new Date();
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String hashedPassword = passwordEncoder.encode(user.getPassword());
+
+    Authority authority = new Authority();
+    authority.setName(AuthorityName.ROLE_USER);
+    User newUser = new User();
+    newUser.setUsername(user.getUsername());
+    newUser.setPassword(hashedPassword);
+    newUser.setFirstName(user.getFirstName());
+    newUser.setLastName(user.getLastName());
+    newUser.setEnabled(true);
+    newUser.setEmail(user.getEmail());
+    newUser.setProfileImage(user.getProfileImage());
+    newUser.setCreatedDate(createdDate);
+    newUser.setAuthorities(Collections.singletonList(authority));
+    newUser.setLastPasswordResetDate(createdDate);
+    
+    userRepository.save(newUser);
+
+    return ResponseEntity.ok("User successfully created");
   }
 }
