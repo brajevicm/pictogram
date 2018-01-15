@@ -1,10 +1,13 @@
 package com.pictogram.pictogram.rest.repository;
 
+import com.pictogram.pictogram.rest.model.Comment;
+import org.springframework.data.repository.Repository;
+
 /**
  * Project: pictogram
  * Date: 14-Jan-18
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public class CommentRepository {
+public interface CommentRepository {
 }

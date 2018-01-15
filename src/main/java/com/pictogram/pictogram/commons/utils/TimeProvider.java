@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.utils;
+package com.pictogram.pictogram.commons.utils;
 
 import org.springframework.stereotype.Component;
 

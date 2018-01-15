@@ -6,5 +6,5 @@ package com.pictogram.pictogram.rest.repository;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public class ReportRepository {
+public interface ReportRepository {
 }

@@ -1,5 +1,7 @@
 package com.pictogram.pictogram.security.model;
 
+import com.pictogram.pictogram.commons.model.AbstractEntity;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -12,14 +14,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "authorities")
-public class Authority {
-
-  @Id
-  @Column(name = "id")
-  @GeneratedValue(strategy = GenerationType.AUTO)
-//  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "authority_seq")
-//  @SequenceGenerator(name = "authority_seq", sequenceName = "authority_seq", allocationSize = 1)
-  private Long id;
+public class Authority extends AbstractEntity {
 
   @Column(name = "name", length = 32)
   @NotNull
@@ -28,14 +23,6 @@ public class Authority {
 
   @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   private List<User> users;
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
 
   public AuthorityName getName() {
     return name;
@@ -56,7 +43,6 @@ public class Authority {
   @Override
   public String toString() {
     return "Authority{" +
-      "id=" + id +
       ", name=" + name +
       ", users=" + users +
       '}';

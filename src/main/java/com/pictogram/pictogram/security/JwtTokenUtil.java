@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.security;
 
-import com.pictogram.pictogram.utils.TimeProvider;
+import com.pictogram.pictogram.commons.utils.TimeProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
