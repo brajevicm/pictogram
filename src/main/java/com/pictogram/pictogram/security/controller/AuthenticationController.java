@@ -1,5 +1,7 @@
 package com.pictogram.pictogram.security.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pictogram.pictogram.commons.utils.TimeProvider;
 import com.pictogram.pictogram.security.JwtAuthenticationRequest;
 import com.pictogram.pictogram.security.JwtAuthenticationResponse;
 import com.pictogram.pictogram.security.JwtTokenUtil;
@@ -29,9 +31,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
@@ -96,54 +100,41 @@ public class AuthenticationController {
   }
 
   @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST, consumes = {"multipart/form-data"})
-  public ResponseEntity<?> registerUser(@RequestPart("username") String username,
-                                        @RequestParam("file") MultipartFile uploadfile) throws AuthenticationException {
-//    Date createdDate = new Date();
-//    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-//    String hashedPassword = passwordEncoder.encode(user.getPassword());
+  public ResponseEntity<?> registerUser(@RequestParam String username,
+                                        @RequestParam String password,
+                                        @RequestParam String firstName,
+                                        @RequestParam String lastName,
+                                        @RequestParam String email,
+                                        @RequestParam(required = true) MultipartFile file) throws IOException {
 
-    System.out.println(username);
-//    Authority authority = new Authority();
-//    authority.setName(AuthorityName.ROLE_USER);
-//    User newUser = new User();
-//    newUser.setUsername(user.getUsername());
-//    newUser.setPassword(hashedPassword);
-//    newUser.setFirstName(user.getFirstName());
-//    newUser.setLastName(user.getLastName());
-//    newUser.setEnabled(true);
-//    newUser.setEmail(user.getEmail());
-//    newUser.setProfileImage(user.getProfileImage());
-//    newUser.setCreatedDate(createdDate);
-//    newUser.setAuthorities(Collections.singletonList(authority));
-//    newUser.setLastPasswordResetDate(createdDate);
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String hashedPassword = passwordEncoder.encode(password);
+    Authority authority = new Authority();
+    authority.setName(AuthorityName.ROLE_USER);
+    Date createdDate = new Date();
+    User newUser = new User();
+    newUser.setUsername(username);
+    newUser.setPassword(hashedPassword);
+    newUser.setFirstName(firstName);
+    newUser.setLastName(lastName);
+    newUser.setEnabled(true);
+    newUser.setEmail(email);
+    newUser.setAuthorities(Collections.singletonList(authority));
 
-    try {
+    newUser.setCreatedDate(createdDate);
+    newUser.setLastPasswordResetDate(createdDate);
 
-      saveUploadedFiles(Arrays.asList(uploadfile));
+    newUser.setProfileImage(file.getOriginalFilename());
+    System.out.println(newUser.toString());
 
-    } catch (IOException e) {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
+    userRepository.save(newUser);
 
-//    userRepository.save(newUser);
+      String fileName = file.getOriginalFilename();
+      InputStream is = file.getInputStream();
 
+      Files.copy(is, Paths.get("C:/" + fileName),
+        StandardCopyOption.REPLACE_EXISTING);
 
     return ResponseEntity.ok("User successfully created");
-  }
-
-  private void saveUploadedFiles(List<MultipartFile> files) throws IOException {
-
-    for (MultipartFile file : files) {
-
-      if (file.isEmpty()) {
-        continue; //next pls
-      }
-
-      byte[] bytes = file.getBytes();
-      Path path = Paths.get("C://temp//" + file.getOriginalFilename());
-      Files.write(path, bytes);
-
-    }
-
   }
 }

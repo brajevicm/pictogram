@@ -11,4 +11,5 @@ import org.springframework.data.repository.Repository;
  * Mail: brajevicms@gmail.com
  */
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+
 }

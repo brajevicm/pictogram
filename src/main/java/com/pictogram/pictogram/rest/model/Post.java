@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
 import com.pictogram.pictogram.security.model.User;
 
@@ -43,11 +44,13 @@ public class Post extends AbstractEntity {
   @NotNull
   private boolean enabled;
 
-  @ManyToOne(fetch = FetchType.EAGER)
+//  @JsonProperty("user")
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "post")
+//  @JsonProperty("comments")
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
   private Set<Comment> comments;
 
   public Post() {
