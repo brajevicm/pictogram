@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.security;
+package com.pictogram.pictogram.security.model;
 
 import java.io.Serializable;
 

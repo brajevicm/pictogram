@@ -2,7 +2,6 @@ package com.pictogram.pictogram.rest.controller;
 
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.repository.PostRepository;
-import javafx.geometry.Pos;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * Project: pictogram
@@ -34,9 +31,8 @@ public class PostController {
 
   @RequestMapping(value = "/post", method = RequestMethod.GET)
   public ResponseEntity<?> getPosts() {
-    List<Post> posts = postRepository.findAll();
 
-    return ResponseEntity.ok(posts);
+    return ResponseEntity.ok("ok");
   }
 
 }

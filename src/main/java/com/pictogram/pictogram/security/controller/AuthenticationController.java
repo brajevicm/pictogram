@@ -1,20 +1,15 @@
 package com.pictogram.pictogram.security.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pictogram.pictogram.commons.utils.TimeProvider;
-import com.pictogram.pictogram.security.JwtAuthenticationRequest;
-import com.pictogram.pictogram.security.JwtAuthenticationResponse;
+import com.pictogram.pictogram.security.model.JwtAuthenticationRequest;
+import com.pictogram.pictogram.security.model.JwtAuthenticationResponse;
 import com.pictogram.pictogram.security.JwtTokenUtil;
-import com.pictogram.pictogram.security.JwtUser;
+import com.pictogram.pictogram.security.model.JwtUser;
 import com.pictogram.pictogram.security.model.Authority;
 import com.pictogram.pictogram.security.model.AuthorityName;
-import com.pictogram.pictogram.security.model.User;
-import com.pictogram.pictogram.security.repository.UserRepository;
+import com.pictogram.pictogram.rest.model.User;
+import com.pictogram.pictogram.rest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,13 +28,10 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Project: pictogram

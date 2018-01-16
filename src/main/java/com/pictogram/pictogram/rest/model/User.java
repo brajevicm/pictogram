@@ -1,13 +1,15 @@
-package com.pictogram.pictogram.security.model;
+package com.pictogram.pictogram.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
 import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.Post;
+import com.pictogram.pictogram.security.model.Authority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -73,11 +75,17 @@ public class User extends AbstractEntity {
   )
   private List<Authority> authorities;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-  private Set<Post> posts;
+  @OneToMany(
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    mappedBy = "user")
+  private List<Post> posts = new ArrayList<>();
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-  private Set<Comment> comments;
+  @OneToMany(
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    mappedBy = "user")
+  private List<Comment> comments = new ArrayList<>();
 
   public User() {
   }
@@ -158,7 +166,6 @@ public class User extends AbstractEntity {
     this.lastPasswordResetDate = lastPasswordResetDate;
   }
 
-
   public List<Authority> getAuthorities() {
     return authorities;
   }
@@ -167,20 +174,40 @@ public class User extends AbstractEntity {
     this.authorities = authorities;
   }
 
-  public Set<Post> getPosts() {
+  public List<Post> getPosts() {
     return posts;
   }
 
-  public void setPosts(Set<Post> posts) {
+  public void setPosts(List<Post> posts) {
     this.posts = posts;
   }
 
-  public Set<Comment> getComments() {
+  public List<Comment> getComments() {
     return comments;
   }
 
-  public void setComments(Set<Comment> comments) {
+  public void setComments(List<Comment> comments) {
     this.comments = comments;
+  }
+
+  public void addComment(Comment comment) {
+    comments.add(comment);
+    comment.setUser(this);
+  }
+
+  public void removeComment(Comment comment) {
+    comments.remove(comment);
+    comment.setUser(null);
+  }
+
+  public void addPost(Post post) {
+    posts.add(post);
+    post.setUser(this);
+  }
+
+  public void removePost(Post post) {
+    posts.remove(post);
+    post.setUser(null);
   }
 
   @Override

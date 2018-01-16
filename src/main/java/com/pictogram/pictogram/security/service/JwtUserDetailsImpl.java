@@ -1,8 +1,8 @@
 package com.pictogram.pictogram.security.service;
 
 import com.pictogram.pictogram.security.JwtUserFactory;
-import com.pictogram.pictogram.security.model.User;
-import com.pictogram.pictogram.security.repository.UserRepository;
+import com.pictogram.pictogram.rest.model.User;
+import com.pictogram.pictogram.rest.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

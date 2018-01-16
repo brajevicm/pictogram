@@ -1,9 +1,7 @@
 package com.pictogram.pictogram.security.controller;
 
 import com.pictogram.pictogram.security.JwtTokenUtil;
-import com.pictogram.pictogram.security.JwtUser;
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+import com.pictogram.pictogram.security.model.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -32,12 +30,11 @@ public class UserController {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  @RequestMapping(value = "user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "currentUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public JwtUser getAuthenticatedUser(HttpServletRequest request) {
     String authToken = request.getHeader(tokenHeader);
     final String token = authToken.substring(7);
     String username = jwtTokenUtil.getUsernameFromToken(token);
-    System.out.println();
 
     return (JwtUser) userDetailsService.loadUserByUsername(username);
   }

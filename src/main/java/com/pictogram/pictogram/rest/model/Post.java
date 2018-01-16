@@ -1,12 +1,11 @@
 package com.pictogram.pictogram.rest.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
-import com.pictogram.pictogram.security.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -44,14 +43,15 @@ public class Post extends AbstractEntity {
   @NotNull
   private boolean enabled;
 
-//  @JsonProperty("user")
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-//  @JsonProperty("comments")
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "post")
-  private Set<Comment> comments;
+  @OneToMany(
+    cascade = CascadeType.ALL,
+    orphanRemoval = true,
+    mappedBy = "post")
+  private List<Comment> comments = new ArrayList<>();
 
   public Post() {
   }
@@ -104,12 +104,22 @@ public class Post extends AbstractEntity {
     this.user = user;
   }
 
-  public Set<Comment> getComments() {
+  public List<Comment> getComments() {
     return comments;
   }
 
-  public void setComments(Set<Comment> comments) {
+  public void setComments(List<Comment> comments) {
     this.comments = comments;
+  }
+
+  public void addComment(Comment comment) {
+    comments.add(comment);
+    comment.setPost(this);
+  }
+
+  public void removeComment(Comment comment) {
+    comments.remove(comment);
+    comment.setPost(null);
   }
 
   @Override

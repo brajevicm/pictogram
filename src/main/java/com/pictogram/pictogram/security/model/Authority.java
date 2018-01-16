@@ -1,6 +1,7 @@
 package com.pictogram.pictogram.security.model;
 
 import com.pictogram.pictogram.commons.model.AbstractEntity;
+import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
