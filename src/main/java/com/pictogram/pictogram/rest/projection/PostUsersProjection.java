@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.rest.projections;
+package com.pictogram.pictogram.rest.projection;
 
 import com.pictogram.pictogram.rest.model.Post;
 import org.springframework.beans.factory.annotation.Value;

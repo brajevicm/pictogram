@@ -1,8 +1,8 @@
 package com.pictogram.pictogram.config;
 
-import com.pictogram.pictogram.rest.projections.PostUsersProjection;
-import com.pictogram.pictogram.rest.projections.UserCommentsProjection;
-import com.pictogram.pictogram.rest.projections.UserPostsProjection;
+import com.pictogram.pictogram.rest.projection.PostUsersProjection;
+import com.pictogram.pictogram.rest.projection.UserCommentsProjection;
+import com.pictogram.pictogram.rest.projection.UserPostsProjection;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
