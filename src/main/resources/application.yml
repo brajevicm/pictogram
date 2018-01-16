@@ -12,3 +12,6 @@ jwt:
       path: auth
       refresh: refresh
       register: auth/register
+
+cors:
+  address: http://localhost:4200

@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Project: pictogram
@@ -42,12 +43,12 @@ public class Post extends AbstractEntity {
   @NotNull
   private boolean enabled;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-  private List<Comment> comments;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "post")
+  private Set<Comment> comments;
 
   public Post() {
   }
@@ -100,11 +101,11 @@ public class Post extends AbstractEntity {
     this.user = user;
   }
 
-  public List<Comment> getComments() {
+  public Set<Comment> getComments() {
     return comments;
   }
 
-  public void setComments(List<Comment> comments) {
+  public void setComments(Set<Comment> comments) {
     this.comments = comments;
   }
 

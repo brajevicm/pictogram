@@ -33,11 +33,11 @@ public class Comment extends AbstractEntity {
   @NotNull
   private boolean enabled;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "post_id", nullable = false)
   private Post post;
 

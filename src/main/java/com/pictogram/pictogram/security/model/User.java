@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.security.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
 import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.Post;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Project: pictogram
@@ -72,10 +74,10 @@ public class User extends AbstractEntity {
   private List<Authority> authorities;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-  private List<Post> posts;
+  private Set<Post> posts;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-  private List<Comment> comments;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "user")
+  private Set<Comment> comments;
 
   public User() {
   }
@@ -88,6 +90,7 @@ public class User extends AbstractEntity {
     this.username = username;
   }
 
+  @JsonIgnore
   public String getPassword() {
     return password;
   }
@@ -128,6 +131,7 @@ public class User extends AbstractEntity {
     this.profileImage = profileImage;
   }
 
+  @JsonIgnore
   public boolean isEnabled() {
     return enabled;
   }
@@ -136,6 +140,7 @@ public class User extends AbstractEntity {
     this.enabled = enabled;
   }
 
+  @JsonIgnore
   public Date getCreatedDate() {
     return createdDate;
   }
@@ -144,6 +149,7 @@ public class User extends AbstractEntity {
     this.createdDate = createdDate;
   }
 
+  @JsonIgnore
   public Date getLastPasswordResetDate() {
     return lastPasswordResetDate;
   }
@@ -151,6 +157,7 @@ public class User extends AbstractEntity {
   public void setLastPasswordResetDate(Date lastPasswordResetDate) {
     this.lastPasswordResetDate = lastPasswordResetDate;
   }
+
 
   public List<Authority> getAuthorities() {
     return authorities;
@@ -160,19 +167,19 @@ public class User extends AbstractEntity {
     this.authorities = authorities;
   }
 
-  public List<Post> getPosts() {
+  public Set<Post> getPosts() {
     return posts;
   }
 
-  public void setPosts(List<Post> posts) {
+  public void setPosts(Set<Post> posts) {
     this.posts = posts;
   }
 
-  public List<Comment> getComments() {
+  public Set<Comment> getComments() {
     return comments;
   }
 
-  public void setComments(List<Comment> comments) {
+  public void setComments(Set<Comment> comments) {
     this.comments = comments;
   }
 

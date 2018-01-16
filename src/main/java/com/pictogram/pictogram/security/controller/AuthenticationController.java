@@ -9,7 +9,10 @@ import com.pictogram.pictogram.security.model.AuthorityName;
 import com.pictogram.pictogram.security.model.User;
 import com.pictogram.pictogram.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,11 +25,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Project: pictogram
@@ -35,7 +44,7 @@ import java.util.Date;
  * Mail: brajevicms@gmail.com
  */
 @RestController
-@CrossOrigin(origins = "http://localhost:4200", maxAge = 3600)
+@CrossOrigin(origins = "${cors.address}", maxAge = 3600)
 public class AuthenticationController {
 
   @Value("${jwt.header}")
@@ -73,41 +82,68 @@ public class AuthenticationController {
 
   @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
   public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
-    String token = request.getHeader(tokenHeader);
+    String authToken = request.getHeader(tokenHeader);
+    final String token = authToken.substring(7);
     String username = jwtTokenUtil.getUsernameFromToken(token);
-    JwtUser jwtUser = (JwtUser) userDetailsService.loadUserByUsername(username);
+    JwtUser user = (JwtUser) userDetailsService.loadUserByUsername(username);
 
-    if (jwtTokenUtil.canTokenBeRefreshed(token, jwtUser.getLastPasswordResetDate())) {
+    if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())) {
       String refreshedToken = jwtTokenUtil.refreshToken(token);
-
       return ResponseEntity.ok(new JwtAuthenticationResponse(refreshedToken));
     } else {
       return ResponseEntity.badRequest().body(null);
     }
   }
 
-  @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST)
-  public ResponseEntity<?> registerUser(@RequestBody User user) throws AuthenticationException {
-    Date createdDate = new Date();
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    String hashedPassword = passwordEncoder.encode(user.getPassword());
+  @RequestMapping(value = "${jwt.route.authentication.register}", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+  public ResponseEntity<?> registerUser(@RequestPart("username") String username,
+                                        @RequestParam("file") MultipartFile uploadfile) throws AuthenticationException {
+//    Date createdDate = new Date();
+//    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+//    String hashedPassword = passwordEncoder.encode(user.getPassword());
 
-    Authority authority = new Authority();
-    authority.setName(AuthorityName.ROLE_USER);
-    User newUser = new User();
-    newUser.setUsername(user.getUsername());
-    newUser.setPassword(hashedPassword);
-    newUser.setFirstName(user.getFirstName());
-    newUser.setLastName(user.getLastName());
-    newUser.setEnabled(true);
-    newUser.setEmail(user.getEmail());
-    newUser.setProfileImage(user.getProfileImage());
-    newUser.setCreatedDate(createdDate);
-    newUser.setAuthorities(Collections.singletonList(authority));
-    newUser.setLastPasswordResetDate(createdDate);
+    System.out.println(username);
+//    Authority authority = new Authority();
+//    authority.setName(AuthorityName.ROLE_USER);
+//    User newUser = new User();
+//    newUser.setUsername(user.getUsername());
+//    newUser.setPassword(hashedPassword);
+//    newUser.setFirstName(user.getFirstName());
+//    newUser.setLastName(user.getLastName());
+//    newUser.setEnabled(true);
+//    newUser.setEmail(user.getEmail());
+//    newUser.setProfileImage(user.getProfileImage());
+//    newUser.setCreatedDate(createdDate);
+//    newUser.setAuthorities(Collections.singletonList(authority));
+//    newUser.setLastPasswordResetDate(createdDate);
 
-    userRepository.save(newUser);
+    try {
+
+      saveUploadedFiles(Arrays.asList(uploadfile));
+
+    } catch (IOException e) {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+//    userRepository.save(newUser);
+
 
     return ResponseEntity.ok("User successfully created");
+  }
+
+  private void saveUploadedFiles(List<MultipartFile> files) throws IOException {
+
+    for (MultipartFile file : files) {
+
+      if (file.isEmpty()) {
+        continue; //next pls
+      }
+
+      byte[] bytes = file.getBytes();
+      Path path = Paths.get("C://temp//" + file.getOriginalFilename());
+      Files.write(path, bytes);
+
+    }
+
   }
 }
