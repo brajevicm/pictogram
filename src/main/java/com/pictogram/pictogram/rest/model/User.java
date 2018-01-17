@@ -2,8 +2,6 @@ package com.pictogram.pictogram.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
-import com.pictogram.pictogram.rest.model.Comment;
-import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.security.model.Authority;
 
 import javax.persistence.*;
@@ -12,7 +10,6 @@ import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Project: pictogram
@@ -86,6 +83,14 @@ public class User extends AbstractEntity {
     orphanRemoval = true,
     mappedBy = "user")
   private List<Comment> comments = new ArrayList<>();
+
+//  private List<Post> upvotedPosts = new ArrayList<>();
+//
+//  private List<Comment> upvotedComments = new ArrayList<>();
+//
+//  private List<Post> reportedPosts = new ArrayList<>();
+//
+//  private List<Comment> reportedComments = new ArrayList<>();
 
   public User() {
   }
@@ -226,6 +231,22 @@ public class User extends AbstractEntity {
     posts.remove(post);
     post.setUser(null);
   }
+
+//  public void upvotePost(Post post) {
+//    upvotedPosts.add(post);
+//  }
+//
+//  public void upvoteComment(Comment comment) {
+//    upvotedComments.add(comment);
+//  }
+//
+//  public void reportPost(Post post) {
+//    reportedPosts.add(post);
+//  }
+//
+//  public void reportComment(Comment comment) {
+//    reportedComments.add(comment);
+//  }
 
   @Override
   public String toString() {
