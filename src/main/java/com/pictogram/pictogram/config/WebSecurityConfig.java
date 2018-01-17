@@ -1,7 +1,7 @@
 package com.pictogram.pictogram.config;
 
-import com.pictogram.pictogram.security.JwtAuthenticationEntryPoint;
-import com.pictogram.pictogram.security.JwtAuthenticationTokenFilter;
+import com.pictogram.pictogram.security.utils.JwtAuthenticationEntryPoint;
+import com.pictogram.pictogram.security.utils.AuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,7 +28,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
-  private JwtAuthenticationEntryPoint authenticationEntryPoint;
+  private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
 
   @Autowired
   private UserDetailsService userDetailsService;
@@ -46,15 +46,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   }
 
   @Bean
-  public JwtAuthenticationTokenFilter authenticationTokenFilter() {
-    return new JwtAuthenticationTokenFilter();
+  public AuthenticationTokenFilter authenticationTokenFilter() {
+    return new AuthenticationTokenFilter();
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http
       .csrf().disable()
-      .exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
+      .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint)
       .and()
       .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
       .and()

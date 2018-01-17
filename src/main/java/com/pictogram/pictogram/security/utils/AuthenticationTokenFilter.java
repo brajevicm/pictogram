@@ -1,7 +1,6 @@
-package com.pictogram.pictogram.security;
+package com.pictogram.pictogram.security.utils;
 
 import io.jsonwebtoken.ExpiredJwtException;
-import org.apache.catalina.servlet4preview.GenericFilter;
 import org.apache.juli.logging.Log;
 import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ import java.io.IOException;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class AuthenticationTokenFilter extends OncePerRequestFilter {
 
   private final Log logger = LogFactory.getLog(this.getClass());
 
@@ -33,7 +32,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
   UserDetailsService userDetailsService;
 
   @Autowired
-  private JwtTokenUtil jwtTokenUtil;
+  private TokenUtil tokenUtil;
 
   @Value("${jwt.header}")
   private String tokenHeader;
@@ -51,7 +50,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     if (requestHeader != null && requestHeader.startsWith("Bearer ")) {
       authToken = requestHeader.substring(7);
       try {
-        username = jwtTokenUtil.getUsernameFromToken(authToken);
+        username = tokenUtil.getUsernameFromToken(authToken);
       } catch (IllegalArgumentException e) {
         logger.error("Error during getting username from token", e);
       } catch (ExpiredJwtException e) {
@@ -66,7 +65,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
       UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
 
-      if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+      if (tokenUtil.validateToken(authToken, userDetails)) {
         UsernamePasswordAuthenticationToken authenticationToken =
           new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpServletRequest));

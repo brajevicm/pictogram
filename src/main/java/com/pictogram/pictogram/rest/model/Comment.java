@@ -43,6 +43,14 @@ public class Comment extends AbstractEntity {
   public Comment() {
   }
 
+  public Comment(String description, Date createdDate, boolean enabled, User user, Post post) {
+    this.description = description;
+    this.createdDate = createdDate;
+    this.enabled = enabled;
+    this.user = user;
+    this.post = post;
+  }
+
   public String getDescription() {
     return description;
   }

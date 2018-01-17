@@ -1,13 +1,11 @@
 package com.pictogram.pictogram.rest.controller;
 
-import com.pictogram.pictogram.rest.model.Post;
-import com.pictogram.pictogram.rest.repository.PostRepository;
+import com.pictogram.pictogram.rest.model.dto.PostDto;
+import com.pictogram.pictogram.rest.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -20,19 +18,18 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
 
   @Autowired
-  PostRepository postRepository;
+  PostService postService;
 
-  @RequestMapping(value = "/post", method = RequestMethod.POST)
-  public ResponseEntity<?> createPost(@RequestBody Post post) {
-    System.out.println(post.toString());
+  @RequestMapping(value = "/posts",
+    method = RequestMethod.POST, consumes = {"multipart/form-data"})
+  public ResponseEntity<?> createPost(@RequestParam String title,
+                                      @RequestParam String description,
+                                      @RequestParam MultipartFile file) {
+
+    PostDto postDto = new PostDto(title, description, file);
+
+    postService.save(postDto);
 
     return ResponseEntity.ok("Post successfully created");
   }
-
-  @RequestMapping(value = "/post", method = RequestMethod.GET)
-  public ResponseEntity<?> getPosts() {
-
-    return ResponseEntity.ok("ok");
-  }
-
 }

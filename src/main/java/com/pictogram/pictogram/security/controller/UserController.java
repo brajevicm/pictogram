@@ -1,16 +1,22 @@
 package com.pictogram.pictogram.security.controller;
 
-import com.pictogram.pictogram.security.JwtTokenUtil;
+import com.pictogram.pictogram.rest.model.dto.UserDto;
+import com.pictogram.pictogram.rest.service.UserService;
+import com.pictogram.pictogram.security.utils.TokenUtil;
 import com.pictogram.pictogram.security.model.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 /**
  * Project: pictogram
@@ -25,17 +31,36 @@ public class UserController {
   private String tokenHeader;
 
   @Autowired
-  private JwtTokenUtil jwtTokenUtil;
+  private TokenUtil tokenUtil;
 
   @Autowired
   private UserDetailsService userDetailsService;
 
-  @RequestMapping(value = "currentUser", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @RequestMapping(value = "user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
   public JwtUser getAuthenticatedUser(HttpServletRequest request) {
     String authToken = request.getHeader(tokenHeader);
     final String token = authToken.substring(7);
-    String username = jwtTokenUtil.getUsernameFromToken(token);
+    String username = tokenUtil.getUsernameFromToken(token);
 
     return (JwtUser) userDetailsService.loadUserByUsername(username);
+  }
+
+  @Autowired
+  private UserService userService;
+
+  @RequestMapping(value = "${jwt.route.authentication.register}",
+    method = RequestMethod.POST, consumes = {"multipart/form-data"})
+  public ResponseEntity<?> registerUser(@RequestParam String username,
+                                        @RequestParam String password,
+                                        @RequestParam String firstName,
+                                        @RequestParam String lastName,
+                                        @RequestParam String email,
+                                        @RequestParam MultipartFile file) throws IOException {
+
+    UserDto userDto = new UserDto(username, password, firstName, lastName, email, file);
+
+    userService.save(userDto);
+
+    return ResponseEntity.ok("User successfully created");
   }
 }

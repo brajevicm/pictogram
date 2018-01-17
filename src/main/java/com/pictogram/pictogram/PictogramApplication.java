@@ -1,8 +1,9 @@
 package com.pictogram.pictogram;
 
+import com.pictogram.pictogram.commons.storage.StorageProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 /**
  * Project: pictogram
@@ -10,7 +11,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-
+@EnableConfigurationProperties(StorageProperties.class)
 @SpringBootApplication
 public class PictogramApplication {
 

@@ -6,5 +6,5 @@ package com.pictogram.pictogram.rest.service;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public class ReportService {
+public interface ReportService {
 }

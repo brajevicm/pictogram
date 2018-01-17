@@ -90,6 +90,23 @@ public class User extends AbstractEntity {
   public User() {
   }
 
+  public User(String username, String password, String firstName, String lastName, String email,
+              String profileImage, boolean enabled, Date createdDate, Date lastPasswordResetDate,
+              List<Authority> authorities, List<Post> posts, List<Comment> comments) {
+    this.username = username;
+    this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.profileImage = profileImage;
+    this.enabled = enabled;
+    this.createdDate = createdDate;
+    this.lastPasswordResetDate = lastPasswordResetDate;
+    this.authorities = authorities;
+    this.posts = posts;
+    this.comments = comments;
+  }
+
   public String getUsername() {
     return username;
   }

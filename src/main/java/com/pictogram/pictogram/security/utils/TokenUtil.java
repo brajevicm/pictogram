@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.security;
+package com.pictogram.pictogram.security.utils;
 
 import com.pictogram.pictogram.commons.utils.TimeProvider;
 import com.pictogram.pictogram.security.model.JwtUser;
@@ -24,7 +24,7 @@ import java.util.function.Function;
  * Mail: brajevicms@gmail.com
  */
 @Component
-public class JwtTokenUtil implements Serializable {
+public class TokenUtil implements Serializable {
 
   private static final long serialVersionUID = 246986342520092170L;
 

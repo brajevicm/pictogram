@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.security.model;
+package com.pictogram.pictogram.security.model.jwt;
 
 import java.io.Serializable;
 
@@ -8,18 +8,18 @@ import java.io.Serializable;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public class JwtAuthenticationRequest implements Serializable {
+public class AuthenticationRequest implements Serializable {
 
   private static final long serialVersionUID = 7281369319522063373L;
 
   private String username;
   private String password;
 
-  public JwtAuthenticationRequest() {
+  public AuthenticationRequest() {
     super();
   }
 
-  public JwtAuthenticationRequest(String username, String password) {
+  public AuthenticationRequest(String username, String password) {
     this.username = username;
     this.password = password;
   }
