@@ -132,6 +132,10 @@ public class Post extends AbstractEntity {
     comment.setPost(null);
   }
 
+  public String getUsername() {
+    return user.getUsername();
+  }
+
   @Override
   public String toString() {
     return "Post{" +

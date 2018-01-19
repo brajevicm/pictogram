@@ -20,7 +20,7 @@ public class PostController {
   @Autowired
   PostService postService;
 
-  @RequestMapping(value = "/posts",
+  @RequestMapping(value = "posts/add",
     method = RequestMethod.POST, consumes = {"multipart/form-data"})
   public ResponseEntity<?> createPost(@RequestParam String title,
                                       @RequestParam String description,
