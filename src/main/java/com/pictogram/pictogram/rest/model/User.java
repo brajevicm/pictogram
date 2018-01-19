@@ -11,6 +11,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+/*
+  id?: number;//
+  role_id?: number;//
+  role?: string;//
+  flag_id?: number;//
+  flag?: string;//
+  username?: string;
+  password?: string;
+  firstName?: string;
+  lastName?: string;
+  image?: string;//
+  token?: string;//
+  profile_image?: string; //
+ */
 /**
  * Project: pictogram
  * Date: 12-Jan-18
@@ -248,21 +263,4 @@ public class User extends AbstractEntity {
 //    reportedComments.add(comment);
 //  }
 
-  @Override
-  public String toString() {
-    return "User{" +
-      "username='" + username + '\'' +
-      ", password='" + password + '\'' +
-      ", firstName='" + firstName + '\'' +
-      ", lastName='" + lastName + '\'' +
-      ", email='" + email + '\'' +
-      ", profileImage='" + profileImage + '\'' +
-      ", enabled=" + enabled +
-      ", createdDate=" + createdDate +
-      ", lastPasswordResetDate=" + lastPasswordResetDate +
-      ", authorities=" + authorities +
-      ", posts=" + posts +
-      ", comments=" + comments +
-      '}';
-  }
 }

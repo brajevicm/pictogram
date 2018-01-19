@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ import java.util.Set;
 @Entity
 @Table(name = "posts")
 public class Post extends AbstractEntity {
+
 
   @Column(name = "title", length = 32, unique = true, nullable = false)
   @NotNull
@@ -54,7 +56,9 @@ public class Post extends AbstractEntity {
   private List<Comment> comments = new ArrayList<>();
 
   public Post() {
+
   }
+
 
   public Post(String title, String description, String postImage, Date createdDate, boolean enabled, User user, List<Comment> comments) {
     this.title = title;
@@ -106,6 +110,7 @@ public class Post extends AbstractEntity {
     this.enabled = enabled;
   }
 
+  @JsonIgnore
   public User getUser() {
     return user;
   }
@@ -114,6 +119,7 @@ public class Post extends AbstractEntity {
     this.user = user;
   }
 
+  @JsonIgnore
   public List<Comment> getComments() {
     return comments;
   }
@@ -132,20 +138,24 @@ public class Post extends AbstractEntity {
     comment.setPost(null);
   }
 
+  @Override
+  public String toString() {
+    return "Post{" +
+            "title='" + title + '\'' +
+            ", description='" + description + '\'' +
+            ", postImage='" + postImage + '\'' +
+            ", createdDate=" + createdDate +
+            ", enabled=" + enabled +
+            ", user=" + user +
+            ", comments=" + comments +
+            '}';
+  }
+
   public String getUsername() {
     return user.getUsername();
   }
 
-  @Override
-  public String toString() {
-    return "Post{" +
-      "title='" + title + '\'' +
-      ", description='" + description + '\'' +
-      ", postImage='" + postImage + '\'' +
-      ", createdDate=" + createdDate +
-      ", enabled=" + enabled +
-      ", user=" + user +
-      ", comments=" + comments +
-      '}';
-  }
+
 }
+
+
