@@ -44,8 +44,8 @@ public class PostServiceImpl implements PostService {
       postImage,
       timeProvider.now(),
       true,
-      userService.getCurrentUser(),
-      new ArrayList<>()
+      userService.getCurrentUser()
+
     );
 
     postRepository.save(post);

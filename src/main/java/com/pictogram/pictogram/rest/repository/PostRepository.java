@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public interface PostRepository extends CrudRepository<Post, Long> {
+public interface PostRepository extends JpaRepository<Post, Long> {
 }
