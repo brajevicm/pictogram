@@ -1,7 +1,7 @@
 package com.pictogram.pictogram.rest.repository;
 
 import com.pictogram.pictogram.rest.model.Post;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * Project: pictogram
@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public interface PostRepository extends JpaRepository<Post, Long> {
+public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 }

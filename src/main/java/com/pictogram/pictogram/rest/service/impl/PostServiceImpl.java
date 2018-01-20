@@ -9,6 +9,8 @@ import com.pictogram.pictogram.rest.repository.PostRepository;
 import com.pictogram.pictogram.rest.service.PostService;
 import com.pictogram.pictogram.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -54,5 +56,10 @@ public class PostServiceImpl implements PostService {
   @Override
   public Post findOne(Long id) {
     return postRepository.findOne(id);
+  }
+
+  @Override
+  public Page<Post> findAllByPage(Pageable pageable) {
+    return postRepository.findAll(pageable);
   }
 }
