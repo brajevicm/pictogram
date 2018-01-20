@@ -59,7 +59,6 @@ public class Post extends AbstractEntity {
 
   }
 
-
   public Post(String title, String description, String postImage, Date createdDate, boolean enabled, User user, List<Comment> comments) {
     this.title = title;
     this.description = description;
