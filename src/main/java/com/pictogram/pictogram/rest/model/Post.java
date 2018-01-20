@@ -55,7 +55,6 @@ public class Post extends AbstractEntity {
 
   }
 
-
   public Post(String title, String description, String postImage, Date createdDate, boolean enabled, User user) {
     this.title = title;
     this.description = description;
@@ -63,7 +62,6 @@ public class Post extends AbstractEntity {
     this.createdDate = createdDate;
     this.enabled = enabled;
     this.user = user;
-
   }
 
   public String getTitle() {
