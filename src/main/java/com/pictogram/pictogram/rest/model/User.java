@@ -7,25 +7,9 @@ import com.pictogram.pictogram.security.model.Authority;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-/*
-  id?: number;//
-  role_id?: number;//
-  role?: string;//
-  flag_id?: number;//
-  flag?: string;//
-  username?: string;
-  password?: string;
-  firstName?: string;
-  lastName?: string;
-  image?: string;//
-  token?: string;//
-  profile_image?: string; //
- */
 /**
  * Project: pictogram
  * Date: 12-Jan-18
@@ -87,21 +71,11 @@ public class User extends AbstractEntity {
   )
   private List<Authority> authorities;
 
-
-
-//  private List<Post> upvotedPosts = new ArrayList<>();
-//
-//  private List<Comment> upvotedComments = new ArrayList<>();
-//
-//  private List<Post> reportedPosts = new ArrayList<>();
-//
-//  private List<Comment> reportedComments = new ArrayList<>();
-
   public User() {
   }
 
-  public User(String username, String password, String firstName, String lastName, String email, String profileImage
-          , boolean enabled, Date createdDate, Date lastPasswordResetDate, List<Authority> authorities) {
+  public User(String username, String password, String firstName, String lastName, String email, String profileImage,
+              boolean enabled, Date createdDate, Date lastPasswordResetDate, List<Authority> authorities) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -197,22 +171,5 @@ public class User extends AbstractEntity {
   public void setAuthorities(List<Authority> authorities) {
     this.authorities = authorities;
   }
-
-
-//  public void upvotePost(Post post) {
-//    upvotedPosts.add(post);
-//  }
-//
-//  public void upvoteComment(Comment comment) {
-//    upvotedComments.add(comment);
-//  }
-//
-//  public void reportPost(Post post) {
-//    reportedPosts.add(post);
-//  }
-//
-//  public void reportComment(Comment comment) {
-//    reportedComments.add(comment);
-//  }
 
 }

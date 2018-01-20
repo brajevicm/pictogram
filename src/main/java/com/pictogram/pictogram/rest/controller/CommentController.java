@@ -1,8 +1,10 @@
 package com.pictogram.pictogram.rest.controller;
 
+import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.dto.CommentDto;
 import com.pictogram.pictogram.rest.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,12 +20,21 @@ public class CommentController {
   @Autowired
   CommentService commentService;
 
-  @RequestMapping(value = "/posts/{id}/comments", method = RequestMethod.POST)
-  public ResponseEntity<?> createPost(@PathVariable("id") Long id,
-                                      @RequestBody CommentDto commentDto) {
-    commentDto.setPostId(id);
-    commentService.save(commentDto);
+  @PostMapping(value = "posts/{postId}/comments")
+  public ResponseEntity<String> createPost(@PathVariable Long postId,
+                                           @RequestBody CommentDto commentDto) {
+    commentService.save(commentDto, postId);
 
     return ResponseEntity.ok("Comment successfully created");
   }
+
+  @GetMapping(value = "posts/{postId}/comments")
+  public ResponseEntity<Page<Comment>> getCommentsForPost(@PathVariable Long postId,
+                                                          @RequestParam int page,
+                                                          @RequestParam int size) {
+    Page<Comment> comments = commentService.findAllByUser(postId, page, size);
+
+    return ResponseEntity.ok(comments);
+  }
+
 }

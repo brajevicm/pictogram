@@ -61,6 +61,11 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public User findOne(Long userId) {
+    return userRepository.findOne(userId);
+  }
+
+  @Override
   public User getCurrentUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();

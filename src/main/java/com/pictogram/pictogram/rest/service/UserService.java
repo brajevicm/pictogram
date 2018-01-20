@@ -12,6 +12,8 @@ import com.pictogram.pictogram.rest.model.dto.UserDto;
 public interface UserService {
   void save(UserDto userDto);
 
+  User findOne(Long userId);
+
   User getCurrentUser();
 
 }

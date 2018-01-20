@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
 
 import javax.persistence.*;
@@ -75,6 +76,7 @@ public class Comment extends AbstractEntity {
     this.enabled = enabled;
   }
 
+  @JsonIgnore
   public User getUser() {
     return user;
   }
@@ -83,6 +85,7 @@ public class Comment extends AbstractEntity {
     this.user = user;
   }
 
+  @JsonIgnore
   public Post getPost() {
     return post;
   }
@@ -91,14 +94,7 @@ public class Comment extends AbstractEntity {
     this.post = post;
   }
 
-  @Override
-  public String toString() {
-    return "Comment{" +
-      "description='" + description + '\'' +
-      ", createdDate=" + createdDate +
-      ", enabled=" + enabled +
-      ", user=" + user +
-      ", post=" + post +
-      '}';
+  public String getUsername() {
+    return user.getUsername();
   }
 }

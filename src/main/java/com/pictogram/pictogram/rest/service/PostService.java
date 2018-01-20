@@ -3,8 +3,6 @@ package com.pictogram.pictogram.rest.service;
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.dto.PostDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 
 /**
  * Project: pictogram
@@ -13,12 +11,12 @@ import org.springframework.data.domain.Pageable;
  * Mail: brajevicms@gmail.com
  */
 
-
 public interface PostService {
   void save(PostDto postDto);
 
   Post findOne(Long id);
 
-  Page<Post> findAllByPage(Pageable pageable);
+  Page<Post> findAllByType(String type, int page, int size);
 
+  Page<Post> findAllByUser(Long userId, int page, int size);
 }

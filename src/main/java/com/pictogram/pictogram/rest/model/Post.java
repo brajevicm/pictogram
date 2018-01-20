@@ -21,8 +21,6 @@ import java.util.Set;
 @Table(name = "posts")
 public class Post extends AbstractEntity {
 
-
-
   @Column(name = "title", length = 32, unique = true, nullable = false)
   @NotNull
   @Size(min = 2, max = 32)
@@ -50,6 +48,8 @@ public class Post extends AbstractEntity {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+  private List<Comment> comments;
 
   public Post() {
 
@@ -109,31 +109,22 @@ public class Post extends AbstractEntity {
     return user;
   }
 
-
   public void setUser(User user) {
     this.user = user;
-  }
-
-
-
-  @Override
-  public String toString() {
-    return "Post{" +
-            "title='" + title + '\'' +
-            ", description='" + description + '\'' +
-            ", postImage='" + postImage + '\'' +
-            ", createdDate=" + createdDate +
-            ", enabled=" + enabled +
-            ", user=" + user +
-
-            '}';
   }
 
   public String getUsername() {
     return user.getUsername();
   }
 
+  @JsonIgnore
+  public List<Comment> getComments() {
+    return comments;
+  }
 
+  public void setComments(List<Comment> comments) {
+    this.comments = comments;
+  }
 }
 
 

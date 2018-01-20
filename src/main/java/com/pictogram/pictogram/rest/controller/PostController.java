@@ -5,8 +5,6 @@ import com.pictogram.pictogram.rest.model.dto.PostDto;
 import com.pictogram.pictogram.rest.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,9 +21,8 @@ public class PostController {
   @Autowired
   PostService postService;
 
-  @RequestMapping(value = "posts/add",
-    method = RequestMethod.POST, consumes = {"multipart/form-data"})
-  public ResponseEntity<?> createPost(@RequestParam String title,
+  @PostMapping(value = "posts", consumes = {"multipart/form-data"})
+  public ResponseEntity<String> createPost(@RequestParam String title,
                                       @RequestParam String description,
                                       @RequestParam MultipartFile file) {
 
@@ -37,17 +34,18 @@ public class PostController {
   }
 
   @GetMapping(value = "posts")
-  public ResponseEntity getPagedPosts(@RequestParam String type,
+  public ResponseEntity<Page<Post>> getPagedPosts(@RequestParam String type,
                                       @RequestParam int page,
                                       @RequestParam int size) {
-    Page<Post> posts = postService.findAllByPage(new PageRequest(page, size, Sort.Direction.ASC, "id"));
+    Page<Post> posts =
+      postService.findAllByType(type, page, size);
 
     return ResponseEntity.ok(posts);
   }
 
-  @RequestMapping(value = "/posts/{id}", method = RequestMethod.GET)
-  public ResponseEntity<?> getPost(@PathVariable("id") Long id) {
-    Post post = postService.findOne(id);
+  @GetMapping(value = "/posts/{postId}")
+  public ResponseEntity<Post> getPost(@PathVariable Long postId) {
+    Post post = postService.findOne(postId);
 
     if (post == null) {
       return ResponseEntity.notFound().build();
@@ -56,5 +54,13 @@ public class PostController {
     return ResponseEntity.ok(post);
   }
 
+  @GetMapping(value = "users/{userId}/posts")
+  public ResponseEntity<Page<Post>> getPostsFromUser(@PathVariable Long userId,
+                                            @RequestParam int page,
+                                            @RequestParam int size) {
+    Page<Post> posts = postService.findAllByUser(userId, page, size);
+
+    return ResponseEntity.ok(posts);
+  }
 
 }

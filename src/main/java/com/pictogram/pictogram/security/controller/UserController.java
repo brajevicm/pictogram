@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +33,7 @@ public class UserController {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  @RequestMapping(value = "user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+  @GetMapping(value = "user", produces = MediaType.APPLICATION_JSON_VALUE)
   public JwtUser getAuthenticatedUser(HttpServletRequest request) {
     String authToken = request.getHeader(tokenHeader);
     final String token = authToken.substring(7);
@@ -48,8 +45,7 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @RequestMapping(value = "${jwt.route.authentication.register}",
-    method = RequestMethod.POST, consumes = {"multipart/form-data"})
+  @PostMapping(value = "${jwt.route.authentication.register}", consumes = {"multipart/form-data"})
   public ResponseEntity<?> registerUser(@RequestParam String username,
                                         @RequestParam String password,
                                         @RequestParam String firstName,
