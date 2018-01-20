@@ -22,6 +22,7 @@ import java.util.Set;
 public class Post extends AbstractEntity {
 
 
+
   @Column(name = "title", length = 32, unique = true, nullable = false)
   @NotNull
   @Size(min = 2, max = 32)
@@ -49,25 +50,20 @@ public class Post extends AbstractEntity {
   @JoinColumn(name = "user_id", nullable = false)
   private User user;
 
-  @OneToMany(
-    cascade = CascadeType.ALL,
-    orphanRemoval = true,
-    mappedBy = "post")
-  private List<Comment> comments = new ArrayList<>();
 
   public Post() {
 
   }
 
 
-  public Post(String title, String description, String postImage, Date createdDate, boolean enabled, User user, List<Comment> comments) {
+  public Post(String title, String description, String postImage, Date createdDate, boolean enabled, User user) {
     this.title = title;
     this.description = description;
     this.postImage = postImage;
     this.createdDate = createdDate;
     this.enabled = enabled;
     this.user = user;
-    this.comments = comments;
+
   }
 
   public String getTitle() {
@@ -115,28 +111,12 @@ public class Post extends AbstractEntity {
     return user;
   }
 
+
   public void setUser(User user) {
     this.user = user;
   }
 
-  @JsonIgnore
-  public List<Comment> getComments() {
-    return comments;
-  }
 
-  public void setComments(List<Comment> comments) {
-    this.comments = comments;
-  }
-
-  public void addComment(Comment comment) {
-    comments.add(comment);
-    comment.setPost(this);
-  }
-
-  public void removeComment(Comment comment) {
-    comments.remove(comment);
-    comment.setPost(null);
-  }
 
   @Override
   public String toString() {
@@ -147,7 +127,7 @@ public class Post extends AbstractEntity {
             ", createdDate=" + createdDate +
             ", enabled=" + enabled +
             ", user=" + user +
-            ", comments=" + comments +
+
             '}';
   }
 

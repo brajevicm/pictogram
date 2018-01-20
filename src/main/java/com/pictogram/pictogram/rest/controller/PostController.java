@@ -2,8 +2,11 @@ package com.pictogram.pictogram.rest.controller;
 
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.dto.PostDto;
+import com.pictogram.pictogram.rest.repository.PostRepository;
 import com.pictogram.pictogram.rest.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,6 +51,9 @@ public class PostController {
 
         return ResponseEntity.ok(post);
     }
+
+
+
 
 
 }

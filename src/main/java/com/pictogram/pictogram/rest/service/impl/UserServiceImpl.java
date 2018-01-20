@@ -53,9 +53,8 @@ public class UserServiceImpl implements UserService {
       true,
       timeProvider.now(),
       timeProvider.now(),
-      getNewlyCreatedUserAuthorities(),
-      new ArrayList<>(),
-      new ArrayList<>()
+      getNewlyCreatedUserAuthorities()
+
     );
 
     userRepository.save(user);

@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletRequest;
  * Mail: brajevicms@gmail.com
  */
 @RestController
-@CrossOrigin(origins = "${cors.address}", maxAge = 3600)
+
 public class AuthenticationController {
 
   @Value("${jwt.header}")

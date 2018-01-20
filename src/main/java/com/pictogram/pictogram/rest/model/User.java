@@ -87,17 +87,7 @@ public class User extends AbstractEntity {
   )
   private List<Authority> authorities;
 
-  @OneToMany(
-    cascade = CascadeType.ALL,
-    orphanRemoval = true,
-    mappedBy = "user")
-  private List<Post> posts = new ArrayList<>();
 
-  @OneToMany(
-    cascade = CascadeType.ALL,
-    orphanRemoval = true,
-    mappedBy = "user")
-  private List<Comment> comments = new ArrayList<>();
 
 //  private List<Post> upvotedPosts = new ArrayList<>();
 //
@@ -110,9 +100,8 @@ public class User extends AbstractEntity {
   public User() {
   }
 
-  public User(String username, String password, String firstName, String lastName, String email,
-              String profileImage, boolean enabled, Date createdDate, Date lastPasswordResetDate,
-              List<Authority> authorities, List<Post> posts, List<Comment> comments) {
+  public User(String username, String password, String firstName, String lastName, String email, String profileImage
+          , boolean enabled, Date createdDate, Date lastPasswordResetDate, List<Authority> authorities) {
     this.username = username;
     this.password = password;
     this.firstName = firstName;
@@ -123,9 +112,8 @@ public class User extends AbstractEntity {
     this.createdDate = createdDate;
     this.lastPasswordResetDate = lastPasswordResetDate;
     this.authorities = authorities;
-    this.posts = posts;
-    this.comments = comments;
   }
+
 
   public String getUsername() {
     return username;
@@ -135,7 +123,6 @@ public class User extends AbstractEntity {
     this.username = username;
   }
 
-  @JsonIgnore
   public String getPassword() {
     return password;
   }
@@ -211,41 +198,6 @@ public class User extends AbstractEntity {
     this.authorities = authorities;
   }
 
-  public List<Post> getPosts() {
-    return posts;
-  }
-
-  public void setPosts(List<Post> posts) {
-    this.posts = posts;
-  }
-
-  public List<Comment> getComments() {
-    return comments;
-  }
-
-  public void setComments(List<Comment> comments) {
-    this.comments = comments;
-  }
-
-  public void addComment(Comment comment) {
-    comments.add(comment);
-    comment.setUser(this);
-  }
-
-  public void removeComment(Comment comment) {
-    comments.remove(comment);
-    comment.setUser(null);
-  }
-
-  public void addPost(Post post) {
-    posts.add(post);
-    post.setUser(this);
-  }
-
-  public void removePost(Post post) {
-    posts.remove(post);
-    post.setUser(null);
-  }
 
 //  public void upvotePost(Post post) {
 //    upvotedPosts.add(post);
