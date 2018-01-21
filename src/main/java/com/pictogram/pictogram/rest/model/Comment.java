@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Project: pictogram
@@ -40,6 +41,9 @@ public class Comment extends AbstractEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id", nullable = false)
   private Post post;
+
+  @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+  private List<UpvoteComment> upvoteComments;
 
   public Comment() {
   }
@@ -94,7 +98,20 @@ public class Comment extends AbstractEntity {
     this.post = post;
   }
 
+  @JsonIgnore
+  public List<UpvoteComment> getUpvotePosts() {
+    return upvoteComments;
+  }
+
+  public void setUpvotePosts(List<UpvoteComment> upvoteComments) {
+    this.upvoteComments = upvoteComments;
+  }
+
   public String getUsername() {
     return user.getUsername();
+  }
+
+  public int getUpvotesCount() {
+    return upvoteComments.size();
   }
 }

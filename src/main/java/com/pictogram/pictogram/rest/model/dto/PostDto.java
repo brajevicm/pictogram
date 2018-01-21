@@ -1,6 +1,5 @@
 package com.pictogram.pictogram.rest.model.dto;
 
-import com.pictogram.pictogram.rest.model.User;
 import org.springframework.web.multipart.MultipartFile;
 
 /**

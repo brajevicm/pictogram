@@ -2,14 +2,17 @@ package com.pictogram.pictogram.security.controller;
 
 import com.pictogram.pictogram.rest.model.dto.UserDto;
 import com.pictogram.pictogram.rest.service.UserService;
-import com.pictogram.pictogram.security.utils.TokenUtil;
 import com.pictogram.pictogram.security.model.JwtUser;
+import com.pictogram.pictogram.security.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;

@@ -43,7 +43,7 @@ public class PostController {
     return ResponseEntity.ok(posts);
   }
 
-  @GetMapping(value = "/posts/{postId}")
+  @GetMapping(value = "posts/{postId}")
   public ResponseEntity<Post> getPost(@PathVariable Long postId) {
     Post post = postService.findOne(postId);
 

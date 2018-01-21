@@ -6,10 +6,8 @@ import com.pictogram.pictogram.commons.model.AbstractEntity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Project: pictogram
@@ -50,6 +48,9 @@ public class Post extends AbstractEntity {
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<Comment> comments;
+
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+  private List<UpvotePost> upvotePosts;
 
   public Post() {
 
@@ -125,6 +126,24 @@ public class Post extends AbstractEntity {
   public void setComments(List<Comment> comments) {
     this.comments = comments;
   }
+
+  @JsonIgnore
+  public List<UpvotePost> getUpvotePosts() {
+    return upvotePosts;
+  }
+
+  public void setUpvotePosts(List<UpvotePost> upvotePosts) {
+    this.upvotePosts = upvotePosts;
+  }
+
+  public int getCommentsCount() {
+    return comments.size();
+  }
+
+  public int getUpvotesCount() {
+    return upvotePosts.size();
+  }
+
 }
 
 

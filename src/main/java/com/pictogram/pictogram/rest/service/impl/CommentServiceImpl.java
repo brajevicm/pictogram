@@ -3,6 +3,7 @@ package com.pictogram.pictogram.rest.service.impl;
 import com.pictogram.pictogram.commons.utils.TimeProvider;
 import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.Post;
+import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.dto.CommentDto;
 import com.pictogram.pictogram.rest.repository.CommentRepository;
 import com.pictogram.pictogram.rest.service.CommentService;
@@ -49,10 +50,18 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  public Page<Comment> findAllByUser(Long postId, int page, int size) {
-    Post post = postService.findOne(postId);
-    PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.ASC, "createdDate");
+  public Page<Comment> findAllByUser(Long userId, int page, int size) {
+    User user = userService.findOne(userId);
+    PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
 
-    return commentRepository.findAllByPost(post, pageRequest);
+    return commentRepository.findAllByUser(user, pageRequest);
+  }
+
+  @Override
+  public Page<Comment> findAllByPost(Long postId, int page, int size) {
+    Post post = postService.findOne(postId);
+    PageRequest pageRequest = new PageRequest(page, size);
+
+    return commentRepository.findAllByPostOrderByUpvoteCommentsDesc(post, pageRequest);
   }
 }

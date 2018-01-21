@@ -1,9 +1,9 @@
 package com.pictogram.pictogram.security.controller;
 
+import com.pictogram.pictogram.security.model.JwtUser;
 import com.pictogram.pictogram.security.model.jwt.AuthenticationRequest;
 import com.pictogram.pictogram.security.model.jwt.AuthenticationResponse;
 import com.pictogram.pictogram.security.utils.TokenUtil;
-import com.pictogram.pictogram.security.model.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,10 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 

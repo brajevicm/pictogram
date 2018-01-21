@@ -1,7 +1,5 @@
 package com.pictogram.pictogram.rest.model;
 
-import com.pictogram.pictogram.commons.model.AbstractEntity;
-
 import javax.persistence.*;
 import java.util.Date;
 

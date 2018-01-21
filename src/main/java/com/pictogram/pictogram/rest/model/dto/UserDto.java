@@ -2,8 +2,6 @@ package com.pictogram.pictogram.rest.model.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-
 /**
  * Project: pictogram
  * Date: 17-Jan-18

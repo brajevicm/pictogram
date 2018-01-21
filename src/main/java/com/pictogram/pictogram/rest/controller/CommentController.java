@@ -32,7 +32,16 @@ public class CommentController {
   public ResponseEntity<Page<Comment>> getCommentsForPost(@PathVariable Long postId,
                                                           @RequestParam int page,
                                                           @RequestParam int size) {
-    Page<Comment> comments = commentService.findAllByUser(postId, page, size);
+    Page<Comment> comments = commentService.findAllByPost(postId, page, size);
+
+    return ResponseEntity.ok(comments);
+  }
+
+  @GetMapping(value = "users/{userid}/comments")
+  public ResponseEntity<Page<Comment>> getCommentsForUser(@PathVariable Long userId,
+                                                          @RequestParam int page,
+                                                          @RequestParam int size) {
+    Page<Comment> comments = commentService.findAllByUser(userId, page, size);
 
     return ResponseEntity.ok(comments);
   }

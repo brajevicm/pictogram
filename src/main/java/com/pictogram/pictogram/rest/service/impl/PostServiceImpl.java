@@ -2,7 +2,6 @@ package com.pictogram.pictogram.rest.service.impl;
 
 import com.pictogram.pictogram.commons.storage.StorageService;
 import com.pictogram.pictogram.commons.utils.TimeProvider;
-import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.dto.PostDto;
@@ -16,9 +15,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Project: pictogram
@@ -85,7 +81,7 @@ public class PostServiceImpl implements PostService {
   public Page<Post> findAllByUser(Long userId, int page, int size) {
     User user = userService.findOne(userId);
     PageRequest pageable =
-      new PageRequest(page, size, Sort.Direction.ASC, "createdDate");
+      new PageRequest(page, size);
 
     return postRepository.findAllByUser(user, pageable);
   }
@@ -95,11 +91,11 @@ public class PostServiceImpl implements PostService {
   }
 
   private Page<Post> findAllTrendingByPage(Pageable pageable) {
-    return postRepository.findTopOrderByComments(pageable);
+    return postRepository.findAllByCommentsCount(pageable);
   }
 
   private Page<Post> findAllHotByPage(Pageable pageable) {
-    return postRepository.findAll(pageable);
+    return postRepository.findAllByUpvotePostsCount(pageable);
   }
 
 }
