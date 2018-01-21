@@ -2,6 +2,7 @@ package com.pictogram.pictogram.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
+import com.pictogram.pictogram.rest.model.upvote.UpvotePost;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

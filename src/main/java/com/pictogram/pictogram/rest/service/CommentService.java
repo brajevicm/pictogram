@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 public interface CommentService {
   void save(CommentDto commentDto, Long postId);
 
+  Comment findOne(Long commentId);
+
   Page<Comment> findAllByUser(Long userId, int page, int size);
 
   Page<Comment> findAllByPost(Long postId, int page, int size);

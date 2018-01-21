@@ -50,6 +50,11 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
+  public Comment findOne(Long commentId) {
+    return commentRepository.findOne(commentId);
+  }
+
+  @Override
   public Page<Comment> findAllByUser(Long userId, int page, int size) {
     User user = userService.findOne(userId);
     PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");

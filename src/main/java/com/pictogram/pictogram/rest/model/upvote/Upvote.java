@@ -1,6 +1,8 @@
-package com.pictogram.pictogram.rest.model;
+package com.pictogram.pictogram.rest.model.upvote;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
+import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -34,6 +36,7 @@ public class Upvote extends AbstractEntity {
     this.seen = seen;
   }
 
+  @JsonIgnore
   public User getUser() {
     return user;
   }

@@ -1,4 +1,8 @@
-package com.pictogram.pictogram.rest.model;
+package com.pictogram.pictogram.rest.model.upvote;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pictogram.pictogram.rest.model.Post;
+import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,6 +28,7 @@ public class UpvotePost extends Upvote {
     this.post = post;
   }
 
+  @JsonIgnore
   public Post getPost() {
     return post;
   }

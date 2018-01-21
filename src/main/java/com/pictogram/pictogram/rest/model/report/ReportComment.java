@@ -1,4 +1,8 @@
-package com.pictogram.pictogram.rest.model;
+package com.pictogram.pictogram.rest.model.report;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pictogram.pictogram.rest.model.Comment;
+import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -25,6 +29,7 @@ public class ReportComment extends Report {
     this.comment = comment;
   }
 
+  @JsonIgnore
   public Comment getComment() {
     return comment;
   }

@@ -7,4 +7,7 @@ package com.pictogram.pictogram.rest.service;
  * Mail: brajevicms@gmail.com
  */
 public interface UpvoteService {
+  void savePost(Long postId);
+
+  void saveComment(Long comment);
 }
