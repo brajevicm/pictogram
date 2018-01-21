@@ -40,7 +40,13 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void save(UserDto userDto) {
-    String profileImage = storageService.store(userDto.getFile());
+    String profileImage;
+
+    if (userDto.getFile() == null) {
+      profileImage = userDto.getProfileImage();
+    } else {
+      profileImage = storageService.store(userDto.getFile());
+    }
 
     User user = new User(
       userDto.getUsername(),
@@ -53,7 +59,6 @@ public class UserServiceImpl implements UserService {
       timeProvider.now(),
       timeProvider.now(),
       getNewlyCreatedUserAuthorities()
-
     );
 
     userRepository.save(user);

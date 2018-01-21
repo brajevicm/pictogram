@@ -15,6 +15,10 @@ public class UserDto {
   private String lastName;
   private String email;
   private MultipartFile file;
+  private String profileImage;
+
+  public UserDto() {
+  }
 
   public UserDto(String username, String password, String firstName,
                  String lastName, String email, MultipartFile file) {
@@ -24,6 +28,16 @@ public class UserDto {
     this.lastName = lastName;
     this.email = email;
     this.file = file;
+  }
+
+  public UserDto(String username, String password, String firstName,
+                 String lastName, String email, String profileImage) {
+    this.username = username;
+    this.password = password;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.profileImage = profileImage;
   }
 
   public String getUsername() {
@@ -74,15 +88,11 @@ public class UserDto {
     this.file = file;
   }
 
-  @Override
-  public String toString() {
-    return "UserDto{" +
-      "username='" + username + '\'' +
-      ", password='" + password + '\'' +
-      ", firstName='" + firstName + '\'' +
-      ", lastName='" + lastName + '\'' +
-      ", email='" + email + '\'' +
-      ", file='" + file + '\'' +
-      '}';
+  public String getProfileImage() {
+    return profileImage;
+  }
+
+  public void setProfileImage(String profileImage) {
+    this.profileImage = profileImage;
   }
 }

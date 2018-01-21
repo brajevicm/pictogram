@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,16 +45,22 @@ public class UserController {
   @Autowired
   private UserService userService;
 
-  @PostMapping(value = "${jwt.route.authentication.register}", consumes = {"multipart/form-data"})
-  public ResponseEntity<?> registerUser(@RequestParam String username,
+  @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public ResponseEntity<String> registerUser(@RequestParam String username,
                                         @RequestParam String password,
                                         @RequestParam String firstName,
                                         @RequestParam String lastName,
                                         @RequestParam String email,
-                                        @RequestParam MultipartFile file) throws IOException {
+                                        @RequestParam MultipartFile file) {
+      UserDto userDto = new UserDto(username, password, firstName, lastName, email, file);
 
-    UserDto userDto = new UserDto(username, password, firstName, lastName, email, file);
+    userService.save(userDto);
 
+    return ResponseEntity.ok("User successfully created");
+  }
+
+  @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
     userService.save(userDto);
 
     return ResponseEntity.ok("User successfully created");

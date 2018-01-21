@@ -42,7 +42,13 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public void save(PostDto postDto) {
-    String postImage = storageService.store(postDto.getFile());
+    String postImage;
+
+    if (postDto.getFile() == null) {
+      postImage = postDto.getPostImage();
+    } else {
+      postImage = storageService.store(postDto.getFile());
+    }
 
     Post post = new Post(
       postDto.getTitle(),

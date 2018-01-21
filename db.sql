@@ -59,10 +59,10 @@ CREATE TABLE comments (
 CREATE TABLE followers (
   id           BIGINT    NOT NULL AUTO_INCREMENT,
   user_id      BIGINT    NOT NULL,
-  follow_id    BIGINT    NOT NULL,
+  following_id BIGINT    NOT NULL,
   created_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (user_id) REFERENCES users (id),
-  FOREIGN KEY (follow_id) REFERENCES users (id),
+  FOREIGN KEY (following_id) REFERENCES users (id),
   UNIQUE KEY (id),
   PRIMARY KEY (id)
 );

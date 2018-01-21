@@ -12,6 +12,16 @@ public class PostDto {
   private String title;
   private String description;
   private MultipartFile file;
+  private String postImage;
+
+  public PostDto() {
+  }
+
+  public PostDto(String title, String description, String postImage) {
+    this.title = title;
+    this.description = description;
+    this.postImage = postImage;
+  }
 
   public PostDto(String title, String description, MultipartFile file) {
     this.title = title;
@@ -43,12 +53,15 @@ public class PostDto {
     this.file = file;
   }
 
-  @Override
-  public String toString() {
-    return "PostDto{" +
-      "title='" + title + '\'' +
-      ", description='" + description + '\'' +
-      ", postImage='" + file + '\'' +
-      '}';
+  public void setFile(MultipartFile file) {
+    this.file = file;
+  }
+
+  public String getPostImage() {
+    return postImage;
+  }
+
+  public void setPostImage(String postImage) {
+    this.postImage = postImage;
   }
 }
