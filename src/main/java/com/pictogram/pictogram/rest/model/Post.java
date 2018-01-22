@@ -2,6 +2,7 @@ package com.pictogram.pictogram.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
+import com.pictogram.pictogram.rest.model.report.ReportPost;
 import com.pictogram.pictogram.rest.model.upvote.UpvotePost;
 
 import javax.persistence.*;
@@ -52,6 +53,15 @@ public class Post extends AbstractEntity {
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
   private List<UpvotePost> upvotePosts;
+
+  @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
+  private List<ReportPost> reportPosts;
+
+  @Transient
+  private boolean upvotedPostByCurrentUser;
+
+  @Transient
+  private boolean reportedPostByCurrentUser;
 
   public Post() {
 
@@ -137,6 +147,15 @@ public class Post extends AbstractEntity {
     this.upvotePosts = upvotePosts;
   }
 
+  @JsonIgnore
+  public List<ReportPost> getReportPosts() {
+    return reportPosts;
+  }
+
+  public void setReportPosts(List<ReportPost> reportPosts) {
+    this.reportPosts = reportPosts;
+  }
+
   public int getCommentsCount() {
     return comments.size();
   }
@@ -145,6 +164,21 @@ public class Post extends AbstractEntity {
     return upvotePosts.size();
   }
 
+  public void setUpvotedPostByCurrentUser(boolean upvotedPostByCurrentUser) {
+    this.upvotedPostByCurrentUser = upvotedPostByCurrentUser;
+  }
+
+  public boolean getUpvotedPostByCurrentUser() {
+    return upvotedPostByCurrentUser;
+  }
+
+  public void setReportedPostByCurrentUser(boolean reportedPostByCurrentUser) {
+    this.reportedPostByCurrentUser = reportedPostByCurrentUser;
+  }
+
+  public boolean getReportedPostByCurrentUser() {
+    return reportedPostByCurrentUser;
+  }
 }
 
 

@@ -6,7 +6,7 @@ import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.upvote.UpvoteComment;
 import com.pictogram.pictogram.rest.model.upvote.UpvotePost;
-import com.pictogram.pictogram.rest.repository.UpvoteRepository;
+import com.pictogram.pictogram.rest.repository.ActionRepository;
 import com.pictogram.pictogram.rest.service.CommentService;
 import com.pictogram.pictogram.rest.service.PostService;
 import com.pictogram.pictogram.rest.service.UpvoteService;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class UpvoteServiceImpl implements UpvoteService {
 
   @Autowired
-  UpvoteRepository upvoteRepository;
+  ActionRepository actionRepository;
 
   @Autowired
   PostService postService;
@@ -44,7 +44,7 @@ public class UpvoteServiceImpl implements UpvoteService {
     User user = userService.getCurrentUser();
     UpvotePost upvotePost = new UpvotePost(user, timeProvider.now(), false, post);
 
-    upvoteRepository.save(upvotePost);
+    actionRepository.save(upvotePost);
   }
 
   @Override
@@ -53,6 +53,6 @@ public class UpvoteServiceImpl implements UpvoteService {
     User user = userService.getCurrentUser();
     UpvoteComment upvoteComment = new UpvoteComment(user, timeProvider.now(), false, comment);
 
-    upvoteRepository.save(upvoteComment);
+    actionRepository.save(upvoteComment);
   }
 }

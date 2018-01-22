@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.rest.repository;
 
-import com.pictogram.pictogram.rest.model.report.Report;
+import com.pictogram.pictogram.rest.model.Action;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -9,5 +9,5 @@ import org.springframework.data.repository.CrudRepository;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public interface ReportRepository extends CrudRepository<Report, Long> {
+public interface ActionRepository extends CrudRepository<Action, Long> {
 }
