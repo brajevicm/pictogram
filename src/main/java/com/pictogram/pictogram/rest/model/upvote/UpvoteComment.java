@@ -2,6 +2,7 @@ package com.pictogram.pictogram.rest.model.upvote;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.rest.model.Comment;
+import com.pictogram.pictogram.rest.model.Action;
 import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;
@@ -15,7 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "upvoted_comments")
-public class UpvoteComment extends Upvote {
+public class UpvoteComment extends Action {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "comment_id", nullable = false)

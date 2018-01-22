@@ -3,6 +3,7 @@ package com.pictogram.pictogram.rest.model.report;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
+import com.pictogram.pictogram.rest.model.Action;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +16,7 @@ import java.util.Date;
  */
 @Entity
 @Table(name = "reported_posts")
-public class ReportPost extends Report {
+public class ReportPost extends Action {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id", nullable = false)

@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.rest.model.report;
+package com.pictogram.pictogram.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
@@ -14,7 +14,7 @@ import java.util.Date;
  * Mail: brajevicms@gmail.com
  */
 @MappedSuperclass
-public class Report extends AbstractEntity {
+public class Action extends AbstractEntity {
 
   @OneToOne
   @JoinColumn(name = "user_id", nullable = false)
@@ -27,10 +27,10 @@ public class Report extends AbstractEntity {
   @Column(name = "seen")
   private boolean seen;
 
-  public Report() {
+  public Action() {
   }
 
-  public Report(User user, Date date, boolean seen) {
+  public Action(User user, Date date, boolean seen) {
     this.user = user;
     this.date = date;
     this.seen = seen;

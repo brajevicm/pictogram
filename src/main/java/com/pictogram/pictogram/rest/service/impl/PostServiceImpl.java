@@ -5,6 +5,8 @@ import com.pictogram.pictogram.commons.utils.TimeProvider;
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.dto.PostDto;
+import com.pictogram.pictogram.rest.model.report.ReportPost;
+import com.pictogram.pictogram.rest.model.upvote.UpvotePost;
 import com.pictogram.pictogram.rest.repository.PostRepository;
 import com.pictogram.pictogram.rest.service.CommentService;
 import com.pictogram.pictogram.rest.service.PostService;
@@ -16,6 +18,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * Project: pictogram
  * Date: 17-Jan-18
@@ -24,6 +28,10 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PostServiceImpl implements PostService {
+
+  private static final String FRESH = "fresh";
+  private static final String HOT = "hot";
+  private static final String TRENDING = "trending";
 
   @Autowired
   PostRepository postRepository;
@@ -72,11 +80,11 @@ public class PostServiceImpl implements PostService {
       new PageRequest(page, size, Sort.Direction.ASC, "createdDate");
 
     switch (type) {
-      case "fresh":
+      case FRESH:
         return findAllFreshByPage(pageable);
-      case "hot":
+      case HOT:
         return findAllHotByPage(pageable);
-      case "trending":
+      case TRENDING:
         return findAllTrendingByPage(pageable);
       default:
         return findAllFreshByPage(pageable);
@@ -86,22 +94,50 @@ public class PostServiceImpl implements PostService {
   @Override
   public Page<Post> findAllByUser(Long userId, int page, int size) {
     User user = userService.findOne(userId);
-    PageRequest pageable =
-      new PageRequest(page, size);
+    PageRequest pageable = new PageRequest(page, size);
+    Page<Post> posts = postRepository.findAllByUser(user, pageable);
+    filterPosts(posts);
 
-    return postRepository.findAllByUser(user, pageable);
+    return posts;
   }
 
   private Page<Post> findAllFreshByPage(Pageable pageable) {
-    return postRepository.findAll(pageable);
+    Page<Post> posts = postRepository.findAll(pageable);
+    filterPosts(posts);
+
+    return posts;
   }
 
   private Page<Post> findAllTrendingByPage(Pageable pageable) {
-    return postRepository.findAllByCommentsCount(pageable);
+    Page<Post> posts = postRepository.findAllByCommentsCount(pageable);
+    filterPosts(posts);
+
+    return posts;
   }
 
   private Page<Post> findAllHotByPage(Pageable pageable) {
-    return postRepository.findAllByUpvotePostsCount(pageable);
+    Page<Post> posts = postRepository.findAllByUpvotePostsCount(pageable);
+    filterPosts(posts);
+
+    return posts;
   }
 
+  private boolean filterUpvotedPostsForCurrentUser(List<UpvotePost> posts) {
+    return userService.getCurrentUser() != null && posts
+      .stream()
+      .anyMatch(post -> userService.getCurrentUser().getUsername().equals(post.getUser().getUsername()));
+  }
+
+  private boolean filterReportedPostsForCurrentUser(List<ReportPost> posts) {
+    return userService.getCurrentUser() != null && posts
+      .stream()
+      .anyMatch(post -> userService.getCurrentUser().getUsername().equals(post.getUser().getUsername()));
+  }
+
+  private void filterPosts(Page<Post> posts) {
+    posts.forEach(post -> {
+      post.setUpvotedPostByCurrentUser(filterUpvotedPostsForCurrentUser(post.getUpvotePosts()));
+      post.setReportedPostByCurrentUser(filterReportedPostsForCurrentUser(post.getReportPosts()));
+    });
+  }
 }

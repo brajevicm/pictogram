@@ -6,7 +6,7 @@ import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.report.ReportComment;
 import com.pictogram.pictogram.rest.model.report.ReportPost;
-import com.pictogram.pictogram.rest.repository.ReportRepository;
+import com.pictogram.pictogram.rest.repository.ActionRepository;
 import com.pictogram.pictogram.rest.service.CommentService;
 import com.pictogram.pictogram.rest.service.PostService;
 import com.pictogram.pictogram.rest.service.ReportService;
@@ -24,7 +24,7 @@ import org.springframework.stereotype.Service;
 public class ReportServiceImpl implements ReportService {
 
   @Autowired
-  ReportRepository reportRepository;
+  ActionRepository actionRepository;
 
   @Autowired
   PostService postService;
@@ -44,7 +44,7 @@ public class ReportServiceImpl implements ReportService {
     User user = userService.getCurrentUser();
     ReportPost reportPost = new ReportPost(user, timeProvider.now(), false, post);
 
-    reportRepository.save(reportPost);
+    actionRepository.save(reportPost);
   }
 
   @Override
@@ -53,6 +53,6 @@ public class ReportServiceImpl implements ReportService {
     User user = userService.getCurrentUser();
     ReportComment reportComment = new ReportComment(user, timeProvider.now(), false, comment);
 
-    reportRepository.save(reportComment);
+    actionRepository.save(reportComment);
   }
 }
