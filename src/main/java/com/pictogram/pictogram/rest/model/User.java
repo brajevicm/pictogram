@@ -88,7 +88,6 @@ public class User extends AbstractEntity {
     this.authorities = authorities;
   }
 
-
   public String getUsername() {
     return username;
   }
@@ -97,6 +96,7 @@ public class User extends AbstractEntity {
     this.username = username;
   }
 
+  @JsonIgnore
   public String getPassword() {
     return password;
   }
@@ -164,6 +164,7 @@ public class User extends AbstractEntity {
     this.lastPasswordResetDate = lastPasswordResetDate;
   }
 
+  @JsonIgnore
   public List<Authority> getAuthorities() {
     return authorities;
   }
