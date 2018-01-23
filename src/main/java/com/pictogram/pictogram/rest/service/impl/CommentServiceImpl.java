@@ -5,6 +5,8 @@ import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.dto.CommentDto;
+import com.pictogram.pictogram.rest.model.report.ReportComment;
+import com.pictogram.pictogram.rest.model.upvote.UpvoteComment;
 import com.pictogram.pictogram.rest.repository.CommentRepository;
 import com.pictogram.pictogram.rest.service.CommentService;
 import com.pictogram.pictogram.rest.service.PostService;
@@ -14,6 +16,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Project: pictogram
@@ -58,15 +62,38 @@ public class CommentServiceImpl implements CommentService {
   public Page<Comment> findAllByUser(Long userId, int page, int size) {
     User user = userService.findOne(userId);
     PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
+    Page<Comment> comments = commentRepository.findAllByUser(user, pageRequest);
+    filterComments(comments);
 
-    return commentRepository.findAllByUser(user, pageRequest);
+    return comments;
   }
 
   @Override
   public Page<Comment> findAllByPost(Long postId, int page, int size) {
     Post post = postService.findOne(postId);
     PageRequest pageRequest = new PageRequest(page, size);
+    Page<Comment> comments = commentRepository.findDistinctByPostOrderByUpvoteCommentsDesc(post, pageRequest);
+    filterComments(comments);
 
-    return commentRepository.findAllByPostOrderByUpvoteCommentsDesc(post, pageRequest);
+    return comments;
+  }
+
+  private boolean filterUpvotedCommentsForCurrentUser(List<UpvoteComment> comments) {
+    return userService.getCurrentUser() != null && comments
+      .stream()
+      .anyMatch(comment -> userService.getCurrentUser().getUsername().equals(comment.getUser().getUsername()));
+  }
+
+  private boolean filterReportedCommentsForCurrentUser(List<ReportComment> comments) {
+    return userService.getCurrentUser() != null && comments
+      .stream()
+      .anyMatch(comment -> userService.getCurrentUser().getUsername().equals(comment.getUser().getUsername()));
+  }
+
+  private void filterComments(Page<Comment> comments) {
+    comments.forEach(comment -> {
+      comment.setUpvotedCommentByCurrentUser(filterUpvotedCommentsForCurrentUser(comment.getUpvoteComments()));
+      comment.setReportedPostByCurrentUser(filterReportedCommentsForCurrentUser(comment.getReportComments()));
+    });
   }
 }
