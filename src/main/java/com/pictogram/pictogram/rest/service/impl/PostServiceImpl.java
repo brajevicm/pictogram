@@ -77,7 +77,7 @@ public class PostServiceImpl implements PostService {
 
   public Page<Post> findAllByType(String type, int page, int size) {
     PageRequest pageable =
-      new PageRequest(page, size, Sort.Direction.ASC, "createdDate");
+      new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
 
     switch (type) {
       case FRESH:

@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.security.controller;
 
+import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.dto.UserDto;
 import com.pictogram.pictogram.rest.service.UserService;
 import com.pictogram.pictogram.security.model.JwtUser;
@@ -33,6 +34,9 @@ public class UserController {
   @Autowired
   private UserDetailsService userDetailsService;
 
+  @Autowired
+  private UserService userService;
+
   @GetMapping(value = "user", produces = MediaType.APPLICATION_JSON_VALUE)
   public JwtUser getAuthenticatedUser(HttpServletRequest request) {
     String authToken = request.getHeader(tokenHeader);
@@ -42,17 +46,14 @@ public class UserController {
     return (JwtUser) userDetailsService.loadUserByUsername(username);
   }
 
-  @Autowired
-  private UserService userService;
-
   @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<String> registerUser(@RequestParam String username,
-                                        @RequestParam String password,
-                                        @RequestParam String firstName,
-                                        @RequestParam String lastName,
-                                        @RequestParam String email,
-                                        @RequestParam MultipartFile file) {
-      UserDto userDto = new UserDto(username, password, firstName, lastName, email, file);
+                                             @RequestParam String password,
+                                             @RequestParam String firstName,
+                                             @RequestParam String lastName,
+                                             @RequestParam String email,
+                                             @RequestParam MultipartFile file) {
+    UserDto userDto = new UserDto(username, password, firstName, lastName, email, file);
 
     userService.save(userDto);
 
@@ -64,5 +65,20 @@ public class UserController {
     userService.save(userDto);
 
     return ResponseEntity.ok("User successfully created");
+  }
+
+  @GetMapping(value = "users/{userId}")
+  public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+    User user = userService.findOne(userId);
+
+    return ResponseEntity.ok(user);
+  }
+
+  @PutMapping(value = "users/{userId}")
+  public ResponseEntity<String> editUserById(@PathVariable Long userId,
+                                             @RequestBody UserDto userDto) {
+    userService.update(userId, userDto);
+
+    return ResponseEntity.ok("User was successfully edited");
   }
 }
