@@ -2,6 +2,7 @@ package com.pictogram.pictogram.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
+import com.pictogram.pictogram.rest.model.report.ReportComment;
 import com.pictogram.pictogram.rest.model.upvote.UpvoteComment;
 
 import javax.persistence.*;
@@ -45,6 +46,15 @@ public class Comment extends AbstractEntity {
 
   @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
   private List<UpvoteComment> upvoteComments;
+
+  @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+  private List<ReportComment> reportComments;
+
+  @Transient
+  private boolean upvotedCommentByCurrentUser;
+
+  @Transient
+  private boolean reportedCommentByCurrentUser;
 
   public Comment() {
   }
@@ -100,12 +110,21 @@ public class Comment extends AbstractEntity {
   }
 
   @JsonIgnore
-  public List<UpvoteComment> getUpvotePosts() {
+  public List<UpvoteComment> getUpvoteComments() {
     return upvoteComments;
   }
 
-  public void setUpvotePosts(List<UpvoteComment> upvoteComments) {
+  public void setUpvoteComments(List<UpvoteComment> upvoteComments) {
     this.upvoteComments = upvoteComments;
+  }
+
+  @JsonIgnore
+  public List<ReportComment> getReportComments() {
+    return reportComments;
+  }
+
+  public void setReportComments(List<ReportComment> reportComments) {
+    this.reportComments = reportComments;
   }
 
   public String getUsername() {
@@ -114,5 +133,21 @@ public class Comment extends AbstractEntity {
 
   public int getUpvotesCount() {
     return upvoteComments.size();
+  }
+
+  public void setUpvotedCommentByCurrentUser(boolean upvotedCommentByCurrentUser) {
+    this.upvotedCommentByCurrentUser = upvotedCommentByCurrentUser;
+  }
+
+  public boolean getUpvotedCommentByCurrentUser() {
+    return upvotedCommentByCurrentUser;
+  }
+
+  public void setReportedPostByCurrentUser(boolean reportedCommentByCurrentUser) {
+    this.reportedCommentByCurrentUser = reportedCommentByCurrentUser;
+  }
+
+  public boolean getReportedPostByCurrentUser() {
+    return reportedCommentByCurrentUser;
   }
 }
