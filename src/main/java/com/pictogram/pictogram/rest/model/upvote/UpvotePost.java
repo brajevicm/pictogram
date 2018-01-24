@@ -1,8 +1,8 @@
 package com.pictogram.pictogram.rest.model.upvote;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.Action;
+import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;
@@ -15,15 +15,16 @@ import java.util.Date;
  * Mail: brajevicms@gmail.com
  */
 @Entity
-@Table(name = "upvoted_posts", uniqueConstraints=
-@UniqueConstraint(columnNames={"post_id", "user_id"}))
+@Table(name = "upvoted_posts", uniqueConstraints =
+@UniqueConstraint(columnNames = {"post_id", "user_id"}))
 public class UpvotePost extends Action {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id", nullable = false)
   private Post post;
 
-  public UpvotePost() {}
+  public UpvotePost() {
+  }
 
   public UpvotePost(User user, Date date, boolean seen, Post post) {
     super(user, date, seen);

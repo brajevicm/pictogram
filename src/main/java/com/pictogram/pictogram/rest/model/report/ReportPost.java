@@ -1,9 +1,9 @@
 package com.pictogram.pictogram.rest.model.report;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pictogram.pictogram.rest.model.Action;
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.rest.model.Action;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,8 +15,8 @@ import java.util.Date;
  * Mail: brajevicms@gmail.com
  */
 @Entity
-@Table(name = "reported_posts", uniqueConstraints=
-  @UniqueConstraint(columnNames={"post_id", "user_id"}))
+@Table(name = "reported_posts", uniqueConstraints =
+@UniqueConstraint(columnNames = {"post_id", "user_id"}))
 public class ReportPost extends Action {
 
   @ManyToOne(fetch = FetchType.LAZY)

@@ -2,7 +2,6 @@ package com.pictogram.pictogram.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.commons.model.AbstractEntity;
-import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;
 import java.util.Date;

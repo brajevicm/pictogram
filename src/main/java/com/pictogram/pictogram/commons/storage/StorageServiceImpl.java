@@ -48,8 +48,7 @@ public class StorageServiceImpl implements StorageService {
         StandardCopyOption.REPLACE_EXISTING);
 
       return this.rootLocation + filename;
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       throw new StorageException("Failed to store file " + filename, e);
     }
   }
@@ -60,8 +59,7 @@ public class StorageServiceImpl implements StorageService {
       return Files.walk(this.rootLocation, 1)
         .filter(path -> !path.equals(this.rootLocation))
         .map(path -> this.rootLocation.relativize(path));
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       throw new StorageException("Failed to read stored files", e);
     }
 
@@ -79,14 +77,12 @@ public class StorageServiceImpl implements StorageService {
       Resource resource = new UrlResource(file.toUri());
       if (resource.exists() || resource.isReadable()) {
         return resource;
-      }
-      else {
+      } else {
         throw new StorageFileNotFoundException(
           "Could not read file: " + filename);
 
       }
-    }
-    catch (MalformedURLException e) {
+    } catch (MalformedURLException e) {
       throw new StorageFileNotFoundException("Could not read file: " + filename, e);
     }
   }
@@ -100,8 +96,7 @@ public class StorageServiceImpl implements StorageService {
   public void init() {
     try {
       Files.createDirectories(rootLocation);
-    }
-    catch (IOException e) {
+    } catch (IOException e) {
       throw new StorageException("Could not initialize storage", e);
     }
   }

@@ -32,17 +32,14 @@ import javax.servlet.http.HttpServletRequest;
 
 public class AuthenticationController {
 
-  @Value("${jwt.header}")
-  private String tokenHeader;
-
-  @Autowired
-  private AuthenticationManager authenticationManager;
-
-  @Autowired
-  private TokenUtil tokenUtil;
-
   @Autowired
   UserDetailsService userDetailsService;
+  @Value("${jwt.header}")
+  private String tokenHeader;
+  @Autowired
+  private AuthenticationManager authenticationManager;
+  @Autowired
+  private TokenUtil tokenUtil;
 
   @PostMapping(value = "${jwt.route.authentication.path}")
   public ResponseEntity<AuthenticationResponse> createAuthenticationToken(

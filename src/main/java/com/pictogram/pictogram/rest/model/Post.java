@@ -172,20 +172,20 @@ public class Post extends AbstractEntity {
     return reportPosts.size();
   }
 
-  public void setUpvotedPostByCurrentUser(boolean upvotedPostByCurrentUser) {
-    this.upvotedPostByCurrentUser = upvotedPostByCurrentUser;
-  }
-
   public boolean getUpvotedPostByCurrentUser() {
     return upvotedPostByCurrentUser;
   }
 
-  public void setReportedPostByCurrentUser(boolean reportedPostByCurrentUser) {
-    this.reportedPostByCurrentUser = reportedPostByCurrentUser;
+  public void setUpvotedPostByCurrentUser(boolean upvotedPostByCurrentUser) {
+    this.upvotedPostByCurrentUser = upvotedPostByCurrentUser;
   }
 
   public boolean getReportedPostByCurrentUser() {
     return reportedPostByCurrentUser;
+  }
+
+  public void setReportedPostByCurrentUser(boolean reportedPostByCurrentUser) {
+    this.reportedPostByCurrentUser = reportedPostByCurrentUser;
   }
 }
 

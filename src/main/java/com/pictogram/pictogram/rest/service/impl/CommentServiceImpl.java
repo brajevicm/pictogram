@@ -1,5 +1,7 @@
 package com.pictogram.pictogram.rest.service.impl;
 
+import com.pictogram.pictogram.commons.exception.PostNotFoundException;
+import com.pictogram.pictogram.commons.exception.UserNotFoundException;
 import com.pictogram.pictogram.commons.utils.TimeProvider;
 import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.Post;
@@ -61,6 +63,10 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public Page<Comment> findAllByUser(Long userId, int page, int size) {
     User user = userService.findOne(userId);
+    if (user == null) {
+      throw new UserNotFoundException(userId);
+    }
+
     PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
     Page<Comment> comments = commentRepository.findAllByUser(user, pageRequest);
     filterComments(comments);
@@ -71,6 +77,10 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public Page<Comment> findAllByPost(Long postId, int page, int size) {
     Post post = postService.findOne(postId);
+    if (post == null) {
+      throw new PostNotFoundException(postId);
+    }
+
     PageRequest pageRequest = new PageRequest(page, size);
     Page<Comment> comments = commentRepository.findDistinctByPostOrderByUpvoteCommentsDesc(post, pageRequest);
     filterComments(comments);

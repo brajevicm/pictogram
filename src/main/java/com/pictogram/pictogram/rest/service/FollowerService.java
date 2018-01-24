@@ -1,7 +1,5 @@
 package com.pictogram.pictogram.rest.service;
 
-import com.pictogram.pictogram.rest.model.Follower;
-
 /**
  * Project: pictogram
  * Date: 23-Jan-18

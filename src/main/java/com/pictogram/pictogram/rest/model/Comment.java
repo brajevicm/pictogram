@@ -139,12 +139,12 @@ public class Comment extends AbstractEntity {
     return reportComments.size();
   }
 
-  public void setUpvotedCommentByCurrentUser(boolean upvotedCommentByCurrentUser) {
-    this.upvotedCommentByCurrentUser = upvotedCommentByCurrentUser;
-  }
-
   public boolean getUpvotedCommentByCurrentUser() {
     return upvotedCommentByCurrentUser;
+  }
+
+  public void setUpvotedCommentByCurrentUser(boolean upvotedCommentByCurrentUser) {
+    this.upvotedCommentByCurrentUser = upvotedCommentByCurrentUser;
   }
 
   public void setReportedPostByCurrentUser(boolean reportedCommentByCurrentUser) {
