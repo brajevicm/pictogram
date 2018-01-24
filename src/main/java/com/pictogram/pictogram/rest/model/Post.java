@@ -164,6 +164,10 @@ public class Post extends AbstractEntity {
     return upvotePosts.size();
   }
 
+  public int getReportsCount() {
+    return reportPosts.size();
+  }
+
   public void setUpvotedPostByCurrentUser(boolean upvotedPostByCurrentUser) {
     this.upvotedPostByCurrentUser = upvotedPostByCurrentUser;
   }

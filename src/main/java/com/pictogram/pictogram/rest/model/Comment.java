@@ -135,6 +135,10 @@ public class Comment extends AbstractEntity {
     return upvoteComments.size();
   }
 
+  public int getReportsCount() {
+    return reportComments.size();
+  }
+
   public void setUpvotedCommentByCurrentUser(boolean upvotedCommentByCurrentUser) {
     this.upvotedCommentByCurrentUser = upvotedCommentByCurrentUser;
   }
@@ -147,7 +151,15 @@ public class Comment extends AbstractEntity {
     this.reportedCommentByCurrentUser = reportedCommentByCurrentUser;
   }
 
-  public boolean getReportedPostByCurrentUser() {
+  public boolean getReportedCommentByCurrentUser() {
     return reportedCommentByCurrentUser;
+  }
+
+  public String getUserProfileImage() {
+    return user.getProfileImage();
+  }
+
+  public String getUserId() {
+    return user.getUsername();
   }
 }

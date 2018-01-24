@@ -37,7 +37,7 @@ public class CommentController {
     return ResponseEntity.ok(comments);
   }
 
-  @GetMapping(value = "users/{userid}/comments")
+  @GetMapping(value = "users/{userId}/comments")
   public ResponseEntity<Page<Comment>> getCommentsForUser(@PathVariable Long userId,
                                                           @RequestParam int page,
                                                           @RequestParam int size) {

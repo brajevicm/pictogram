@@ -16,9 +16,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
   Page<Post> findAllByUser(User user, Pageable pageable);
 
-  @Query(value = "SELECT posts FROM Post posts ORDER BY posts.comments.size DESC")
+  @Query(value = "SELECT post FROM Post post WHERE post.enabled = true ORDER BY post.comments.size DESC")
   Page<Post> findAllByCommentsCount(Pageable pageable);
 
-  @Query(value = "SELECT posts FROM Post posts ORDER BY posts.upvotePosts.size DESC")
+  @Query(value = "SELECT post FROM Post post WHERE post.enabled = true ORDER BY post.upvotePosts.size DESC")
   Page<Post> findAllByUpvotePostsCount(Pageable pageable);
+
+  @Query(value = "SELECT post FROM Post post ORDER BY post.reportPosts.size DESC")
+  Page<Post> findAllReportedPosts(Pageable pageable);
 }

@@ -172,5 +172,4 @@ public class User extends AbstractEntity {
   public void setAuthorities(List<Authority> authorities) {
     this.authorities = authorities;
   }
-
 }
