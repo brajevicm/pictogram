@@ -1,6 +1,7 @@
 package com.pictogram.pictogram.dao;
 
 import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.domain.UserDomain;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.UserRepository;
 import com.pictogram.pictogram.service.UserService;
@@ -38,22 +39,22 @@ public class UserServiceImpl implements UserService {
   StorageService storageService;
 
   @Override
-  public void save(UserDto userDto) {
+  public void save(UserDomain userDomain) {
     String profileImage;
 
-    if (userDto.getFile() == null) {
-      profileImage = userDto.getProfileImage();
-    } else {
-      profileImage = storageService.store(userDto.getFile());
-    }
+//    if (userDomain.getFile() == null) {
+//      profileImage = userDomain.getProfileImage();
+//    } else {
+//      profileImage = storageService.store(userDomain.getFile());
+//    }
 
     User user = new User(
-      userDto.getUsername(),
-      hashPassword(userDto.getPassword()),
-      userDto.getFirstName(),
-      userDto.getLastName(),
-      userDto.getEmail(),
-      profileImage,
+      userDomain.getUsername(),
+      hashPassword(userDomain.getPassword()),
+      userDomain.getFirstName(),
+      userDomain.getLastName(),
+      userDomain.getEmail(),
+      userDomain.getProfileImage(),
       true,
       timeProvider.now(),
       timeProvider.now(),
@@ -64,13 +65,13 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void update(Long userId, UserDto userDto) {
+  public void update(Long userId, UserDomain userDomain) {
     User user = userRepository.findOne(userId);
-    user.setFirstName(userDto.getFirstName());
-    user.setLastName(userDto.getFirstName());
-    user.setEmail(userDto.getEmail());
-    user.setPassword(userDto.getPassword());
-    user.setProfileImage(userDto.getProfileImage());
+    user.setFirstName(userDomain.getFirstName());
+    user.setLastName(userDomain.getFirstName());
+    user.setEmail(userDomain.getEmail());
+    user.setPassword(userDomain.getPassword());
+    user.setProfileImage(userDomain.getProfileImage());
 
     userRepository.save(user);
   }
@@ -78,6 +79,11 @@ public class UserServiceImpl implements UserService {
   @Override
   public User findOne(Long userId) {
     return userRepository.findOne(userId);
+  }
+
+  @Override
+  public UserDomain findByUsername(String username) {
+    return userRepository.findByUsername(username);
   }
 
   @Override

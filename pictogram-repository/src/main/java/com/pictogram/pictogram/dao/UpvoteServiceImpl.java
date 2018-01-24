@@ -1,12 +1,9 @@
 package com.pictogram.pictogram.dao;
 
-import com.pictogram.pictogram.commons.utils.TimeProvider;
-import com.pictogram.pictogram.rest.model.Comment;
-import com.pictogram.pictogram.rest.model.Post;
-import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.model.upvote.UpvoteComment;
-import com.pictogram.pictogram.model.upvote.UpvotePost;
-import com.pictogram.pictogram.rest.repository.ActionRepository;
+import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.domain.*;
+import com.pictogram.pictogram.model.*;
+import com.pictogram.pictogram.repository.ActionRepository;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.UpvoteService;
@@ -40,18 +37,18 @@ public class UpvoteServiceImpl implements UpvoteService {
 
   @Override
   public void savePost(Long postId) {
-    Post post = postService.findOne(postId);
-    User user = userService.getCurrentUser();
-    UpvotePost upvotePost = new UpvotePost(user, timeProvider.now(), false, post);
+    PostDomain post = postService.findOne(postId);
+    UserDomain user = userService.getCurrentUser();
+    UpvotePostDomain upvotePost = new UpvotePost(user, timeProvider.now(), false, post);
 
     actionRepository.save(upvotePost);
   }
 
   @Override
   public void saveComment(Long commentId) {
-    Comment comment = commentService.findOne(commentId);
-    User user = userService.getCurrentUser();
-    UpvoteComment upvoteComment = new UpvoteComment(user, timeProvider.now(), false, comment);
+    CommentDomain comment = commentService.findOne(commentId);
+    UserDomain user = userService.getCurrentUser();
+    UpvoteCommentDomain upvoteComment = new UpvoteComment(user, timeProvider.now(), false, comment);
 
     actionRepository.save(upvoteComment);
   }

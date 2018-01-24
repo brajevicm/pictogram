@@ -1,9 +1,7 @@
 package com.pictogram.pictogram.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.pictogram.pictogram.domain.FollowerDomain;
+import com.pictogram.pictogram.domain.UserDomain;
 
 import javax.persistence.*;
 
@@ -15,16 +13,18 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "followers")
-public class Follower  {
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "user_id", nullable = false)
-  @Getter
-  @Setter
-  private User user;
-
+public class Follower extends FollowerDomain {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "follow_id", nullable = false)
-  @Getter
-  @Setter
-  private User following;
+  @Override
+  public UserDomain getFollowing() {
+    return super.getFollowing();
+  }
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id", nullable = false)
+  @Override
+  public UserDomain getUser() {
+    return super.getUser();
+  }
 }

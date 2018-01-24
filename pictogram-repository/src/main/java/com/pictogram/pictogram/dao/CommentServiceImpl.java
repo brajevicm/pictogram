@@ -1,20 +1,11 @@
 package com.pictogram.pictogram.dao;
 
-import com.pictogram.pictogram.exception.PostNotFoundException;
-import com.pictogram.pictogram.exception.UserNotFoundException;
-import com.pictogram.pictogram.commons.utils.TimeProvider;
-import com.pictogram.pictogram.rest.model.Comment;
-import com.pictogram.pictogram.rest.model.Post;
-import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.dto.CommentDto;
-import com.pictogram.pictogram.model.report.ReportComment;
-import com.pictogram.pictogram.model.upvote.UpvoteComment;
-import com.pictogram.pictogram.rest.repository.CommentRepository;
+import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.repository.CommentRepository;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,10 @@
 package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.exception.UserAlreadyReportedException;
-import com.pictogram.pictogram.rest.service.CommentService;
-import com.pictogram.pictogram.rest.service.PostService;
-import com.pictogram.pictogram.rest.service.ReportService;
-import com.pictogram.pictogram.rest.service.UserService;
+import com.pictogram.pictogram.service.CommentService;
+import com.pictogram.pictogram.service.PostService;
+import com.pictogram.pictogram.service.ReportService;
+import com.pictogram.pictogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;

@@ -1,16 +1,8 @@
 package com.pictogram.pictogram.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.pictogram.pictogram.domain.PostDomain;
 import com.pictogram.pictogram.domain.ReportPostDomain;
 import com.pictogram.pictogram.domain.UserDomain;
-import com.pictogram.pictogram.model.Action;
-import com.pictogram.pictogram.model.Post;
-import com.pictogram.pictogram.model.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;

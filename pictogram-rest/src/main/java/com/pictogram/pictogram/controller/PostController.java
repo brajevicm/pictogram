@@ -1,15 +1,19 @@
 package com.pictogram.pictogram.controller;
 
+import com.pictogram.pictogram.domain.PostDomain;
 import com.pictogram.pictogram.exception.PostNotFoundException;
-import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.dto.PostDto;
-import com.pictogram.pictogram.rest.service.PostService;
+import com.pictogram.pictogram.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Project: pictogram
@@ -23,36 +27,52 @@ public class PostController {
   @Autowired
   PostService postService;
 
+//  @TODO Fix image upload
   @PostMapping(value = "posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<String> createPost(@RequestParam String title,
                                            @RequestParam String description,
                                            @RequestParam MultipartFile file) {
-    PostDto postDto = new PostDto(title, description, file);
-
-    postService.save(postDto);
+    String fullImagePath = "";
+    PostDomain post = new PostDomain();
+    try {
+      byte[] bytes = file.getBytes();
+      Path path = Paths.get("" + file.getOriginalFilename());
+      Files.write(path, bytes);
+      fullImagePath = path.toString();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    post.setTitle(title);
+    post.setDescription(description);
+    post.setPostImage(fullImagePath);
+    postService.save(post);
 
     return ResponseEntity.ok("Post successfully created");
   }
 
   @PostMapping(value = "posts", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
-    postService.save(postDto);
+    PostDomain post = new PostDomain();
+    post.setTitle(postDto.getTitle());
+    post.setDescription(postDto.getDescription());
+    post.setPostImage(postDto.getPostImage());
+    postService.save(post);
 
     return ResponseEntity.ok("Post successfully created");
   }
 
   @GetMapping(value = "posts")
-  public ResponseEntity<Page<Post>> getPagedPosts(@RequestParam String type,
-                                                  @RequestParam int page,
-                                                  @RequestParam int size) {
-    Page<Post> posts = postService.findAllByType(type, page, size);
+  public ResponseEntity<Page<PostDomain>> getPagedPosts(@RequestParam String type,
+                                                        @RequestParam int page,
+                                                        @RequestParam int size) {
+    Page<PostDomain> posts = postService.findAllByType(type, page, size);
 
     return ResponseEntity.ok(posts);
   }
 
   @GetMapping(value = "posts/{postId}")
-  public ResponseEntity<Post> getPost(@PathVariable Long postId) {
-    Post post = postService.findOne(postId);
+  public ResponseEntity<PostDomain> getPost(@PathVariable Long postId) {
+    PostDomain post = postService.findOne(postId);
 
     if (post == null) {
       throw new PostNotFoundException(postId);
@@ -62,10 +82,10 @@ public class PostController {
   }
 
   @GetMapping(value = "users/{userId}/posts")
-  public ResponseEntity<Page<Post>> getPostsFromUser(@PathVariable Long userId,
+  public ResponseEntity<Page<PostDomain>> getPostsFromUser(@PathVariable Long userId,
                                                      @RequestParam int page,
                                                      @RequestParam int size) {
-    Page<Post> posts = postService.findAllByUser(userId, page, size);
+    Page<PostDomain> posts = postService.findAllByUser(userId, page, size);
 
     return ResponseEntity.ok(posts);
   }

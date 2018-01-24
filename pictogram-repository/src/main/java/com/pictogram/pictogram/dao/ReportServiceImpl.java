@@ -1,12 +1,7 @@
 package com.pictogram.pictogram.dao;
 
-import com.pictogram.pictogram.commons.utils.TimeProvider;
-import com.pictogram.pictogram.rest.model.Comment;
-import com.pictogram.pictogram.rest.model.Post;
-import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.model.report.ReportComment;
-import com.pictogram.pictogram.model.report.ReportPost;
-import com.pictogram.pictogram.rest.repository.ActionRepository;
+import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.repository.ActionRepository;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.ReportService;

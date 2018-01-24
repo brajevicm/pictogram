@@ -1,18 +1,13 @@
 package com.pictogram.pictogram.dao;
 
+import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.domain.PostDomain;
+import com.pictogram.pictogram.repository.PostRepository;
 import com.pictogram.pictogram.storage.StorageService;
-import com.pictogram.pictogram.commons.utils.TimeProvider;
-import com.pictogram.pictogram.rest.model.Post;
-import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.dto.PostDto;
-import com.pictogram.pictogram.model.report.ReportPost;
-import com.pictogram.pictogram.model.upvote.UpvotePost;
-import com.pictogram.pictogram.rest.repository.PostRepository;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -50,7 +45,7 @@ public class PostServiceImpl implements PostService {
   CommentService commentService;
 
   @Override
-  public void save(PostDto postDto) {
+  public void save(PostDomain postDto) {
     String postImage;
 
     if (postDto.getFile() == null) {

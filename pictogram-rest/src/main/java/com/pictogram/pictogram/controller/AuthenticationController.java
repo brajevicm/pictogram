@@ -1,8 +1,8 @@
 package com.pictogram.pictogram.controller;
 
-import com.pictogram.pictogram.model.JwtUser;
 import com.pictogram.pictogram.model.AuthenticationRequest;
 import com.pictogram.pictogram.model.AuthenticationResponse;
+import com.pictogram.pictogram.model.JwtUser;
 import com.pictogram.pictogram.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,15 +29,17 @@ import javax.servlet.http.HttpServletRequest;
  * Mail: brajevicms@gmail.com
  */
 @RestController
-
 public class AuthenticationController {
 
   @Autowired
   UserDetailsService userDetailsService;
+
   @Value("${jwt.header}")
   private String tokenHeader;
+
   @Autowired
   private AuthenticationManager authenticationManager;
+
   @Autowired
   private TokenUtil tokenUtil;
 

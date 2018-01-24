@@ -15,6 +15,8 @@ public interface UserService {
 
   UserDomain findOne(Long userId);
 
+  UserDomain findByUsername(String username);
+
   UserDomain getCurrentUser();
 
 }

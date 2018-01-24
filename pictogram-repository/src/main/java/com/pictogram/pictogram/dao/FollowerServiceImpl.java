@@ -1,7 +1,7 @@
 package com.pictogram.pictogram.dao;
 
-import com.pictogram.pictogram.rest.repository.FollowerRepository;
-import com.pictogram.pictogram.rest.repository.UserRepository;
+import com.pictogram.pictogram.repository.FollowerRepository;
+import com.pictogram.pictogram.repository.UserRepository;
 import com.pictogram.pictogram.service.FollowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

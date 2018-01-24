@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.repository;
 
-import com.pictogram.pictogram.model.Action;
+import com.pictogram.pictogram.domain.Action;
 import org.springframework.data.repository.CrudRepository;
 
 /**
