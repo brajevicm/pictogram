@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.rest.controller;
 
+import com.pictogram.pictogram.commons.exception.PostNotFoundException;
 import com.pictogram.pictogram.rest.model.Post;
 import com.pictogram.pictogram.rest.model.dto.PostDto;
 import com.pictogram.pictogram.rest.service.PostService;
@@ -54,7 +55,7 @@ public class PostController {
     Post post = postService.findOne(postId);
 
     if (post == null) {
-      return ResponseEntity.notFound().build();
+      throw new PostNotFoundException(postId);
     }
 
     return ResponseEntity.ok(post);

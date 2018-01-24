@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.security.controller;
 
+import com.pictogram.pictogram.commons.exception.UserNotFoundException;
 import com.pictogram.pictogram.rest.model.User;
 import com.pictogram.pictogram.rest.model.dto.UserDto;
 import com.pictogram.pictogram.rest.service.UserService;
@@ -14,7 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Project: pictogram
@@ -52,24 +54,27 @@ public class UserController {
                                              @RequestParam String firstName,
                                              @RequestParam String lastName,
                                              @RequestParam String email,
-                                             @RequestParam MultipartFile file) {
+                                             @RequestParam MultipartFile file) throws URISyntaxException {
     UserDto userDto = new UserDto(username, password, firstName, lastName, email, file);
-
     userService.save(userDto);
 
-    return ResponseEntity.ok("User successfully created");
+    return ResponseEntity.created(new URI("/users")).build();
   }
 
   @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) {
+  public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) throws URISyntaxException {
     userService.save(userDto);
 
-    return ResponseEntity.ok("User successfully created");
+    return ResponseEntity.created(new URI("/users")).build();
   }
 
   @GetMapping(value = "users/{userId}")
   public ResponseEntity<User> getUserById(@PathVariable Long userId) {
     User user = userService.findOne(userId);
+
+    if (user == null) {
+      throw new UserNotFoundException(userId);
+    }
 
     return ResponseEntity.ok(user);
   }

@@ -15,7 +15,8 @@ import java.util.Date;
  * Mail: brajevicms@gmail.com
  */
 @Entity
-@Table(name = "reported_posts")
+@Table(name = "reported_posts", uniqueConstraints=
+  @UniqueConstraint(columnNames={"post_id", "user_id"}))
 public class ReportPost extends Action {
 
   @ManyToOne(fetch = FetchType.LAZY)
