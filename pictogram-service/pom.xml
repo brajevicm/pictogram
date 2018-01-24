@@ -16,7 +16,7 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>common-test-start</artifactId>
+            <artifactId>pictogram-test-start</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
