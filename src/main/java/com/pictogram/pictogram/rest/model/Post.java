@@ -129,6 +129,10 @@ public class Post extends AbstractEntity {
     return user.getUsername();
   }
 
+  public Long getUserId() { return user.getId(); }
+
+  public String getUserProfileImage() { return user.getProfileImage(); }
+
   @JsonIgnore
   public List<Comment> getComments() {
     return comments;
