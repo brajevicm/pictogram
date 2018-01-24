@@ -12,7 +12,7 @@ import com.pictogram.pictogram.rest.model.dto.UserDto;
 public interface UserService {
   void save(UserDto userDto);
 
-  void update( Long userId, UserDto userDto);
+  void update(Long userId, UserDto userDto);
 
   User findOne(Long userId);
 

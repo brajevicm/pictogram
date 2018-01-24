@@ -49,11 +49,11 @@ public class PostDto {
     return file;
   }
 
-  public void setPostImage(MultipartFile file) {
+  public void setFile(MultipartFile file) {
     this.file = file;
   }
 
-  public void setFile(MultipartFile file) {
+  public void setPostImage(MultipartFile file) {
     this.file = file;
   }
 

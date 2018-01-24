@@ -26,17 +26,14 @@ import java.util.function.Function;
 @Component
 public class TokenUtil implements Serializable {
 
-  private static final long serialVersionUID = 246986342520092170L;
-
   static final String CLAIM_KEY_USERNAME = "sub";
   static final String CLAIM_KEY_AUDIENCE = "aud";
   static final String CLAIM_KEY_CREATED = "iat";
-
   static final String AUDIENECE_UNKNOWN = "unknown";
   static final String AUDIENCE_WEB = "web";
   static final String AUDIENCE_MOBILE = "mobile";
   static final String AUDIENCE_TABLET = "tablet";
-
+  private static final long serialVersionUID = 246986342520092170L;
   @Autowired
   private TimeProvider timeProvider;
 

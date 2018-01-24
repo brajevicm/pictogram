@@ -1,6 +1,5 @@
 package com.pictogram.pictogram.rest.service.impl;
 
-import com.pictogram.pictogram.rest.model.Follower;
 import com.pictogram.pictogram.rest.repository.FollowerRepository;
 import com.pictogram.pictogram.rest.repository.UserRepository;
 import com.pictogram.pictogram.rest.service.FollowerService;

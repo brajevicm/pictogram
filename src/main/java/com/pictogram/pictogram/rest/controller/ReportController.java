@@ -1,6 +1,10 @@
 package com.pictogram.pictogram.rest.controller;
 
+import com.pictogram.pictogram.commons.exception.UserAlreadyReportedException;
+import com.pictogram.pictogram.rest.service.CommentService;
+import com.pictogram.pictogram.rest.service.PostService;
 import com.pictogram.pictogram.rest.service.ReportService;
+import com.pictogram.pictogram.rest.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -19,8 +23,23 @@ public class ReportController {
   @Autowired
   ReportService reportService;
 
+  @Autowired
+  PostService postService;
+
+  @Autowired
+  CommentService commentService;
+
+  @Autowired
+  UserService userService;
+
   @PatchMapping(value = "posts/{postId}")
   public ResponseEntity<String> reportPost(@PathVariable Long postId) {
+    if (postService.findOne(postId).getReportPosts().stream()
+      .anyMatch(reportPost ->
+        reportPost.getUser().getUsername().equals(userService.getCurrentUser().getUsername()))) {
+      throw new UserAlreadyReportedException("Post was already reported");
+    }
+
     reportService.savePost(postId);
 
     return ResponseEntity.ok("Post successfully reported");
@@ -28,6 +47,12 @@ public class ReportController {
 
   @PatchMapping(value = "comments/{commentId}")
   public ResponseEntity<String> reportComment(@PathVariable Long commentId) {
+    if (commentService.findOne(commentId).getReportComments().stream()
+      .anyMatch(reportComment ->
+        reportComment.getUser().getUsername().equals(userService.getCurrentUser().getUsername()))) {
+      throw new UserAlreadyReportedException("Comment was already reported");
+    }
+
     reportService.saveComment(commentId);
 
     return ResponseEntity.ok("Post successfully reported");

@@ -1,8 +1,8 @@
 package com.pictogram.pictogram.rest.model.upvote;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.Action;
+import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.User;
 
 import javax.persistence.*;

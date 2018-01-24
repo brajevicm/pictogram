@@ -1,9 +1,9 @@
 package com.pictogram.pictogram.rest.model.report;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pictogram.pictogram.rest.model.Action;
 import com.pictogram.pictogram.rest.model.Comment;
 import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.rest.model.Action;
 
 import javax.persistence.*;
 import java.util.Date;
