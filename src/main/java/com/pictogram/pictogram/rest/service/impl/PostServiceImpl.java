@@ -32,6 +32,7 @@ public class PostServiceImpl implements PostService {
   private static final String FRESH = "fresh";
   private static final String HOT = "hot";
   private static final String TRENDING = "trending";
+  private static final String REPORTED = "reported";
 
   @Autowired
   PostRepository postRepository;
@@ -86,6 +87,8 @@ public class PostServiceImpl implements PostService {
         return findAllHotByPage(pageable);
       case TRENDING:
         return findAllTrendingByPage(pageable);
+      case REPORTED:
+        return findAllReportedByPage(pageable);
       default:
         return findAllFreshByPage(pageable);
     }
@@ -117,6 +120,13 @@ public class PostServiceImpl implements PostService {
 
   private Page<Post> findAllHotByPage(Pageable pageable) {
     Page<Post> posts = postRepository.findAllByUpvotePostsCount(pageable);
+    filterPosts(posts);
+
+    return posts;
+  }
+
+  private Page<Post> findAllReportedByPage(Pageable pageable) {
+    Page<Post> posts = postRepository.findAllReportedPosts(pageable);
     filterPosts(posts);
 
     return posts;
