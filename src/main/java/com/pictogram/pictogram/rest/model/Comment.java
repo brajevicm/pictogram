@@ -159,7 +159,7 @@ public class Comment extends AbstractEntity {
     return user.getProfileImage();
   }
 
-  public String getUserId() {
-    return user.getUsername();
+  public Long getUserId() {
+    return user.getId();
   }
 }
