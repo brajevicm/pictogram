@@ -33,3 +33,16 @@ nbbuild/
 dist/
 nbdist/
 .nb-gradle/
+pictogram-core/src/main/resources/
+pictogram-core/src/test/
+pictogram-repository/src/main/resources/
+pictogram-repository/src/test/
+pictogram-rest/src/main/resources/static/
+pictogram-rest/src/test/
+pictogram-service/src/main/resources/
+pictogram-service/src/test/
+pictogram-start/src/main/resources/static/
+pictogram-start/src/test/
+pictogram-test-start/src/
+pictogram-util/src/main/resources/
+pictogram-util/src/test/

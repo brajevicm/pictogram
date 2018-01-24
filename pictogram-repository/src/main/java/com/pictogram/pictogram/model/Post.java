@@ -1,8 +1,10 @@
 package com.pictogram.pictogram.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pictogram.pictogram.model.report.ReportPost;
-import com.pictogram.pictogram.model.upvote.UpvotePost;
+import com.pictogram.pictogram.domain.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -18,173 +20,61 @@ import java.util.List;
  */
 @Entity
 @Table(name = "posts")
-public class Post extends AbstractEntity {
-
+public class Post extends PostDomain {
   @Column(name = "title", length = 32, unique = true, nullable = false)
-  @NotNull
-  @Size(min = 2, max = 32)
-  private String title;
+  @Override
+  public String getTitle() {
+    return super.getTitle();
+  }
 
   @Column(name = "description", length = 255, unique = true, nullable = false)
-  @NotNull
-  @Size(min = 2, max = 255)
-  private String description;
+  @Override
+  public String getDescription() {
+    return super.getDescription();
+  }
 
   @Column(name = "post_image", nullable = false)
-  @NotNull
-  private String postImage;
+  @Override
+  public String getPostImage() {
+    return super.getPostImage();
+  }
 
   @Column(name = "created_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
-  @NotNull
-  private Date createdDate;
-
-  @Column(name = "enabled", nullable = false)
-  @NotNull
-  private boolean enabled;
+  @Override
+  public Date getCreatedDate() {
+    return super.getCreatedDate();
+  }
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
-  private User user;
+  @Override
+  public UserDomain getUser() {
+    return super.getUser();
+  }
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  private List<Comment> comments;
+  @Override
+  public List<CommentDomain> getComments() {
+    return super.getComments();
+  }
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  private List<UpvotePost> upvotePosts;
+  @Override
+  public List<UpvotePostDomain> getUpvotePosts() {
+    return super.getUpvotePosts();
+  }
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  private List<ReportPost> reportPosts;
-
-  @Transient
-  private boolean upvotedPostByCurrentUser;
-
-  @Transient
-  private boolean reportedPostByCurrentUser;
-
-  public Post() {
-
+  @Override
+  public List<ReportPostDomain> getReportPosts() {
+    return super.getReportPosts();
   }
 
-  public Post(String title, String description, String postImage, Date createdDate, boolean enabled, User user) {
-    this.title = title;
-    this.description = description;
-    this.postImage = postImage;
-    this.createdDate = createdDate;
-    this.enabled = enabled;
-    this.user = user;
-  }
-
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public String getPostImage() {
-    return postImage;
-  }
-
-  public void setPostImage(String postImage) {
-    this.postImage = postImage;
-  }
-
-  public Date getCreatedDate() {
-    return createdDate;
-  }
-
-  public void setCreatedDate(Date createdDate) {
-    this.createdDate = createdDate;
-  }
-
+  @Column(name = "enabled", nullable = false)
+  @Override
   public boolean isEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
-
-  @JsonIgnore
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
-
-  public String getUsername() {
-    return user.getUsername();
-  }
-
-  public Long getUserId() { return user.getId(); }
-
-  public String getUserProfileImage() { return user.getProfileImage(); }
-
-  @JsonIgnore
-  public List<Comment> getComments() {
-    return comments;
-  }
-
-  public void setComments(List<Comment> comments) {
-    this.comments = comments;
-  }
-
-  @JsonIgnore
-  public List<UpvotePost> getUpvotePosts() {
-    return upvotePosts;
-  }
-
-  public void setUpvotePosts(List<UpvotePost> upvotePosts) {
-    this.upvotePosts = upvotePosts;
-  }
-
-  @JsonIgnore
-  public List<ReportPost> getReportPosts() {
-    return reportPosts;
-  }
-
-  public void setReportPosts(List<ReportPost> reportPosts) {
-    this.reportPosts = reportPosts;
-  }
-
-  public int getCommentsCount() {
-    return comments.size();
-  }
-
-  public int getUpvotesCount() {
-    return upvotePosts.size();
-  }
-
-  public int getReportsCount() {
-    return reportPosts.size();
-  }
-
-  public boolean getUpvotedPostByCurrentUser() {
-    return upvotedPostByCurrentUser;
-  }
-
-  public void setUpvotedPostByCurrentUser(boolean upvotedPostByCurrentUser) {
-    this.upvotedPostByCurrentUser = upvotedPostByCurrentUser;
-  }
-
-  public boolean getReportedPostByCurrentUser() {
-    return reportedPostByCurrentUser;
-  }
-
-  public void setReportedPostByCurrentUser(boolean reportedPostByCurrentUser) {
-    this.reportedPostByCurrentUser = reportedPostByCurrentUser;
+    return super.isEnabled();
   }
 }
 

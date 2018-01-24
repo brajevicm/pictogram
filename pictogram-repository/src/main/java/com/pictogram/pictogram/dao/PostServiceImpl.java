@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.service.impl;
+package com.pictogram.pictogram.dao;
 
 import com.pictogram.pictogram.storage.StorageService;
 import com.pictogram.pictogram.commons.utils.TimeProvider;

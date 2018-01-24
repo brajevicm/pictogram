@@ -1,7 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.rest.model.Comment;
-import com.pictogram.pictogram.dto.CommentDto;
+import com.pictogram.pictogram.domain.CommentDomain;
 import org.springframework.data.domain.Page;
 
 /**
@@ -11,11 +10,11 @@ import org.springframework.data.domain.Page;
  * Mail: brajevicms@gmail.com
  */
 public interface CommentService {
-  void save(CommentDto commentDto, Long postId);
+  void save(CommentDomain comment, Long postId);
 
-  Comment findOne(Long commentId);
+  CommentDomain findOne(Long commentId);
 
-  Page<Comment> findAllByUser(Long userId, int page, int size);
+  Page<CommentDomain> findAllByUser(Long userId, int page, int size);
 
-  Page<Comment> findAllByPost(Long postId, int page, int size);
+  Page<CommentDomain> findAllByPost(Long postId, int page, int size);
 }

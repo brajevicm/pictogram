@@ -1,10 +1,8 @@
 package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.dto.CommentDto;
-import com.pictogram.pictogram.model.Comment;
 import com.pictogram.pictogram.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

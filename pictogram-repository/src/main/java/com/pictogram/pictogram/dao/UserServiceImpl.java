@@ -1,13 +1,12 @@
-package com.pictogram.pictogram.service.impl;
+package com.pictogram.pictogram.dao;
 
-import com.pictogram.pictogram.storage.StorageService;
-import com.pictogram.pictogram.commons.utils.TimeProvider;
-import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.dto.UserDto;
-import com.pictogram.pictogram.rest.repository.UserRepository;
+import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.model.User;
+import com.pictogram.pictogram.repository.UserRepository;
 import com.pictogram.pictogram.service.UserService;
 import com.pictogram.pictogram.model.Authority;
-import com.pictogram.pictogram.model.AuthorityName;
+import com.pictogram.pictogram.domain.AuthorityName;
+import com.pictogram.pictogram.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

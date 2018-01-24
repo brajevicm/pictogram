@@ -1,7 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.rest.model.User;
-import com.pictogram.pictogram.dto.UserDto;
+import com.pictogram.pictogram.domain.UserDomain;
 
 /**
  * Project: pictogram
@@ -10,12 +9,12 @@ import com.pictogram.pictogram.dto.UserDto;
  * Mail: brajevicms@gmail.com
  */
 public interface UserService {
-  void save(UserDto userDto);
+  void save(UserDomain user);
 
-  void update(Long userId, UserDto userDto);
+  void update(Long userId, UserDomain user);
 
-  User findOne(Long userId);
+  UserDomain findOne(Long userId);
 
-  User getCurrentUser();
+  UserDomain getCurrentUser();
 
 }

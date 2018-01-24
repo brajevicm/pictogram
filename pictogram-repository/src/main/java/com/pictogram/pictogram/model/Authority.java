@@ -1,7 +1,12 @@
 package com.pictogram.pictogram.model;
 
+import com.pictogram.pictogram.domain.AuthorityDomain;
+import com.pictogram.pictogram.domain.AuthorityName;
+import com.pictogram.pictogram.domain.UserDomain;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -10,39 +15,21 @@ import java.util.List;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "authorities")
-public class Authority extends AbstractEntity {
-
+public class Authority extends AuthorityDomain {
   @Column(name = "name", length = 32)
-  @NotNull
   @Enumerated(EnumType.STRING)
-  private AuthorityName name;
+  @Override
+  public AuthorityName getName() {
+    return super.getName();
+  }
 
   @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  private List<User> users;
-
-  public AuthorityName getName() {
-    return name;
-  }
-
-  public void setName(AuthorityName name) {
-    this.name = name;
-  }
-
-  public List<User> getUsers() {
-    return users;
-  }
-
-  public void setUsers(List<User> users) {
-    this.users = users;
-  }
-
   @Override
-  public String toString() {
-    return "Authority{" +
-      ", name=" + name +
-      ", users=" + users +
-      '}';
+  public List<UserDomain> getUsers() {
+    return super.getUsers();
   }
 }

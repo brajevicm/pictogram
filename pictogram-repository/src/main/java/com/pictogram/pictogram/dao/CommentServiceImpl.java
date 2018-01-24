@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.service.impl;
+package com.pictogram.pictogram.dao;
 
 import com.pictogram.pictogram.exception.PostNotFoundException;
 import com.pictogram.pictogram.exception.UserNotFoundException;

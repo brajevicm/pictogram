@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.model;
+package com.pictogram.pictogram.domain;
 
 /**
  * Project: pictogram

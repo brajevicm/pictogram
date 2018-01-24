@@ -1,7 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.rest.model.Post;
-import com.pictogram.pictogram.dto.PostDto;
+import com.pictogram.pictogram.domain.PostDomain;
 import org.springframework.data.domain.Page;
 
 /**
@@ -12,11 +11,11 @@ import org.springframework.data.domain.Page;
  */
 
 public interface PostService {
-  void save(PostDto postDto);
+  void save(PostDomain post);
 
-  Post findOne(Long id);
+  PostDomain findOne(Long id);
 
-  Page<Post> findAllByType(String type, int page, int size);
+  Page<PostDomain> findAllByType(String type, int page, int size);
 
-  Page<Post> findAllByUser(Long userId, int page, int size);
+  Page<PostDomain> findAllByUser(Long userId, int page, int size);
 }

@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.service.impl;
+package com.pictogram.pictogram.dao;
 
 import com.pictogram.pictogram.rest.repository.FollowerRepository;
 import com.pictogram.pictogram.rest.repository.UserRepository;
