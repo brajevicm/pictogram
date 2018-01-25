@@ -15,6 +15,7 @@ import java.util.Date;
 @ToString
 public class Action {
   @Getter
+  @Setter
   private Long id;
 
   @Getter

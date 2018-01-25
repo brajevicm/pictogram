@@ -17,6 +17,10 @@ import java.util.List;
 public class PostDomain {
   @Getter
   @Setter
+  private Long id;
+
+  @Getter
+  @Setter
   private String title, description, postImage;
 
   @Getter

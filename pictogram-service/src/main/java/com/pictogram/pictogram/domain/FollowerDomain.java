@@ -14,5 +14,9 @@ import lombok.*;
 public class FollowerDomain {
   @Getter
   @Setter
+  private Long id;
+
+  @Getter
+  @Setter
   private UserDomain user, following;
 }

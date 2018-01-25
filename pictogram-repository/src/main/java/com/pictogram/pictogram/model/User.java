@@ -89,4 +89,6 @@ public class User extends UserDomain {
   public List<AuthorityDomain> getAuthorities() {
     return super.getAuthorities();
   }
+
+
 }

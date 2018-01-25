@@ -2,16 +2,23 @@ package com.pictogram.pictogram.dao;
 
 import com.pictogram.pictogram.TimeProvider;
 import com.pictogram.pictogram.domain.PostDomain;
+import com.pictogram.pictogram.domain.UserDomain;
+import com.pictogram.pictogram.model.Post;
+import com.pictogram.pictogram.model.ReportPost;
+import com.pictogram.pictogram.model.UpvotePost;
+import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.PostRepository;
 import com.pictogram.pictogram.storage.StorageService;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,6 +29,7 @@ import java.util.List;
  * Mail: brajevicms@gmail.com
  */
 @Service
+@Transactional
 public class PostServiceImpl implements PostService {
 
   private static final String FRESH = "fresh";
@@ -46,13 +54,13 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public void save(PostDomain postDto) {
-    String postImage;
-
-    if (postDto.getFile() == null) {
-      postImage = postDto.getPostImage();
-    } else {
-      postImage = storageService.store(postDto.getFile());
-    }
+//    String postImage;
+//
+//    if (postDto.getFile() == null) {
+//      postImage = postDto.getPostImage();
+//    } else {
+//      postImage = storageService.store(postDto.getFile());
+//    }
 
     Post post = new Post(
       postDto.getTitle(),
@@ -144,5 +152,21 @@ public class PostServiceImpl implements PostService {
       post.setUpvotedPostByCurrentUser(filterUpvotedPostsForCurrentUser(post.getUpvotePosts()));
       post.setReportedPostByCurrentUser(filterReportedPostsForCurrentUser(post.getReportPosts()));
     });
+  }
+
+  public static Post toEntityObject(PostDomain postDomain) {
+    Post post = new Post();
+    post.setId(postDomain.getId());
+    post.setUser(postDomain.getUser());
+    post.setCreatedDate(postDomain.getCreatedDate());
+    post.setEnabled(postDomain.isEnabled());
+    post.setComments(postDomain.getComments());
+    post.setDescription(postDomain.getDescription());
+    post.setPostImage(postDomain.getPostImage());
+    post.setTitle(postDomain.getTitle());
+    post.setReportPosts(postDomain.getReportPosts());
+    post.setUpvotePosts(postDomain.getUpvotePosts());
+
+    return post;
   }
 }

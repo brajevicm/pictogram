@@ -18,6 +18,7 @@ import java.util.List;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
+//@TODO remove OneToMany attributes from domain classes
 @Entity
 @Table(name = "posts")
 public class Post extends PostDomain {

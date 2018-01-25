@@ -40,26 +40,14 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void save(UserDomain userDomain) {
-    String profileImage;
-
+//    String profileImage;
 //    if (userDomain.getFile() == null) {
 //      profileImage = userDomain.getProfileImage();
 //    } else {
 //      profileImage = storageService.store(userDomain.getFile());
 //    }
 
-    User user = new User(
-      userDomain.getUsername(),
-      hashPassword(userDomain.getPassword()),
-      userDomain.getFirstName(),
-      userDomain.getLastName(),
-      userDomain.getEmail(),
-      userDomain.getProfileImage(),
-      true,
-      timeProvider.now(),
-      timeProvider.now(),
-      getNewlyCreatedUserAuthorities()
-    );
+    User user = toEntityObject(userDomain);
 
     userRepository.save(user);
   }
@@ -77,7 +65,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User findOne(Long userId) {
+  public UserDomain findOne(Long userId) {
     return userRepository.findOne(userId);
   }
 
@@ -87,23 +75,42 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public User getCurrentUser() {
+  public UserDomain getCurrentUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
 
     return userRepository.findByUsername(username);
   }
 
-  private String hashPassword(String password) {
+  private static String hashPassword(String password) {
     PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     return passwordEncoder.encode(password);
   }
 
-  private List<Authority> getNewlyCreatedUserAuthorities() {
+  private static List<Authority> getNewlyCreatedUserAuthorities() {
     Authority authority = new Authority();
     authority.setName(AuthorityName.ROLE_USER);
 
     return Collections.singletonList(authority);
+  }
+
+  public static User toEntityObject(UserDomain userDomain) {
+    User user = new User();
+    user.setId(userDomain.getId());
+    user.setUsername(userDomain.getUsername());
+    user.setPassword(hashPassword(userDomain.getPassword()));
+    user.setFirstName(userDomain.getFirstName());
+    user.setLastName(userDomain.getLastName());
+    user.setUsername(userDomain.getUsername());
+    user.setPassword(userDomain.getPassword());
+    user.setEmail(userDomain.getEmail());
+    user.setCreatedDate(userDomain.getCreatedDate());
+    user.setLastPasswordResetDate(userDomain.getLastPasswordResetDate());
+    user.setEnabled(userDomain.isEnabled());
+    user.setProfileImage(userDomain.getProfileImage());
+    user.setAuthorities(userDomain.getAuthorities());
+
+    return user;
   }
 }

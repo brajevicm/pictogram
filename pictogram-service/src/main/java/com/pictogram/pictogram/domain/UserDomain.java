@@ -16,6 +16,7 @@ import java.util.List;
 @ToString
 public class UserDomain {
   @Getter
+  @Setter
   private Long id;
 
   @Getter

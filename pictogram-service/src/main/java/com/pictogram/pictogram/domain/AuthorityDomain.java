@@ -16,6 +16,10 @@ import java.util.List;
 public class AuthorityDomain {
   @Getter
   @Setter
+  private Long id;
+
+  @Getter
+  @Setter
   private AuthorityName name;
 
   @Getter

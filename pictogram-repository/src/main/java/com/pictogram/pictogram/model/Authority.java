@@ -20,6 +20,13 @@ import java.util.List;
 @Entity
 @Table(name = "authorities")
 public class Authority extends AuthorityDomain {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Override
+  public Long getId() {
+    return super.getId();
+  }
+
   @Column(name = "name", length = 32)
   @Enumerated(EnumType.STRING)
   @Override
