@@ -56,6 +56,11 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
+  public void delete(Long id) {
+    commentRepository.delete(id);
+  }
+
+  @Override
   public Comment findOne(Long commentId) {
     return commentRepository.findOne(commentId);
   }

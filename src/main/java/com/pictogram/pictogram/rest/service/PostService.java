@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 public interface PostService {
   void save(PostDto postDto);
 
+  void delete(Long id);
+
   Post findOne(Long id);
 
   Page<Post> findAllByType(String type, int page, int size);
