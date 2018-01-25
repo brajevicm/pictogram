@@ -73,7 +73,10 @@ public class PostServiceImpl implements PostService {
 
   @Override
   public Post findOne(Long id) {
-    return postRepository.findOne(id);
+    Post post = postRepository.findOne(id);
+    filterPost(post);
+
+    return post;
   }
 
   public Page<Post> findAllByType(String type, int page, int size) {
@@ -149,5 +152,10 @@ public class PostServiceImpl implements PostService {
       post.setUpvotedPostByCurrentUser(filterUpvotedPostsForCurrentUser(post.getUpvotePosts()));
       post.setReportedPostByCurrentUser(filterReportedPostsForCurrentUser(post.getReportPosts()));
     });
+  }
+
+  private void filterPost(Post post) {
+    post.setUpvotedPostByCurrentUser(filterUpvotedPostsForCurrentUser(post.getUpvotePosts()));
+    post.setReportedPostByCurrentUser(filterReportedPostsForCurrentUser(post.getReportPosts()));
   }
 }
