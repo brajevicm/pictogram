@@ -1,7 +1,8 @@
 package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.domain.PostDomain;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * Project: pictogram
@@ -15,7 +16,7 @@ public interface PostService {
 
   PostDomain findOne(Long id);
 
-  Page<PostDomain> findAllByType(String type, int page, int size);
+  List<PostDomain> findAllByType(String type, int page, int size);
 
-  Page<PostDomain> findAllByUser(Long userId, int page, int size);
+  List<PostDomain> findAllByUser(Long userId, int page, int size);
 }

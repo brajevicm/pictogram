@@ -1,7 +1,8 @@
 package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.domain.CommentDomain;
-import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 /**
  * Project: pictogram
@@ -14,7 +15,7 @@ public interface CommentService {
 
   CommentDomain findOne(Long commentId);
 
-  Page<CommentDomain> findAllByUser(Long userId, int page, int size);
+  List<CommentDomain> findAllByUser(Long userId, int page, int size);
 
-  Page<CommentDomain> findAllByPost(Long postId, int page, int size);
+  List<CommentDomain> findAllByPost(Long postId, int page, int size);
 }

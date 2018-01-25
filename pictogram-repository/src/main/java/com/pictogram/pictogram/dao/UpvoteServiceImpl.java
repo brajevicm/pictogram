@@ -10,6 +10,7 @@ import com.pictogram.pictogram.service.UpvoteService;
 import com.pictogram.pictogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Project: pictogram
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
  * Mail: brajevicms@gmail.com
  */
 @Service
+@Transactional
 public class UpvoteServiceImpl implements UpvoteService {
 
   @Autowired

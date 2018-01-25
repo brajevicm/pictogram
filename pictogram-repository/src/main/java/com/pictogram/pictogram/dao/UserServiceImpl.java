@@ -40,13 +40,6 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void save(UserDomain userDomain) {
-//    String profileImage;
-//    if (userDomain.getFile() == null) {
-//      profileImage = userDomain.getProfileImage();
-//    } else {
-//      profileImage = storageService.store(userDomain.getFile());
-//    }
-
     User user = toEntityObject(userDomain);
 
     userRepository.save(user);
