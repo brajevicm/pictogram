@@ -64,6 +64,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers(HttpMethod.GET, "/posts/**").permitAll()
       .antMatchers(HttpMethod.GET, "/users/**").permitAll()
       .antMatchers(HttpMethod.GET, "/comments/**").permitAll()
+      .antMatchers(HttpMethod.GET, "/uploads/**").permitAll()
       .anyRequest().authenticated()
       .and()
       .cors();

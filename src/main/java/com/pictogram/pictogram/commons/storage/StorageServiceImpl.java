@@ -46,8 +46,7 @@ public class StorageServiceImpl implements StorageService {
       }
       Files.copy(file.getInputStream(), this.rootLocation.resolve(filename),
         StandardCopyOption.REPLACE_EXISTING);
-
-      return this.rootLocation + filename;
+      return  "http://localhost:8080/uploads/" + filename;
     } catch (IOException e) {
       throw new StorageException("Failed to store file " + filename, e);
     }
