@@ -15,8 +15,6 @@ import java.util.List;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "authorities")
 public class Authority extends AuthorityDomain {

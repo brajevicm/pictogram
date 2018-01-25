@@ -1,16 +1,22 @@
 package com.pictogram.pictogram.dao;
 
 import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.domain.*;
+import com.pictogram.pictogram.model.Comment;
+import com.pictogram.pictogram.model.Post;
+import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.CommentRepository;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,67 +42,78 @@ public class CommentServiceImpl implements CommentService {
   PostService postService;
 
   @Override
-  public void save(CommentDto commentDto, Long postId) {
-    Comment comment = new Comment(
-      commentDto.getDescription(),
-      timeProvider.now(),
-      true,
-      userService.getCurrentUser(),
-      postService.findOne(postId)
-    );
+  public void save(CommentDomain commentDomain, Long postId) {
+    Comment comment = toEntityObject(commentDomain);
 
     commentRepository.save(comment);
   }
 
   @Override
-  public Comment findOne(Long commentId) {
+  public CommentDomain findOne(Long commentId) {
     return commentRepository.findOne(commentId);
   }
 
   @Override
-  public Page<Comment> findAllByUser(Long userId, int page, int size) {
-    User user = userService.findOne(userId);
-    if (user == null) {
-      throw new UserNotFoundException(userId);
-    }
+  public List<CommentDomain> findAllByUser(Long userId, int page, int size) {
+    User user = UserServiceImpl.toEntityObject(userService.findOne(userId));
 
     PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
     Page<Comment> comments = commentRepository.findAllByUser(user, pageRequest);
-    filterComments(comments);
+    List<CommentDomain> commentDomains = pageToCommentsList(comments);
+    filterComments(commentDomains);
 
-    return comments;
+    return commentDomains;
   }
 
   @Override
-  public Page<Comment> findAllByPost(Long postId, int page, int size) {
-    Post post = postService.findOne(postId);
-    if (post == null) {
-      throw new PostNotFoundException(postId);
-    }
+  public List<CommentDomain> findAllByPost(Long postId, int page, int size) {
+    Post post = PostServiceImpl.toEntityObject(postService.findOne(postId));
 
     PageRequest pageRequest = new PageRequest(page, size);
     Page<Comment> comments = commentRepository.findDistinctByPostOrderByUpvoteCommentsDesc(post, pageRequest);
-    filterComments(comments);
+    List<CommentDomain> commentDomains = pageToCommentsList(comments);
+    filterComments(commentDomains);
 
-    return comments;
+    return commentDomains;
   }
 
-  private boolean filterUpvotedCommentsForCurrentUser(List<UpvoteComment> comments) {
+  private boolean filterUpvotedCommentsForCurrentUser(List<UpvoteCommentDomain> comments) {
     return userService.getCurrentUser() != null && comments
       .stream()
       .anyMatch(comment -> userService.getCurrentUser().getUsername().equals(comment.getUser().getUsername()));
   }
 
-  private boolean filterReportedCommentsForCurrentUser(List<ReportComment> comments) {
+  private boolean filterReportedCommentsForCurrentUser(List<ReportCommentDomain> comments) {
     return userService.getCurrentUser() != null && comments
       .stream()
       .anyMatch(comment -> userService.getCurrentUser().getUsername().equals(comment.getUser().getUsername()));
   }
 
-  private void filterComments(Page<Comment> comments) {
+  private void filterComments(List<CommentDomain> comments) {
     comments.forEach(comment -> {
       comment.setUpvotedCommentByCurrentUser(filterUpvotedCommentsForCurrentUser(comment.getUpvoteComments()));
-      comment.setReportedPostByCurrentUser(filterReportedCommentsForCurrentUser(comment.getReportComments()));
+      comment.setReportedCommentByCurrentUser(filterReportedCommentsForCurrentUser(comment.getReportComments()));
     });
+  }
+
+  public static List<CommentDomain> pageToCommentsList(Page<Comment> comments) {
+    List<CommentDomain> commentDomains = new ArrayList<>();
+    comments.forEach(post -> commentDomains.add(post));
+
+    return commentDomains;
+  }
+
+  public static Comment toEntityObject(CommentDomain commentDomain) {
+    Comment comment = new Comment();
+    comment.setId(commentDomain.getId());
+    comment.setUser(commentDomain.getUser());
+    comment.setCreatedDate(commentDomain.getCreatedDate());
+    comment.setEnabled(commentDomain.isEnabled());
+    comment.setDescription(commentDomain.getDescription());
+    comment.setPost(commentDomain.getPost());
+    comment.setReportComments(commentDomain.getReportComments());
+    comment.setUpvoteComments(commentDomain.getUpvoteComments());
+
+    return comment;
   }
 }

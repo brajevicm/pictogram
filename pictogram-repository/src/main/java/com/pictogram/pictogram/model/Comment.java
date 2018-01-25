@@ -14,8 +14,6 @@ import java.util.List;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "comments")
 public class Comment extends CommentDomain {

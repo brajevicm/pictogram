@@ -15,8 +15,6 @@ import java.util.Date;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "reported_comments")
 public class ReportComment extends ReportCommentDomain {

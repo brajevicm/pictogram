@@ -54,4 +54,21 @@ public class UpvoteServiceImpl implements UpvoteService {
 
     actionRepository.save(upvoteComment);
   }
+
+  public static UpvoteComment toEntityObject(UpvoteCommentDomain upvoteCommentDomain) {
+    UpvoteComment upvoteComment = new UpvoteComment();
+
+    return upvoteComment;
+  }
+
+  public static UpvotePost toEntityObject(UpvotePostDomain upvotePostDomain) {
+    UpvotePost upvotePost = new UpvotePost();
+    upvotePost.setDate(upvotePostDomain.getDate());
+    upvotePost.setId(upvotePostDomain.getId());
+    upvotePost.setPost(upvotePostDomain.getPost());
+    upvotePost.setSeen(upvotePostDomain.getSeen());
+    upvotePost.setUser(upvotePostDomain.getUser());
+
+    return upvotePost;
+  }
 }
