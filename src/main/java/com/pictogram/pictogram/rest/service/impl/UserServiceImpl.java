@@ -68,11 +68,9 @@ public class UserServiceImpl implements UserService {
   public void update(Long userId, UserDto userDto) {
     User user = userRepository.findOne(userId);
     user.setFirstName(userDto.getFirstName());
-    user.setLastName(userDto.getFirstName());
+    user.setLastName(userDto.getLastName());
     user.setEmail(userDto.getEmail());
-    user.setPassword(userDto.getPassword());
-    user.setProfileImage(userDto.getProfileImage());
-
+    user.setPassword(hashPassword(userDto.getPassword()));
     userRepository.save(user);
   }
 

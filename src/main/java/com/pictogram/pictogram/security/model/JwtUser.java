@@ -53,7 +53,6 @@ public class JwtUser implements UserDetails {
     this.authorities = authorities;
   }
 
-  @JsonIgnore
   public Long getId() {
     return id;
   }
