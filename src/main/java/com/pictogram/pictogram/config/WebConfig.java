@@ -22,6 +22,6 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry
       .addResourceHandler("/uploads/**")
-      .addResourceLocations("file:/home/brajevicm/Desktop/");
+      .addResourceLocations("file:/opt/uploads/");
   }
 }
