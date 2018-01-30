@@ -10,7 +10,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  */
 @ConfigurationProperties("storage")
 public class StorageProperties {
-  private String location = "/opt/uploads";
+  private String location = "/Applications/XAMPP/xamppfiles/htdocs/upload";
 
   public String getLocation() {
     return location;
