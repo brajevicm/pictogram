@@ -55,7 +55,7 @@ public class ReportController {
 
     reportService.saveComment(commentId);
 
-    return ResponseEntity.ok("Post successfully reported");
+    return ResponseEntity.ok("Comment successfully reported");
   }
 
 }

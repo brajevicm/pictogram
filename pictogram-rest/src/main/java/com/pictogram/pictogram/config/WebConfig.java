@@ -2,6 +2,7 @@ package com.pictogram.pictogram.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 /**
@@ -15,6 +16,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry.addMapping("/**")
-      .allowedMethods("GET", "PUT", "POST", "DELETE", "OPTIONS");
+      .allowedMethods("GET", "PUT", "PATCH", "POST", "DELETE", "OPTIONS");
+  }
+  @Override
+  public void addResourceHandlers(ResourceHandlerRegistry registry) {
+    registry
+      .addResourceHandler("/uploads/**")
+      .addResourceLocations("file:/opt/uploads/");
   }
 }

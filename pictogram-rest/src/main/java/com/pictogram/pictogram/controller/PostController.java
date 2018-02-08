@@ -5,7 +5,6 @@ import com.pictogram.pictogram.exception.PostNotFoundException;
 import com.pictogram.pictogram.dto.PostDto;
 import com.pictogram.pictogram.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * Project: pictogram
@@ -62,10 +62,10 @@ public class PostController {
   }
 
   @GetMapping(value = "posts")
-  public ResponseEntity<Page<PostDomain>> getPagedPosts(@RequestParam String type,
-                                                        @RequestParam int page,
+  public ResponseEntity<List<PostDomain>> getListdPosts(@RequestParam String type,
+                                                        @RequestParam int List,
                                                         @RequestParam int size) {
-    Page<PostDomain> posts = postService.findAllByType(type, page, size);
+    List<PostDomain> posts = postService.findAllByType(type, List, size);
 
     return ResponseEntity.ok(posts);
   }
@@ -82,10 +82,10 @@ public class PostController {
   }
 
   @GetMapping(value = "users/{userId}/posts")
-  public ResponseEntity<Page<PostDomain>> getPostsFromUser(@PathVariable Long userId,
-                                                     @RequestParam int page,
+  public ResponseEntity<List<PostDomain>> getPostsFromUser(@PathVariable Long userId,
+                                                     @RequestParam int List,
                                                      @RequestParam int size) {
-    Page<PostDomain> posts = postService.findAllByUser(userId, page, size);
+    List<PostDomain> posts = postService.findAllByUser(userId, List, size);
 
     return ResponseEntity.ok(posts);
   }

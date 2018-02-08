@@ -40,6 +40,7 @@ public class CommentDomain {
   private PostDomain post;
 
   @Getter
+
   @Setter
   private List<UpvoteCommentDomain> upvoteComments;
 

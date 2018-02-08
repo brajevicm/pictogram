@@ -30,15 +30,14 @@ public class UserDto {
     this.file = file;
   }
 
-  public UserDto(String username, String password, String firstName,
-                 String lastName, String email, String profileImage) {
-    this.username = username;
+  public UserDto(String password, String firstName,
+                 String lastName, String email) {
     this.password = password;
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
-    this.profileImage = profileImage;
   }
+
 
   public String getUsername() {
     return username;

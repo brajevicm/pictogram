@@ -35,6 +35,7 @@
         <module>pictogram-service</module>
         <module>pictogram-core</module>
         <module>pictogram-repository</module>
+        <module>pictogram-model</module>
     </modules>
 
     <!--<dependencies>-->
