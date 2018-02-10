@@ -1,14 +1,11 @@
 package com.pictogram.pictogram.model;
 
-import com.pictogram.pictogram.domain.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
 
@@ -18,65 +15,72 @@ import java.util.List;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-//@TODO remove OneToMany attributes from domain classes
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "posts")
-public class Post extends PostDomain {
-  @Column(name = "title", length = 32, unique = true, nullable = false)
-  @Override
-  public String getTitle() {
-    return super.getTitle();
-  }
+public class Post {
 
-  @Column(name = "description", length = 255, unique = true, nullable = false)
-  @Override
-  public String getDescription() {
-    return super.getDescription();
-  }
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Getter
+  @Setter
+  private Long id;
+
+  @Column(name = "title", length = 32, nullable = false)
+  @Getter
+  @Setter
+  private String title;
+
+  @Column(name = "description", nullable = false)
+  @Getter
+  @Setter
+  private String description;
 
   @Column(name = "post_image", nullable = false)
-  @Override
-  public String getPostImage() {
-    return super.getPostImage();
-  }
+  @Getter
+  @Setter
+  private String postImage;
 
   @Column(name = "created_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
-  @Override
-  public Date getCreatedDate() {
-    return super.getCreatedDate();
-  }
+  @Getter
+  @Setter
+  private Date createdDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
-  @Override
-  public UserDomain getUser() {
-    return super.getUser();
-  }
+  @Getter
+  @Setter
+  private User user;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  @Override
-  public List<CommentDomain> getComments() {
-    return super.getComments();
-  }
+  @Getter
+  @Setter
+  public List<Comment> comments;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  @Override
-  public List<UpvotePostDomain> getUpvotePosts() {
-    return super.getUpvotePosts();
-  }
+  @Getter
+  @Setter
+  private List<UpvotePost> upvotePosts;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  @Override
-  public List<ReportPostDomain> getReportPosts() {
-    return super.getReportPosts();
-  }
+  @Getter
+  @Setter
+  private List<ReportPost> reportPosts;
 
   @Column(name = "enabled", nullable = false)
-  @Override
-  public boolean isEnabled() {
-    return super.isEnabled();
-  }
+  @Getter
+  @Setter
+  private boolean enabled;
+
+  @Transient
+  @Getter
+  @Setter
+  private boolean upvoted;
+
+  @Transient
+  @Getter
+  @Setter
+  private boolean reported;
 }
-
-

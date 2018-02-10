@@ -1,8 +1,9 @@
 package com.pictogram.pictogram.model;
 
-import com.pictogram.pictogram.domain.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,51 +16,62 @@ import java.util.List;
  * Mail: brajevicms@gmail.com
  */
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "comments")
-public class Comment extends CommentDomain {
+public class Comment {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  @Getter
+  @Setter
+  private Long id;
+
   @Column(name = "description", unique = true, nullable = false)
-  @Override
-  public String getDescription() {
-    return super.getDescription();
-  }
+  @Getter
+  @Setter
+  private String description;
 
   @Column(name = "created_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
-  @Override
-  public Date getCreatedDate() {
-    return super.getCreatedDate();
-  }
+  @Getter
+  @Setter
+  private Date createdDate;
 
   @Column(name = "enabled", nullable = false)
-  @Override
-  public boolean isEnabled() {
-    return super.isEnabled();
-  }
+  @Getter
+  @Setter
+  private boolean enabled;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
-  @Override
-  public UserDomain getUser() {
-    return super.getUser();
-  }
+  @Getter
+  @Setter
+  private User user;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id", nullable = false)
-  @Override
-  public PostDomain getPost() {
-    return super.getPost();
-  }
+  @Getter
+  @Setter
+  private Post post;
 
   @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-  @Override
-  public List<UpvoteCommentDomain> getUpvoteComments() {
-    return super.getUpvoteComments();
-  }
+  @Getter
+  @Setter
+  private List<UpvoteComment> upvoteComments;
 
   @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-  @Override
-  public List<ReportCommentDomain> getReportComments() {
-    return super.getReportComments();
-  }
+  @Getter
+  @Setter
+  private List<ReportComment> reportComments;
 
+  @Transient
+  @Getter
+  @Setter
+  private boolean upvoted;
+
+  @Transient
+  @Getter
+  @Setter
+  private boolean reported;
 }

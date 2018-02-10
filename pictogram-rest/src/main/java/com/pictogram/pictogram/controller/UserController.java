@@ -1,11 +1,10 @@
 package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.TimeProvider;
-import com.pictogram.pictogram.domain.PostDomain;
-import com.pictogram.pictogram.domain.UserDomain;
 import com.pictogram.pictogram.dto.UserDto;
 import com.pictogram.pictogram.exception.UserNotFoundException;
 import com.pictogram.pictogram.model.JwtUser;
+import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.service.UserService;
 import com.pictogram.pictogram.utils.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +62,7 @@ public class UserController {
                                              @RequestParam String lastName,
                                              @RequestParam String email,
                                              @RequestParam MultipartFile file) throws URISyntaxException {
-    UserDomain user = new UserDomain();
+    User user = new User();
     String fullImagePath = "";
     try {
       byte[] bytes = file.getBytes();
@@ -86,7 +85,7 @@ public class UserController {
 
   @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) throws URISyntaxException {
-    UserDomain user = new UserDomain();
+    User user = new User();
     user.setUsername(userDto.getUsername());
     user.setPassword(userDto.getPassword());
     user.setFirstName(userDto.getFirstName());
@@ -104,8 +103,8 @@ public class UserController {
   }
 
   @GetMapping(value = "users/{userId}")
-  public ResponseEntity<UserDomain> getUserById(@PathVariable Long userId) {
-    UserDomain user = userService.findOne(userId);
+  public ResponseEntity<User> getUserById(@PathVariable Long userId) {
+    User user = userService.findOne(userId);
 
     if (user == null) {
       throw new UserNotFoundException(userId);
@@ -117,7 +116,7 @@ public class UserController {
   @PutMapping(value = "users/{userId}")
   public ResponseEntity<String> editUserById(@PathVariable Long userId,
                                              @RequestBody UserDto userDto) {
-    UserDomain user = new UserDomain();
+    User user = new User();
     user.setUsername(userDto.getUsername());
     user.setPassword(userDto.getPassword());
     user.setFirstName(userDto.getFirstName());

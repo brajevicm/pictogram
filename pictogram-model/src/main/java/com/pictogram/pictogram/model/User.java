@@ -1,7 +1,9 @@
 package com.pictogram.pictogram.model;
 
-import com.pictogram.pictogram.domain.AuthorityDomain;
-import com.pictogram.pictogram.domain.UserDomain;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,70 +16,63 @@ import java.util.List;
  * Mail: brajevicms@gmail.com
  */
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
-public class User extends UserDomain {
+public class User {
+
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Override
-  public Long getId() {
-    return super.getId();
-  }
+  @Getter
+  @Setter
+  private Long id;
 
   @Column(name = "username", nullable = false)
-  @Override
-  public String getUsername() {
-    return super.getUsername();
-  }
+  @Getter
+  @Setter
+  private String username;
 
   @Column(name = "password", nullable = false)
-  @Override
-  public String getPassword() {
-    return super.getPassword();
-  }
+  @Getter
+  @Setter
+  private String password;
 
   @Column(name = "first_name", length = 32, nullable = false)
-  @Override
-  public String getFirstName() {
-    return super.getFirstName();
-  }
+  @Getter
+  @Setter
+  private String firstName;
 
   @Column(name = "last_name", length = 32, nullable = false)
-  @Override
-  public String getLastName() {
-    return super.getLastName();
-  }
+  @Getter
+  @Setter
+  private String lastName;
 
   @Column(name = "email", unique = true, nullable = false)
-  @Override
-  public String getEmail() {
-    return super.getEmail();
-  }
+  @Getter
+  @Setter
+  private String email;
 
   @Column(name = "profile_image", nullable = false)
-  @Override
-  public String getProfileImage() {
-    return super.getProfileImage();
-  }
+  @Getter
+  @Setter
+  private String profileImage;
 
   @Column(name = "enabled", nullable = false)
-  @Override
-  public boolean isEnabled() {
-    return super.isEnabled();
-  }
+  @Getter
+  @Setter
+  private boolean enabled;
 
   @Column(name = "created_date")
   @Temporal(TemporalType.TIMESTAMP)
-  @Override
-  public Date getCreatedDate() {
-    return super.getCreatedDate();
-  }
+  @Getter
+  @Setter
+  private Date createdDate;
 
   @Column(name = "last_password_reset_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
-  @Override
-  public Date getLastPasswordResetDate() {
-    return super.getLastPasswordResetDate();
-  }
+  @Getter
+  @Setter
+  private Date lastPasswordResetDate;
 
   @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
   @JoinTable(
@@ -85,10 +80,8 @@ public class User extends UserDomain {
     joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")}
   )
-  @Override
-  public List<AuthorityDomain> getAuthorities() {
-    return super.getAuthorities();
-  }
-
+  @Getter
+  @Setter
+  private List<Authority> authorities;
 
 }

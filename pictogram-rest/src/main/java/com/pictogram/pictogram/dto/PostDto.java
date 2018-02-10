@@ -1,5 +1,8 @@
 package com.pictogram.pictogram.dto;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -8,14 +11,16 @@ import org.springframework.web.multipart.MultipartFile;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
+@NoArgsConstructor
 public class PostDto {
-  private String title;
-  private String description;
-  private MultipartFile file;
-  private String postImage;
 
-  public PostDto() {
-  }
+  @Getter
+  @Setter
+  private String title, postImage, description;
+
+  @Getter
+  @Setter
+  private MultipartFile file;
 
   public PostDto(String title, String description, String postImage) {
     this.title = title;
@@ -29,39 +34,4 @@ public class PostDto {
     this.file = file;
   }
 
-  public String getTitle() {
-    return title;
-  }
-
-  public void setTitle(String title) {
-    this.title = title;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public MultipartFile getFile() {
-    return file;
-  }
-
-  public void setFile(MultipartFile file) {
-    this.file = file;
-  }
-
-  public void setPostImage(MultipartFile file) {
-    this.file = file;
-  }
-
-  public String getPostImage() {
-    return postImage;
-  }
-
-  public void setPostImage(String postImage) {
-    this.postImage = postImage;
-  }
 }

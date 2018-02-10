@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.domain.CommentDomain;
+import com.pictogram.pictogram.model.Comment;
 
 import java.util.List;
 
@@ -11,11 +11,13 @@ import java.util.List;
  * Mail: brajevicms@gmail.com
  */
 public interface CommentService {
-  void save(CommentDomain comment, Long postId);
+  void save(Comment comment, Long postId);
 
-  CommentDomain findOne(Long commentId);
+  void delete(Long commentId);
 
-  List<CommentDomain> findAllByUser(Long userId, int page, int size);
+  Comment findOne(Long commentId);
 
-  List<CommentDomain> findAllByPost(Long postId, int page, int size);
+  List<Comment> findAllByUser(Long userId, int page, int size);
+
+  List<Comment> findAllByPost(Long postId, int page, int size);
 }

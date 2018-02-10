@@ -1,44 +1,25 @@
 package com.pictogram.pictogram.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 /**
  * Project: pictogram
  * Date: 17-Jan-18
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
+@NoArgsConstructor
+@AllArgsConstructor
 public class CommentDto {
+
+  @Getter
+  @Setter
   private String description;
+
+  @Getter
+  @Setter
   private Long postId;
-
-  public CommentDto() {
-  }
-
-  public CommentDto(String description, Long postId) {
-    this.description = description;
-    this.postId = postId;
-  }
-
-  public String getDescription() {
-    return description;
-  }
-
-  public void setDescription(String description) {
-    this.description = description;
-  }
-
-  public Long getPostId() {
-    return postId;
-  }
-
-  public void setPostId(Long postId) {
-    this.postId = postId;
-  }
-
-  @Override
-  public String toString() {
-    return "CommentDto{" +
-      "description='" + description + '\'' +
-      ", postId=" + postId +
-      '}';
-  }
 }

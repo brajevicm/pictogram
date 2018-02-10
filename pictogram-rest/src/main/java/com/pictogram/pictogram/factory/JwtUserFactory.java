@@ -1,8 +1,8 @@
 package com.pictogram.pictogram.factory;
 
-import com.pictogram.pictogram.domain.AuthorityDomain;
-import com.pictogram.pictogram.domain.UserDomain;
+import com.pictogram.pictogram.model.Authority;
 import com.pictogram.pictogram.model.JwtUser;
+import com.pictogram.pictogram.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -20,7 +20,7 @@ public final class JwtUserFactory {
   private JwtUserFactory() {
   }
 
-  public static JwtUser create(UserDomain user) {
+  public static JwtUser create(User user) {
     return new JwtUser(
       user.getId(),
       user.getUsername(),
@@ -36,7 +36,7 @@ public final class JwtUserFactory {
     );
   }
 
-  private static List<GrantedAuthority> mapToGrantedAuthorities(List<AuthorityDomain> authorities) {
+  private static List<GrantedAuthority> mapToGrantedAuthorities(List<Authority> authorities) {
     return authorities.stream()
       .map(authority -> new SimpleGrantedAuthority(authority.getName().name()))
       .collect(Collectors.toList());

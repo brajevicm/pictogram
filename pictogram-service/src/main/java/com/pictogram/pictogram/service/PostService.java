@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.domain.PostDomain;
+import com.pictogram.pictogram.model.Post;
 
 import java.util.List;
 
@@ -12,11 +12,11 @@ import java.util.List;
  */
 
 public interface PostService {
-  void save(PostDomain post);
+  void save(Post post);
 
-  PostDomain findOne(Long id);
+  Post findOne(Long id);
 
-  List<PostDomain> findAllByType(String type, int page, int size);
+  List<Post> findAllByType(String type, int page, int size);
 
-  List<PostDomain> findAllByUser(Long userId, int page, int size);
+  List<Post> findAllByUser(Long userId, int page, int size);
 }

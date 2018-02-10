@@ -1,8 +1,8 @@
 package com.pictogram.pictogram.controller;
 
-import com.pictogram.pictogram.domain.PostDomain;
-import com.pictogram.pictogram.exception.PostNotFoundException;
 import com.pictogram.pictogram.dto.PostDto;
+import com.pictogram.pictogram.exception.PostNotFoundException;
+import com.pictogram.pictogram.model.Post;
 import com.pictogram.pictogram.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -27,13 +27,13 @@ public class PostController {
   @Autowired
   PostService postService;
 
-//  @TODO Fix image upload
+  //  @TODO Fix image upload
   @PostMapping(value = "posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<String> createPost(@RequestParam String title,
                                            @RequestParam String description,
                                            @RequestParam MultipartFile file) {
     String fullImagePath = "";
-    PostDomain post = new PostDomain();
+    Post post = new Post();
     try {
       byte[] bytes = file.getBytes();
       Path path = Paths.get("" + file.getOriginalFilename());
@@ -52,7 +52,7 @@ public class PostController {
 
   @PostMapping(value = "posts", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<String> createPost(@RequestBody PostDto postDto) {
-    PostDomain post = new PostDomain();
+    Post post = new Post();
     post.setTitle(postDto.getTitle());
     post.setDescription(postDto.getDescription());
     post.setPostImage(postDto.getPostImage());
@@ -62,17 +62,17 @@ public class PostController {
   }
 
   @GetMapping(value = "posts")
-  public ResponseEntity<List<PostDomain>> getListdPosts(@RequestParam String type,
-                                                        @RequestParam int List,
-                                                        @RequestParam int size) {
-    List<PostDomain> posts = postService.findAllByType(type, List, size);
+  public ResponseEntity<List<Post>> getListdPosts(@RequestParam String type,
+                                                  @RequestParam int List,
+                                                  @RequestParam int size) {
+    List<Post> posts = postService.findAllByType(type, List, size);
 
     return ResponseEntity.ok(posts);
   }
 
   @GetMapping(value = "posts/{postId}")
-  public ResponseEntity<PostDomain> getPost(@PathVariable Long postId) {
-    PostDomain post = postService.findOne(postId);
+  public ResponseEntity<Post> getPost(@PathVariable Long postId) {
+    Post post = postService.findOne(postId);
 
     if (post == null) {
       throw new PostNotFoundException(postId);
@@ -82,10 +82,10 @@ public class PostController {
   }
 
   @GetMapping(value = "users/{userId}/posts")
-  public ResponseEntity<List<PostDomain>> getPostsFromUser(@PathVariable Long userId,
+  public ResponseEntity<List<Post>> getPostsFromUser(@PathVariable Long userId,
                                                      @RequestParam int List,
                                                      @RequestParam int size) {
-    List<PostDomain> posts = postService.findAllByUser(userId, List, size);
+    List<Post> posts = postService.findAllByUser(userId, List, size);
 
     return ResponseEntity.ok(posts);
   }

@@ -1,7 +1,7 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.domain.UserDomain;
 import com.pictogram.pictogram.factory.JwtUserFactory;
+import com.pictogram.pictogram.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,7 +22,7 @@ public class JwtUserDetailsImpl implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    UserDomain user = userService.findByUsername(username);
+    User user = userService.findByUsername(username);
 
     if (user == null) {
       throw new UsernameNotFoundException(String.format("No user found with username '%s'", username));

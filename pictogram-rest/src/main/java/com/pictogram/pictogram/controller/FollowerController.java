@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.controller;
 
-import com.pictogram.pictogram.domain.FollowerDomain;
+import com.pictogram.pictogram.model.Follower;
 import com.pictogram.pictogram.service.FollowerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -24,8 +24,7 @@ public class FollowerController {
 
   //    followers/posts
   @PostMapping(value = "followers/{followerId}")
-  public ResponseEntity<List<FollowerDomain>> getFollowers(@PathVariable Long followerId) {
-
+  public ResponseEntity<List<Follower>> getFollowers(@PathVariable Long followerId) {
 
     return ResponseEntity.ok(null);
   }

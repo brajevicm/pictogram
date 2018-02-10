@@ -8,15 +8,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-@ConfigurationProperties("storage")
-public class StorageProperties {
-  private String location = "/Applications/XAMPP/xamppfiles/htdocs/upload";
-
-  public String getLocation() {
-    return location;
-  }
-
-  public void setLocation(String location) {
-    this.location = location;
-  }
-}
+//@ConfigurationProperties("storage")
+//public class StorageProperties {
+//  private String location = "/opt/uploads";
+//
+//  public String getLocation() {
+//    return location;
+//  }
+//
+//  public void setLocation(String location) {
+//    this.location = location;
+//  }
+//}

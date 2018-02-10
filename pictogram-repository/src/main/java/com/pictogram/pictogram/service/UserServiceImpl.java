@@ -1,12 +1,10 @@
-package com.pictogram.pictogram.dao;
+package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.TimeProvider;
-import com.pictogram.pictogram.domain.UserDomain;
+import com.pictogram.pictogram.model.AuthorityName;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.UserRepository;
-import com.pictogram.pictogram.service.UserService;
 import com.pictogram.pictogram.model.Authority;
-import com.pictogram.pictogram.domain.AuthorityName;
 import com.pictogram.pictogram.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,7 +24,6 @@ import java.util.List;
  * Mail: brajevicms@gmail.com
  */
 @Service
-@Transactional
 public class UserServiceImpl implements UserService {
 
   @Autowired
@@ -35,40 +32,35 @@ public class UserServiceImpl implements UserService {
   @Autowired
   TimeProvider timeProvider;
 
-  @Autowired
-  StorageService storageService;
-
   @Override
-  public void save(UserDomain userDomain) {
-    User user = toEntityObject(userDomain);
-
+  public void save(User user) {
     userRepository.save(user);
   }
 
   @Override
-  public void update(Long userId, UserDomain userDomain) {
-    User user = userRepository.findOne(userId);
-    user.setFirstName(userDomain.getFirstName());
-    user.setLastName(userDomain.getFirstName());
-    user.setEmail(userDomain.getEmail());
-    user.setPassword(userDomain.getPassword());
-    user.setProfileImage(userDomain.getProfileImage());
+  public void update(Long userId, User user) {
+    User editedUser = userRepository.findOne(userId);
+    editedUser.setFirstName(user.getFirstName());
+    editedUser.setLastName(user.getLastName());
+    editedUser.setEmail(user.getEmail());
+    editedUser.setProfileImage(user.getProfileImage());
+    editedUser.setPassword(hashPassword(user.getPassword()));
 
-    userRepository.save(user);
+    userRepository.save(editedUser);
   }
 
   @Override
-  public UserDomain findOne(Long userId) {
+  public User findOne(Long userId) {
     return userRepository.findOne(userId);
   }
 
   @Override
-  public UserDomain findByUsername(String username) {
+  public User findByUsername(String username) {
     return userRepository.findByUsername(username);
   }
 
   @Override
-  public UserDomain getCurrentUser() {
+  public User getCurrentUser() {
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     String username = auth.getName();
 
@@ -86,24 +78,5 @@ public class UserServiceImpl implements UserService {
     authority.setName(AuthorityName.ROLE_USER);
 
     return Collections.singletonList(authority);
-  }
-
-  public static User toEntityObject(UserDomain userDomain) {
-    User user = new User();
-    user.setId(userDomain.getId());
-    user.setUsername(userDomain.getUsername());
-    user.setPassword(hashPassword(userDomain.getPassword()));
-    user.setFirstName(userDomain.getFirstName());
-    user.setLastName(userDomain.getLastName());
-    user.setUsername(userDomain.getUsername());
-    user.setPassword(userDomain.getPassword());
-    user.setEmail(userDomain.getEmail());
-    user.setCreatedDate(userDomain.getCreatedDate());
-    user.setLastPasswordResetDate(userDomain.getLastPasswordResetDate());
-    user.setEnabled(userDomain.isEnabled());
-    user.setProfileImage(userDomain.getProfileImage());
-    user.setAuthorities(userDomain.getAuthorities());
-
-    return user;
   }
 }

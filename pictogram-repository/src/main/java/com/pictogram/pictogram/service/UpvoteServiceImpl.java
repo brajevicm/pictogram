@@ -1,13 +1,11 @@
-package com.pictogram.pictogram.dao;
+package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.TimeProvider;
+import  com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.ActionRepository;
-import com.pictogram.pictogram.service.CommentService;
-import com.pictogram.pictogram.service.PostService;
-import com.pictogram.pictogram.service.ReportService;
-import com.pictogram.pictogram.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Project: pictogram
@@ -16,7 +14,7 @@ import org.springframework.stereotype.Service;
  * Mail: brajevicms@gmail.com
  */
 @Service
-public class ReportServiceImpl implements ReportService {
+public class UpvoteServiceImpl implements UpvoteService {
 
   @Autowired
   ActionRepository actionRepository;
@@ -37,17 +35,26 @@ public class ReportServiceImpl implements ReportService {
   public void savePost(Long postId) {
     Post post = postService.findOne(postId);
     User user = userService.getCurrentUser();
-    ReportPost reportPost = new ReportPost(user, timeProvider.now(), false, post);
+    UpvotePost upvotePost = new UpvotePost();
+    upvotePost.setUser(user);
+    upvotePost.setCreatedDate(timeProvider.now());
+    upvotePost.setSeen(false);
+    upvotePost.setPost(post);
 
-    actionRepository.save(reportPost);
+    actionRepository.save(upvotePost);
   }
 
   @Override
   public void saveComment(Long commentId) {
     Comment comment = commentService.findOne(commentId);
     User user = userService.getCurrentUser();
-    ReportComment reportComment = new ReportComment(user, timeProvider.now(), false, comment);
+    UpvoteComment upvoteComment = new UpvoteComment();
+    upvoteComment.setUser(user);
+    upvoteComment.setCreatedDate(timeProvider.now());
+    upvoteComment.setSeen(false);
+    upvoteComment.setComment(comment);
 
-    actionRepository.save(reportComment);
+    actionRepository.save(upvoteComment);
   }
+
 }
