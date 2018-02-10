@@ -62,10 +62,10 @@ public class PostController {
   }
 
   @GetMapping(value = "posts")
-  public ResponseEntity<List<Post>> getListdPosts(@RequestParam String type,
-                                                  @RequestParam int List,
+  public ResponseEntity<List<Post>> getPosts(@RequestParam String type,
+                                                  @RequestParam int page,
                                                   @RequestParam int size) {
-    List<Post> posts = postService.findAllByType(type, List, size);
+    List<Post> posts = postService.findAllByType(type, page, size);
 
     return ResponseEntity.ok(posts);
   }
@@ -83,9 +83,9 @@ public class PostController {
 
   @GetMapping(value = "users/{userId}/posts")
   public ResponseEntity<List<Post>> getPostsFromUser(@PathVariable Long userId,
-                                                     @RequestParam int List,
+                                                     @RequestParam int page,
                                                      @RequestParam int size) {
-    List<Post> posts = postService.findAllByUser(userId, List, size);
+    List<Post> posts = postService.findAllByUser(userId, page, size);
 
     return ResponseEntity.ok(posts);
   }

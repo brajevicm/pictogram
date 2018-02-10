@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -50,27 +51,27 @@ public class Post {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private User user;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
-  public List<Comment> comments;
+  private List<Comment> comments;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private List<UpvotePost> upvotePosts;
 
   @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private List<ReportPost> reportPosts;
 
   @Column(name = "enabled", nullable = false)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private boolean enabled;
 
@@ -83,4 +84,28 @@ public class Post {
   @Getter
   @Setter
   private boolean reported;
+
+  public int getUpvotesCount() {
+    return upvotePosts.size();
+  }
+
+  public int getReportsCount() {
+    return reportPosts.size();
+  }
+
+  public int getCommentsCount() {
+    return comments.size();
+  }
+
+  public String getUsername() {
+    return user.getUsername();
+  }
+
+  public Long getUserId() {
+    return user.getId();
+  }
+
+  public String getUserProfileImage() {
+    return user.getProfileImage();
+  }
 }

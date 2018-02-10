@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,7 +34,8 @@ public class Authority {
   private AuthorityName name;
 
   @ManyToMany(mappedBy = "authorities", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private List<User> users;
+
 }

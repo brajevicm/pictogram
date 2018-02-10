@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,23 +46,23 @@ public class Comment {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private User user;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "post_id", nullable = false)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private Post post;
 
   @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private List<UpvoteComment> upvoteComments;
 
   @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private List<ReportComment> reportComments;
 
@@ -74,4 +75,24 @@ public class Comment {
   @Getter
   @Setter
   private boolean reported;
+
+  public int getUpvotesCount() {
+    return upvoteComments.size();
+  }
+
+  public int getReportsCount() {
+    return reportComments.size();
+  }
+
+  public String getUsername() {
+    return user.getUsername();
+  }
+
+  public Long getUserId() {
+    return user.getId();
+  }
+
+  public String getUserProfileImage() {
+    return user.getProfileImage();
+  }
 }

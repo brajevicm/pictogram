@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,19 +59,19 @@ public class User {
   private String profileImage;
 
   @Column(name = "enabled", nullable = false)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private boolean enabled;
 
   @Column(name = "created_date")
   @Temporal(TemporalType.TIMESTAMP)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private Date createdDate;
 
   @Column(name = "last_password_reset_date", nullable = false)
   @Temporal(TemporalType.TIMESTAMP)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private Date lastPasswordResetDate;
 
@@ -80,7 +81,7 @@ public class User {
     joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
     inverseJoinColumns = {@JoinColumn(name = "authority_id", referencedColumnName = "id")}
   )
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private List<Authority> authorities;
 

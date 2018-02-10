@@ -1,21 +1,18 @@
 package com.pictogram.pictogram.service;
 
-import  com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.TimeProvider;
 import com.pictogram.pictogram.model.Post;
 import com.pictogram.pictogram.model.ReportPost;
 import com.pictogram.pictogram.model.UpvotePost;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.PostRepository;
-import com.pictogram.pictogram.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -128,10 +125,7 @@ public class PostServiceImpl implements PostService {
     });
   }
 
-  public static List<Post> pageToPostsList(Page<Post> postPage) {
-    List<Post> posts = new ArrayList<>();
-    postPage.forEach(posts::add);
-
-    return posts;
+  private List<Post> pageToPostsList(Page<Post> postPage) {
+    return postPage.getContent();
   }
 }

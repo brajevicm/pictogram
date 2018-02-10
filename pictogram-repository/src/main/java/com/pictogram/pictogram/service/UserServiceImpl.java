@@ -1,18 +1,16 @@
 package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.model.Authority;
 import com.pictogram.pictogram.model.AuthorityName;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.UserRepository;
-import com.pictogram.pictogram.model.Authority;
-import com.pictogram.pictogram.storage.StorageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
