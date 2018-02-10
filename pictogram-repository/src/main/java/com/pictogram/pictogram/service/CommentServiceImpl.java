@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import  com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.TimeProvider;
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.CommentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,7 +64,8 @@ public class CommentServiceImpl implements CommentService {
     Post post = postService.findOne(postId);
 
     PageRequest pageRequest = new PageRequest(page, size);
-    List<Comment> comments = pageToCommentsList(commentRepository.findDistinctByPostOrderByUpvoteCommentsDesc(post, pageRequest));
+    List<Comment> comments =
+      pageToCommentsList(commentRepository.findAllByPostOrderByUpvoteCommentsDesc(post, pageRequest));
     filterComments(comments);
 
     return comments;
@@ -91,10 +90,7 @@ public class CommentServiceImpl implements CommentService {
     });
   }
 
-  public static List<Comment> pageToCommentsList(Page<Comment> commentPage) {
-    List<Comment> comments = new ArrayList<>();
-    commentPage.forEach(comments::add);
-
-    return comments;
+  private List<Comment> pageToCommentsList(Page<Comment> commentPage) {
+    return commentPage.getContent();
   }
 }

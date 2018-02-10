@@ -16,5 +16,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 public interface CommentRepository extends PagingAndSortingRepository<Comment, Long> {
   Page<Comment> findAllByUser(User user, Pageable pageable);
 
-  Page<Comment> findDistinctByPostOrderByUpvoteCommentsDesc(Post post, Pageable pageable);
+  Page<Comment> findAllByPostOrderByUpvoteCommentsDesc(Post post, Pageable pageable);
 }
