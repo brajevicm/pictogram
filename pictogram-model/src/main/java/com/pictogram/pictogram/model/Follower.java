@@ -1,6 +1,7 @@
 package com.pictogram.pictogram.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,9 +16,9 @@ import java.util.Date;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
+@Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
 @Table(name = "followers")
 public class Follower {
 
@@ -29,11 +30,11 @@ public class Follower {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private User user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "follow_id", nullable = false)
   @Getter
   @Setter

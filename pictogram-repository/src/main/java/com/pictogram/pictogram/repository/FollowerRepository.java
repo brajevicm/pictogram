@@ -1,7 +1,10 @@
 package com.pictogram.pictogram.repository;
 
 import com.pictogram.pictogram.model.Follower;
-import org.springframework.data.repository.CrudRepository;
+import com.pictogram.pictogram.model.User;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 /**
  * Project: pictogram
@@ -9,5 +12,8 @@ import org.springframework.data.repository.CrudRepository;
  * Author: Milos Brajevic
  * Mail: brajevicms@gmail.com
  */
-public interface FollowerRepository extends CrudRepository<Follower, Long> {
+public interface FollowerRepository extends PagingAndSortingRepository<Follower, Long> {
+  Page<Follower> findAllByUser(User user, Pageable pageable);
+
+  Follower findByUserAndFollow(User user, User follow);
 }

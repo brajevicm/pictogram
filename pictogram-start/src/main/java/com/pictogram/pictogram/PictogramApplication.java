@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Import;
 @Import({RestConfig.class, RepositoryConfig.class, CoreConfig.class, ServiceConfig.class})
 public class PictogramApplication {
 
+
   public static void main(String[] args) {
     SpringApplication.run(PictogramApplication.class, args);
   }

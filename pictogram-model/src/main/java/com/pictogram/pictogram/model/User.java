@@ -34,7 +34,7 @@ public class User {
   private String username;
 
   @Column(name = "password", nullable = false)
-  @Getter
+  @Getter(onMethod = @__(@JsonIgnore))
   @Setter
   private String password;
 
