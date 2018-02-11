@@ -1,10 +1,7 @@
 package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.TimeProvider;
-import com.pictogram.pictogram.model.Post;
-import com.pictogram.pictogram.model.ReportPost;
-import com.pictogram.pictogram.model.UpvotePost;
-import com.pictogram.pictogram.model.User;
+import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -39,6 +37,9 @@ public class PostServiceImpl implements PostService {
 
   @Autowired
   CommentService commentService;
+
+  @Autowired
+  FollowerService followerService;
 
   @Override
   public void save(Post post) {
@@ -73,6 +74,20 @@ public class PostServiceImpl implements PostService {
     User user = userService.findOne(userId);
     PageRequest pageable = new PageRequest(page, size);
     List<Post> posts = pageToPostsList(postRepository.findAllByUser(user, pageable));
+    filterPosts(posts);
+
+    return posts;
+  }
+
+  @Override
+  public List<Post> findAllByFollows(int page, int size) {
+    User user = userService.getCurrentUser();
+    PageRequest pageable = new PageRequest(page, size);
+    List<Follower> followers = followerService.findAllByUser(user);
+    List<User> follows = new ArrayList<>();
+    followers.forEach(follower -> follows.add(follower.getFollow()));
+
+    List<Post> posts = pageToPostsList(postRepository.findAllByFollowers(follows, pageable));
     filterPosts(posts);
 
     return posts;

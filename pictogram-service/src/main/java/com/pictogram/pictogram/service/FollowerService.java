@@ -1,6 +1,7 @@
 package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.model.Follower;
+import com.pictogram.pictogram.model.User;
 
 import java.util.List;
 
@@ -14,6 +15,8 @@ public interface FollowerService {
   void save(Long followId);
 
   List<Follower> findAllByUser(Long userId, int page, int size);
+
+  List<Follower> findAllByUser(User user);
 
   void delete(Long followId);
 }

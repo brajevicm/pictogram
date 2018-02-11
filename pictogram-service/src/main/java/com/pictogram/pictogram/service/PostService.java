@@ -19,4 +19,6 @@ public interface PostService {
   List<Post> findAllByType(String type, int page, int size);
 
   List<Post> findAllByUser(Long userId, int page, int size);
+
+  List<Post> findAllByFollows(int page, int size);
 }

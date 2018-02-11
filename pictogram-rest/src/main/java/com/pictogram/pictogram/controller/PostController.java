@@ -63,8 +63,8 @@ public class PostController {
 
   @GetMapping(value = "posts")
   public ResponseEntity<List<Post>> getPosts(@RequestParam String type,
-                                                  @RequestParam int page,
-                                                  @RequestParam int size) {
+                                             @RequestParam int page,
+                                             @RequestParam int size) {
     List<Post> posts = postService.findAllByType(type, page, size);
 
     return ResponseEntity.ok(posts);
@@ -89,4 +89,13 @@ public class PostController {
 
     return ResponseEntity.ok(posts);
   }
+
+  @GetMapping(value = "followers/posts")
+  public ResponseEntity<List<Post>> getPostsFromFollows(@RequestParam int page,
+                                                        @RequestParam int size) {
+    List<Post> posts = postService.findAllByFollows(page, size);
+
+    return ResponseEntity.ok(posts);
+  }
+
 }

@@ -52,6 +52,11 @@ public class FollowerServiceImpl implements FollowerService {
   }
 
   @Override
+  public List<Follower> findAllByUser(User user) {
+    return followerRepository.findAllByUser(user);
+  }
+
+  @Override
   public void delete(Long followId) {
     User user = userService.getCurrentUser();
     User follow = userService.findOne(followId);

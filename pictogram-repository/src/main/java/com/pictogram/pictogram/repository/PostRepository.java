@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
+import java.util.List;
+
 /**
  * Project: pictogram
  * Date: 14-Jan-18a
@@ -24,4 +26,7 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
 
   @Query(value = "SELECT post FROM Post post ORDER BY post.reportPosts.size DESC")
   Page<Post> findAllReportedPosts(Pageable pageable);
+
+  //  @TODO Create query
+  Page<Post> findAllByFollowers(List<User> follow, Pageable pageable);
 }
