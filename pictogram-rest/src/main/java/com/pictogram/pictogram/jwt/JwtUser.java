@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.model;
+package com.pictogram.pictogram.jwt;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

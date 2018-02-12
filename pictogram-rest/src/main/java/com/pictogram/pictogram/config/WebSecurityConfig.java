@@ -1,7 +1,7 @@
 package com.pictogram.pictogram.config;
 
-import com.pictogram.pictogram.utils.AuthenticationTokenFilter;
-import com.pictogram.pictogram.utils.JwtAuthenticationEntryPoint;
+import com.pictogram.pictogram.jwt.AuthenticationTokenFilter;
+import com.pictogram.pictogram.jwt.JwtAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

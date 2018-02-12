@@ -1,7 +1,6 @@
-package com.pictogram.pictogram.utils;
+package com.pictogram.pictogram.jwt;
 
-import com.pictogram.pictogram.TimeProvider;
-import com.pictogram.pictogram.model.JwtUser;
+import com.pictogram.pictogram.util.TimeProvider;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,12 +1,10 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 /**
  * Project: pictogram

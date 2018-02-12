@@ -1,12 +1,13 @@
 package com.pictogram.pictogram.controller;
 
-import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.dto.UserDto;
 import com.pictogram.pictogram.exception.UserNotFoundException;
-import com.pictogram.pictogram.model.JwtUser;
+import com.pictogram.pictogram.jwt.JwtUser;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.service.UserService;
-import com.pictogram.pictogram.utils.TokenUtil;
+import com.pictogram.pictogram.storage.StorageService;
+import com.pictogram.pictogram.jwt.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -45,6 +46,9 @@ public class UserController {
 
   @Autowired
   TimeProvider timeProvider;
+
+  @Autowired
+  StorageService storageService;
 
   @GetMapping(value = "user", produces = MediaType.APPLICATION_JSON_VALUE)
   public JwtUser getAuthenticatedUser(HttpServletRequest request) {

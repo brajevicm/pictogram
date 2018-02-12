@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;

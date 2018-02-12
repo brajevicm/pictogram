@@ -1,10 +1,9 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.Follower;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.FollowerRepository;
-import com.pictogram.pictogram.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

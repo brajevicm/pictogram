@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.utils;
+package com.pictogram.pictogram.jwt;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

@@ -1,7 +1,6 @@
-package com.pictogram.pictogram.factory;
+package com.pictogram.pictogram.jwt;
 
 import com.pictogram.pictogram.model.Authority;
-import com.pictogram.pictogram.model.JwtUser;
 import com.pictogram.pictogram.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.TimeProvider;
+import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.Authority;
 import com.pictogram.pictogram.model.AuthorityName;
 import com.pictogram.pictogram.model.User;
