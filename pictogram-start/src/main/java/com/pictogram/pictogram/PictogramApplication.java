@@ -1,9 +1,6 @@
 package com.pictogram.pictogram;
 
-import com.pictogram.pictogram.config.CoreConfig;
-import com.pictogram.pictogram.config.RepositoryConfig;
-import com.pictogram.pictogram.config.RestConfig;
-import com.pictogram.pictogram.config.ServiceConfig;
+import com.pictogram.pictogram.config.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +14,7 @@ import org.springframework.context.annotation.Import;
  */
 @EnableAutoConfiguration
 @SpringBootApplication
-@Import({RestConfig.class, RepositoryConfig.class, CoreConfig.class, ServiceConfig.class})
+@Import({RestConfig.class, RepositoryConfig.class, CoreConfig.class, ServiceConfig.class, ModelConfig.class})
 public class PictogramApplication {
 
 
