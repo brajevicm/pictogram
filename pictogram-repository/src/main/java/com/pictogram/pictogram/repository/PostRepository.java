@@ -27,7 +27,5 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long> {
   @Query(value = "SELECT post FROM Post post ORDER BY post.reportPosts.size DESC")
   Page<Post> findAllReportedPosts(Pageable pageable);
 
-  //  @TODO Create query
-  @Query(value = "SELECT post FROM Post post ORDER BY post.reportPosts.size DESC")
-  Page<Post> findAllByFollowers(List<User> follow, Pageable pageable);
+  Page<Post> findAllByUserIn(List<User> follow, Pageable pageable);
 }

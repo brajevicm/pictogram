@@ -83,11 +83,12 @@ public class PostServiceImpl implements PostService {
   public List<Post> findAllByFollows(int page, int size) {
     User user = userService.getCurrentUser();
     PageRequest pageable = new PageRequest(page, size);
+
     List<Follower> followers = followerService.findAllByUser(user);
     List<User> follows = new ArrayList<>();
     followers.forEach(follower -> follows.add(follower.getFollow()));
 
-    List<Post> posts = pageToPostsList(postRepository.findAllByFollowers(follows, pageable));
+    List<Post> posts = pageToPostsList(postRepository.findAllByUserIn(follows, pageable));
     filterPosts(posts);
 
     return posts;
