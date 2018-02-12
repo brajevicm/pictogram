@@ -1,7 +1,7 @@
 package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.dto.PostDto;
-import com.pictogram.pictogram.exception.PostNotFoundException;
+import com.pictogram.pictogram.exception.post.PostNotFoundException;
 import com.pictogram.pictogram.model.Post;
 import com.pictogram.pictogram.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;

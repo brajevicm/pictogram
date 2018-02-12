@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.dto;
 
+import com.pictogram.pictogram.model.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,4 +23,11 @@ public class CommentDto {
   @Getter
   @Setter
   private Long postId;
+
+  public Comment toEntityObject() {
+    Comment comment = new Comment();
+    comment.setDescription(this.getDescription());
+
+    return comment;
+  }
 }

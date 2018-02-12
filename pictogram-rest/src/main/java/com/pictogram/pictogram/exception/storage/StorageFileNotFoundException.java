@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.exception;
+package com.pictogram.pictogram.exception.storage;
 
 /**
  * Project: pictogram

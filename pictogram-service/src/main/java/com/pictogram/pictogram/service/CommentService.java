@@ -11,9 +11,9 @@ import java.util.List;
  * Mail: brajevicms@gmail.com
  */
 public interface CommentService {
-  void save(Comment comment, Long postId);
+  Comment save(Comment comment, Long postId);
 
-  void delete(Long commentId);
+  Boolean delete(Long commentId);
 
   Comment findOne(Long commentId);
 

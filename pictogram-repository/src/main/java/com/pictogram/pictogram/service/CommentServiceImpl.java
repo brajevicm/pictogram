@@ -1,14 +1,15 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.CommentRepository;
+import com.pictogram.pictogram.util.TimeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -33,14 +34,30 @@ public class CommentServiceImpl implements CommentService {
   PostService postService;
 
   @Override
-  public void save(Comment comment, Long postId) {
+  public Comment save(Comment comment, Long postId) {
     comment.setPost(postService.findOne(postId));
-    commentRepository.save(comment);
+    comment.setUser(userService.getCurrentUser());
+    comment.setCreatedDate(timeProvider.now());
+    comment.setEnabled(true);
+    comment.setReportComments(new ArrayList<>());
+    comment.setUpvoteComments(new ArrayList<>());
+    comment.setReported(false);
+    comment.setUpvoted(false);
+
+    return commentRepository.save(comment);
   }
 
   @Override
-  public void delete(Long commentId) {
-    commentRepository.delete(commentId);
+  public Boolean delete(Long commentId) {
+    Comment comment = findOne(commentId);
+    Boolean isDeleted = Boolean.FALSE;
+
+    if (userService.getCurrentUser().equals(comment.getUser())) {
+      commentRepository.delete(commentId);
+      isDeleted = Boolean.TRUE;
+    }
+
+    return isDeleted;
   }
 
   @Override

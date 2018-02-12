@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.controller;
 
-import com.pictogram.pictogram.exception.UserAlreadyUpvotedException;
+import com.pictogram.pictogram.exception.user.UserAlreadyUpvotedException;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.UpvoteService;

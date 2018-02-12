@@ -1,7 +1,7 @@
 package com.pictogram.pictogram.storage;
 
-import com.pictogram.pictogram.exception.StorageException;
-import com.pictogram.pictogram.exception.StorageFileNotFoundException;
+import com.pictogram.pictogram.exception.storage.StorageException;
+import com.pictogram.pictogram.exception.storage.StorageFileNotFoundException;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;

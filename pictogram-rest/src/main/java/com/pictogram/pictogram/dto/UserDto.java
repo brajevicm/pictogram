@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.dto;
 
+import com.pictogram.pictogram.model.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -38,5 +39,17 @@ public class UserDto {
     this.firstName = firstName;
     this.lastName = lastName;
     this.email = email;
+  }
+
+  private User toEntityObject() {
+    User user = new User();
+    user.setUsername(this.getUsername());
+    user.setPassword(this.getPassword());
+    user.setFirstName(this.getFirstName());
+    user.setLastName(this.getLastName());
+    user.setEmail(this.getEmail());
+    user.setProfileImage(this.getProfileImage());
+
+    return user;
   }
 }

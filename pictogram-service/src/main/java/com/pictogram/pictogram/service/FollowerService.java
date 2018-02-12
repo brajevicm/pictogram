@@ -12,11 +12,11 @@ import java.util.List;
  * Mail: brajevicms@gmail.com
  */
 public interface FollowerService {
-  void save(Long followId);
+  Follower save(Long followId);
 
   List<Follower> findAllByUser(Long userId, int page, int size);
 
   List<Follower> findAllByUser(User user);
 
-  void delete(Long followId);
+  Boolean delete(Long followId);
 }

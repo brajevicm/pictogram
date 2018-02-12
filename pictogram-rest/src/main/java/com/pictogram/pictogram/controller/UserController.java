@@ -1,8 +1,9 @@
 package com.pictogram.pictogram.controller;
 
+import com.pictogram.pictogram.util.NullUtil;
 import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.dto.UserDto;
-import com.pictogram.pictogram.exception.UserNotFoundException;
+import com.pictogram.pictogram.exception.user.UserNotFoundException;
 import com.pictogram.pictogram.jwt.JwtUser;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.service.UserService;
@@ -108,17 +109,11 @@ public class UserController {
 
   @GetMapping(value = "users/{userId}")
   public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-    User user = userService.findOne(userId);
-
-    if (user == null) {
-      throw new UserNotFoundException(userId);
-    }
-
-    return ResponseEntity.ok(user);
+    return ResponseEntity.ok(NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId)));
   }
 
   @PutMapping(value = "users/{userId}")
-  public ResponseEntity<String> editUserById(@PathVariable Long userId,
+  public ResponseEntity<User> editUserById(@PathVariable Long userId,
                                              @RequestBody UserDto userDto) {
     User user = new User();
     user.setUsername(userDto.getUsername());
@@ -129,6 +124,6 @@ public class UserController {
     user.setProfileImage(userDto.getProfileImage());
     userService.update(userId, user);
 
-    return ResponseEntity.ok("User was successfully edited");
+    return ResponseEntity.ok(NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId)));
   }
 }

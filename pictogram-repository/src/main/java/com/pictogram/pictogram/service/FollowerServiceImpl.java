@@ -1,9 +1,9 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.Follower;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.FollowerRepository;
+import com.pictogram.pictogram.util.TimeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +30,7 @@ public class FollowerServiceImpl implements FollowerService {
   TimeProvider timeProvider;
 
   @Override
-  public void save(Long followId) {
+  public Follower save(Long followId) {
     User user = userService.getCurrentUser();
     User follow = userService.findOne(followId);
 
@@ -39,7 +39,7 @@ public class FollowerServiceImpl implements FollowerService {
     follower.setFollow(follow);
     follower.setCreatedDate(timeProvider.now());
 
-    followerRepository.save(follower);
+    return followerRepository.save(follower);
   }
 
   @Override
@@ -56,12 +56,18 @@ public class FollowerServiceImpl implements FollowerService {
   }
 
   @Override
-  public void delete(Long followId) {
+  public Boolean delete(Long followId) {
+    Boolean isDeleted = Boolean.FALSE;
     User user = userService.getCurrentUser();
     User follow = userService.findOne(followId);
     Follower follower = followerRepository.findByUserAndFollow(user, follow);
 
-    followerRepository.delete(follower);
+    if (userService.getCurrentUser().equals(follower.getUser())) {
+      followerRepository.delete(follower);
+      isDeleted = Boolean.TRUE;
+    }
+
+    return isDeleted;
   }
 
   private List<Follower> pageToFollowerList(Page<Follower> followerPage) {

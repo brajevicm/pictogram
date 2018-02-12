@@ -1,4 +1,4 @@
-package com.pictogram.pictogram.exception;
+package com.pictogram.pictogram.exception.post;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,5 +1,6 @@
 package com.pictogram.pictogram.dto;
 
+import com.pictogram.pictogram.model.Post;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -32,6 +33,15 @@ public class PostDto {
     this.title = title;
     this.description = description;
     this.file = file;
+  }
+
+  public Post toEntityObject() {
+    Post post = new Post();
+    post.setTitle(this.getTitle());
+    post.setDescription(this.getDescription());
+    post.setPostImage(this.getPostImage());
+
+    return post;
   }
 
 }

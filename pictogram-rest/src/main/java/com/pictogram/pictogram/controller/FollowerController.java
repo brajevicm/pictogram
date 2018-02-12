@@ -1,7 +1,13 @@
 package com.pictogram.pictogram.controller;
 
+import com.pictogram.pictogram.exception.follower.FollowerNotFoundException;
+import com.pictogram.pictogram.exception.follower.FollowersNotFoundException;
+import com.pictogram.pictogram.exception.user.UserNotFoundException;
 import com.pictogram.pictogram.model.Follower;
 import com.pictogram.pictogram.service.FollowerService;
+import com.pictogram.pictogram.service.UserService;
+import com.pictogram.pictogram.util.BooleanUtil;
+import com.pictogram.pictogram.util.NullUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,13 +25,16 @@ import java.util.List;
 public class FollowerController {
 
   @Autowired
-  FollowerService followerService;
+  private FollowerService followerService;
+
+  @Autowired
+  private UserService userService;
 
   @PostMapping(value = "followers/{followId}")
-  public ResponseEntity<String> addFollower(@PathVariable Long followId) {
-    followerService.save(followId);
+  public ResponseEntity<Follower> addFollower(@PathVariable Long followId) {
+    NullUtil.ifNullThrow(userService.findOne(followId), new UserNotFoundException(followId));
 
-    return ResponseEntity.ok(null);
+    return ResponseEntity.ok(NullUtil.ifNullThrow(followerService.save(followId), new FollowerNotFoundException()));
   }
 
   @GetMapping(value = "followers/{userId}")
@@ -33,15 +42,17 @@ public class FollowerController {
                                                      @RequestParam int page,
                                                      @RequestParam int size) {
     List<Follower> followers = followerService.findAllByUser(userId, page, size);
+    NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId));
 
-    return ResponseEntity.ok(followers);
+    return ResponseEntity.ok(NullUtil.ifNullThrow(followers, new FollowersNotFoundException()));
   }
 
   @DeleteMapping(value = "followers/{followId}")
-  public ResponseEntity<String> deleteFollow(@PathVariable Long followId) {
-    followerService.delete(followId);
+  public ResponseEntity<Boolean> deleteFollow(@PathVariable Long followId) {
+    NullUtil.ifNullThrow(userService.findOne(followId), new UserNotFoundException(followId));
+    Boolean isDeleted = followerService.delete(followId);
 
-    return ResponseEntity.ok("Deleted.");
+    return ResponseEntity.ok(BooleanUtil.ifFalseThrow(isDeleted, new FollowerNotFoundException()));
   }
 
 }
