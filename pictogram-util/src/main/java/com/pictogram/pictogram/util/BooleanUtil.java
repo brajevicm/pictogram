@@ -7,6 +7,9 @@ package com.pictogram.pictogram.util;
  * Mail: brajevicms@gmail.com
  */
 public class BooleanUtil {
+  private BooleanUtil() {
+  }
+
   public static <T, S extends Exception> T ifFalseThrow(T toCheck, S throwException) throws S {
     if (toCheck.equals(Boolean.FALSE)) {
       throw throwException;

@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.jwt;
 
-import com.pictogram.pictogram.util.TimeProvider;
+import com.pictogram.pictogram.util.TimeProviderUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,7 +35,7 @@ public class TokenUtil implements Serializable {
   private static final long serialVersionUID = 246986342520092170L;
 
   @Autowired
-  private TimeProvider timeProvider;
+  private TimeProviderUtil timeProviderUtil;
 
   @Value("${jwt.secret}")
   private String secret;
@@ -75,7 +75,7 @@ public class TokenUtil implements Serializable {
   private Boolean isTokenExpired(String token) {
     final Date expirationDate = getExpirationDateFromToken(token);
 
-    return expirationDate.before(timeProvider.now());
+    return expirationDate.before(timeProviderUtil.now());
   }
 
   private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
@@ -109,7 +109,7 @@ public class TokenUtil implements Serializable {
   }
 
   private String doGenerateToken(Map<String, Object> claims, String subject, String audience) {
-    final Date createdDate = timeProvider.now();
+    final Date createdDate = timeProviderUtil.now();
     final Date expirationDate = calculateExpirationDate(createdDate);
 
     return Jwts.builder()
@@ -142,7 +142,7 @@ public class TokenUtil implements Serializable {
   }
 
   public String refreshToken(String token) {
-    final Date createdDate = timeProvider.now();
+    final Date createdDate = timeProviderUtil.now();
     final Date expirationDate = calculateExpirationDate(createdDate);
 
     final Claims claims = getAllClaimsFomToken(token);

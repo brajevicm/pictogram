@@ -14,11 +14,11 @@ import java.util.List;
 public interface CommentService {
   Comment save(Comment comment, Long postId);
 
-  Boolean delete(Long commentId);
+  Boolean delete(Comment comment);
 
   Comment findOne(Long commentId);
 
   List<Comment> findAllByUser(Long userId, Pageable pageable);
 
-  List<Comment> findAllByPost(Long postId, int page, int size);
+  List<Comment> findAllByPost(Long postId, Pageable pageable);
 }

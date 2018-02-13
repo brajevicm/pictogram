@@ -3,10 +3,10 @@ package com.pictogram.pictogram.service;
 import com.pictogram.pictogram.model.Follower;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.FollowerRepository;
-import com.pictogram.pictogram.util.TimeProvider;
+import com.pictogram.pictogram.util.TimeProviderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,26 +27,25 @@ public class FollowerServiceImpl implements FollowerService {
   UserService userService;
 
   @Autowired
-  TimeProvider timeProvider;
+  TimeProviderUtil timeProviderUtil;
 
   @Override
-  public Follower save(Long followId) {
-    User user = userService.getCurrentUser();
-    User follow = userService.findOne(followId);
-
+  public Follower save(User user, User follow) {
     Follower follower = new Follower();
     follower.setUser(user);
     follower.setFollow(follow);
-    follower.setCreatedDate(timeProvider.now());
+    follower.setCreatedDate(timeProviderUtil.now());
 
     return followerRepository.save(follower);
   }
 
   @Override
-  public List<Follower> findAllByUser(Long userId, int page, int size) {
-    User user = userService.findOne(userId);
-    PageRequest pageable = new PageRequest(page, size);
+  public Follower findOne(Long followerId) {
+    return followerRepository.findOne(followerId);
+  }
 
+  @Override
+  public List<Follower> findAllByUser(User user, Pageable pageable) {
     return pageToFollowerList(followerRepository.findAllByUser(user, pageable));
   }
 
@@ -56,14 +55,12 @@ public class FollowerServiceImpl implements FollowerService {
   }
 
   @Override
-  public Boolean delete(Long followId) {
+  public Boolean delete(User user, User follow) {
     Boolean isDeleted = Boolean.FALSE;
-    User user = userService.getCurrentUser();
-    User follow = userService.findOne(followId);
     Follower follower = followerRepository.findByUserAndFollow(user, follow);
 
-    if (userService.getCurrentUser().equals(follower.getUser())) {
-      followerRepository.delete(follower);
+    if (user.equals(follower.getUser())) {
+      followerRepository.delete(follower.getId());
       isDeleted = Boolean.TRUE;
     }
 

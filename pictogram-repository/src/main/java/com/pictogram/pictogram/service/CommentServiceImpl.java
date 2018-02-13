@@ -2,12 +2,10 @@ package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.CommentRepository;
-import com.pictogram.pictogram.util.TimeProvider;
+import com.pictogram.pictogram.util.TimeProviderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,22 +21,19 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService {
 
   @Autowired
-  CommentRepository commentRepository;
+  private CommentRepository commentRepository;
 
   @Autowired
-  TimeProvider timeProvider;
+  private UserService userService;
 
   @Autowired
-  UserService userService;
-
-  @Autowired
-  PostService postService;
+  private PostService postService;
 
   @Override
   public Comment save(Comment comment, Long postId) {
     comment.setPost(postService.findOne(postId));
     comment.setUser(userService.getCurrentUser());
-    comment.setCreatedDate(timeProvider.now());
+    comment.setCreatedDate(TimeProviderUtil.now());
     comment.setEnabled(true);
     comment.setReportComments(new ArrayList<>());
     comment.setUpvoteComments(new ArrayList<>());
@@ -49,12 +44,11 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  public Boolean delete(Long commentId) {
-    Comment comment = findOne(commentId);
+  public Boolean delete(Comment comment) {
     Boolean isDeleted = Boolean.FALSE;
 
     if (userService.getCurrentUser().equals(comment.getUser())) {
-      commentRepository.delete(commentId);
+      commentRepository.delete(comment.getId());
       isDeleted = Boolean.TRUE;
     }
 
@@ -69,7 +63,6 @@ public class CommentServiceImpl implements CommentService {
   @Override
   public List<Comment> findAllByUser(Long userId, Pageable pageable) {
     User user = userService.findOne(userId);
-//    PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
     List<Comment> comments = pageToCommentsList(commentRepository.findAllByUser(user, pageable));
     filterComments(comments);
 
@@ -77,12 +70,10 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  public List<Comment> findAllByPost(Long postId, int page, int size) {
+  public List<Comment> findAllByPost(Long postId, Pageable pageable) {
     Post post = postService.findOne(postId);
-
-    PageRequest pageRequest = new PageRequest(page, size);
     List<Comment> comments =
-      pageToCommentsList(commentRepository.findAllByPostOrderByUpvoteCommentsDesc(post, pageRequest));
+      pageToCommentsList(commentRepository.findAllByPostOrderByUpvoteCommentsDesc(post, pageable));
     filterComments(comments);
 
     return comments;

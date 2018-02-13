@@ -1,12 +1,10 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.Authority;
 import com.pictogram.pictogram.model.AuthorityName;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.UserRepository;
-import org.apache.juli.logging.Log;
-import org.apache.juli.logging.LogFactory;
+import com.pictogram.pictogram.util.TimeProviderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,14 +27,26 @@ public class UserServiceImpl implements UserService {
   @Autowired
   UserRepository userRepository;
 
-  @Autowired
-  TimeProvider timeProvider;
+  @Override
+  public Boolean delete(Long userId) {
+    Boolean isDeleted = Boolean.FALSE;
+    Boolean isAdmin = this.getCurrentUser().getAuthorities()
+      .stream()
+      .anyMatch(authority -> authority.getName().equals(AuthorityName.ROLE_ADMIN));
+
+    if (isAdmin) {
+      userRepository.delete(userId);
+      isDeleted = Boolean.TRUE;
+    }
+
+    return isDeleted;
+  }
 
   @Override
   public User save(User user) {
     user.setEnabled(true);
-    user.setCreatedDate(timeProvider.now());
-    user.setLastPasswordResetDate(timeProvider.now());
+    user.setCreatedDate(TimeProviderUtil.now());
+    user.setLastPasswordResetDate(TimeProviderUtil.now());
     user.setAuthorities(getNewlyCreatedUserAuthorities());
     user.setPassword(hashPassword(user.getPassword()));
 

@@ -9,5 +9,5 @@ package com.pictogram.pictogram.service;
 public interface UpvoteService {
   void savePost(Long postId);
 
-  void saveComment(Long comment);
+  void saveComment(Long commentId);
 }

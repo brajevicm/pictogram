@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.util.TimeProvider;
+import com.pictogram.pictogram.util.TimeProviderUtil;
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class ReportServiceImpl implements ReportService {
   UserService userService;
 
   @Autowired
-  TimeProvider timeProvider;
+  TimeProviderUtil timeProviderUtil;
 
   @Override
   public void savePost(Long postId) {
@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
     User user = userService.getCurrentUser();
     ReportPost reportPost = new ReportPost();
     reportPost.setUser(user);
-    reportPost.setCreatedDate(timeProvider.now());
+    reportPost.setCreatedDate(timeProviderUtil.now());
     reportPost.setSeen(false);
     reportPost.setPost(post);
 
@@ -49,7 +49,7 @@ public class ReportServiceImpl implements ReportService {
     User user = userService.getCurrentUser();
     ReportComment reportComment = new ReportComment();
     reportComment.setUser(user);
-    reportComment.setCreatedDate(timeProvider.now());
+    reportComment.setCreatedDate(timeProviderUtil.now());
     reportComment.setSeen(false);
     reportComment.setComment(comment);
 

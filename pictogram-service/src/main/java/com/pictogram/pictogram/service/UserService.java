@@ -10,6 +10,8 @@ import com.pictogram.pictogram.model.User;
  * Mail: brajevicms@gmail.com
  */
 public interface UserService {
+  Boolean delete(Long userId);
+
   User save(User user);
 
   User update(Long userId, User user);

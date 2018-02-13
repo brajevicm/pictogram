@@ -20,11 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 /**
  * Project: pictogram
@@ -48,7 +43,7 @@ public class UserController {
   private UserService userService;
 
   @Autowired
-  StorageService storageService;
+  private StorageService storageService;
 
   @GetMapping(value = "user", produces = MediaType.APPLICATION_JSON_VALUE)
   public JwtUser getAuthenticatedUser(HttpServletRequest request) {
@@ -61,11 +56,11 @@ public class UserController {
 
   @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public ResponseEntity<User> registerUser(@RequestParam String username,
-                                             @RequestParam String password,
-                                             @RequestParam String firstName,
-                                             @RequestParam String lastName,
-                                             @RequestParam String email,
-                                             @RequestParam MultipartFile file) throws URISyntaxException {
+                                           @RequestParam String password,
+                                           @RequestParam String firstName,
+                                           @RequestParam String lastName,
+                                           @RequestParam String email,
+                                           @RequestParam MultipartFile file) {
     NullUtil.ifNotNullThrow(userService.getCurrentUser(), new UserAlreadyAuthorizedException());
     NullUtil.ifNotNullThrow(userService.findByUsername(username),
       new UsernameAlreadyExistsException(username));
@@ -83,7 +78,10 @@ public class UserController {
     User newUser = userService.save(user);
     Long userId = newUser.getId();
 
-    return ResponseEntity.ok(NullUtil.ifNullThrow(newUser, new UserNotFoundException(userId)));
+    return ResponseEntity
+      .ok(NullUtil.ifNullThrow(
+        newUser, new UserNotFoundException(userId)
+      ));
   }
 
   @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -102,24 +100,29 @@ public class UserController {
     user.setEmail(userDto.getEmail());
     user.setProfileImage(userDto.getProfileImage());
 
-    User newUser = userService.save(user);
-    Long userId = newUser.getId();
+    user = userService.save(user);
+    Long userId = user.getId();
 
-    return ResponseEntity.ok(NullUtil.ifNullThrow(newUser, new UserNotFoundException(userId)));
+    return ResponseEntity.ok(NullUtil.ifNullThrow(
+      user, new UserNotFoundException(userId)
+    ));
   }
 
   @GetMapping(value = "users/{userId}")
   public ResponseEntity<User> getUserById(@PathVariable Long userId) {
-    return ResponseEntity.ok(NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId)));
+    User user = userService.findOne(userId);
+
+    return ResponseEntity
+      .ok(NullUtil.ifNullThrow(
+        user, new UserNotFoundException(userId)
+      ));
   }
 
   @PutMapping(value = "users/{userId}")
   public ResponseEntity<User> editUserById(@PathVariable Long userId,
                                            @RequestBody UserDto userDto) {
     User user = NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId));
-    if (!userService.getCurrentUser().equals(user)) {
-      throw new UserNotAuthorizedException();
-    }
+    NullUtil.ifNullThrow(userService.getCurrentUser(), new UserNotAuthorizedException());
 
     user.setUsername(userDto.getUsername());
     user.setPassword(userDto.getPassword());
@@ -127,8 +130,11 @@ public class UserController {
     user.setLastName(userDto.getLastName());
     user.setEmail(userDto.getEmail());
     user.setProfileImage(userDto.getProfileImage());
-    userService.update(userId, user);
+    user = userService.update(userId, user);
 
-    return ResponseEntity.ok(NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId)));
+    return ResponseEntity
+      .ok(NullUtil.ifNullThrow(
+        user, new UserNotFoundException(userId)
+      ));
   }
 }

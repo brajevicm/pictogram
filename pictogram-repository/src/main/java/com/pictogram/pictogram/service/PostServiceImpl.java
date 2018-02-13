@@ -1,13 +1,11 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.PostRepository;
+import com.pictogram.pictogram.util.TimeProviderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -27,23 +25,37 @@ public class PostServiceImpl implements PostService {
   private static final String REPORTED = "reported";
 
   @Autowired
-  PostRepository postRepository;
+  private PostRepository postRepository;
 
   @Autowired
-  TimeProvider timeProvider;
+  private UserService userService;
 
   @Autowired
-  UserService userService;
-
-  @Autowired
-  CommentService commentService;
-
-  @Autowired
-  FollowerService followerService;
+  private FollowerService followerService;
 
   @Override
-  public void save(Post post) {
-    postRepository.save(post);
+  public Boolean delete(Post post) {
+    Boolean isDeleted = Boolean.FALSE;
+
+    if (userService.getCurrentUser().equals(post.getUser())) {
+      postRepository.delete(post.getId());
+      isDeleted = Boolean.TRUE;
+    }
+
+    return isDeleted;
+  }
+
+  @Override
+  public Post save(Post post) {
+    post.setEnabled(true);
+    post.setCreatedDate(TimeProviderUtil.now());
+    post.setComments(new ArrayList<>());
+    post.setUpvotePosts(new ArrayList<>());
+    post.setReportPosts(new ArrayList<>());
+    post.setReported(false);
+    post.setUpvoted(false);
+
+    return postRepository.save(post);
   }
 
   @Override
@@ -51,10 +63,7 @@ public class PostServiceImpl implements PostService {
     return postRepository.findOne(id);
   }
 
-  public List<Post> findAllByType(String type, int page, int size) {
-    PageRequest pageable =
-      new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
-
+  public List<Post> findAllByType(String type, Pageable pageable) {
     switch (type) {
       case FRESH:
         return findAllFreshByPage(pageable);
@@ -70,9 +79,7 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public List<Post> findAllByUser(Long userId, int page, int size) {
-    User user = userService.findOne(userId);
-    PageRequest pageable = new PageRequest(page, size);
+  public List<Post> findAllByUser(User user, Pageable pageable) {
     List<Post> posts = pageToPostsList(postRepository.findAllByUser(user, pageable));
     filterPosts(posts);
 
@@ -80,10 +87,7 @@ public class PostServiceImpl implements PostService {
   }
 
   @Override
-  public List<Post> findAllByFollows(int page, int size) {
-    User user = userService.getCurrentUser();
-    PageRequest pageable = new PageRequest(page, size);
-
+  public List<Post> findAllByFollows(User user, Pageable pageable) {
     List<Follower> followers = followerService.findAllByUser(user);
     List<User> follows = new ArrayList<>();
     followers.forEach(follower -> follows.add(follower.getFollow()));

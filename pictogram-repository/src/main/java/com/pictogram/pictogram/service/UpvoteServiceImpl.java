@@ -1,6 +1,6 @@
 package com.pictogram.pictogram.service;
 
-import com.pictogram.pictogram.util.TimeProvider;
+import com.pictogram.pictogram.util.TimeProviderUtil;
 import com.pictogram.pictogram.model.*;
 import com.pictogram.pictogram.repository.ActionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class UpvoteServiceImpl implements UpvoteService {
   UserService userService;
 
   @Autowired
-  TimeProvider timeProvider;
+  TimeProviderUtil timeProviderUtil;
 
   @Override
   public void savePost(Long postId) {
@@ -36,7 +36,7 @@ public class UpvoteServiceImpl implements UpvoteService {
     User user = userService.getCurrentUser();
     UpvotePost upvotePost = new UpvotePost();
     upvotePost.setUser(user);
-    upvotePost.setCreatedDate(timeProvider.now());
+    upvotePost.setCreatedDate(timeProviderUtil.now());
     upvotePost.setSeen(false);
     upvotePost.setPost(post);
 
@@ -49,7 +49,7 @@ public class UpvoteServiceImpl implements UpvoteService {
     User user = userService.getCurrentUser();
     UpvoteComment upvoteComment = new UpvoteComment();
     upvoteComment.setUser(user);
-    upvoteComment.setCreatedDate(timeProvider.now());
+    upvoteComment.setCreatedDate(timeProviderUtil.now());
     upvoteComment.setSeen(false);
     upvoteComment.setComment(comment);
 

@@ -7,6 +7,9 @@ package com.pictogram.pictogram.util;
  * Mail: brajevicms@gmail.com
  */
 public class NullUtil {
+  private NullUtil() {
+  }
+
   public static <T, S extends Exception> T ifNotNullThrow(T toCheck, S throwException) throws S {
     if (toCheck != null) {
       throw throwException;

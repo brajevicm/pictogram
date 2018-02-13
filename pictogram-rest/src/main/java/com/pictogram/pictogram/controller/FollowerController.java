@@ -2,17 +2,21 @@ package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.exception.follower.FollowerNotFoundException;
 import com.pictogram.pictogram.exception.follower.FollowersNotFoundException;
+import com.pictogram.pictogram.exception.user.UserNotAuthorizedException;
 import com.pictogram.pictogram.exception.user.UserNotFoundException;
 import com.pictogram.pictogram.model.Follower;
+import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.service.FollowerService;
 import com.pictogram.pictogram.service.UserService;
 import com.pictogram.pictogram.util.BooleanUtil;
+import com.pictogram.pictogram.util.EmptyUtil;
 import com.pictogram.pictogram.util.NullUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 /**
@@ -32,27 +36,29 @@ public class FollowerController {
 
   @PostMapping(value = "followers/{followId}")
   public ResponseEntity<Follower> addFollower(@PathVariable Long followId) {
-    NullUtil.ifNullThrow(userService.findOne(followId), new UserNotFoundException(followId));
+    User follow = NullUtil.ifNullThrow(userService.findOne(followId), new UserNotFoundException(followId));
+    User user = NullUtil.ifNullThrow(userService.getCurrentUser(), new UserNotAuthorizedException());
 
-    return ResponseEntity.ok(NullUtil.ifNullThrow(followerService.save(followId), new FollowerNotFoundException()));
+    return ResponseEntity.ok(NullUtil.ifNullThrow(followerService.save(user, follow), new FollowerNotFoundException()));
   }
 
   @GetMapping(value = "followers/{userId}")
   public ResponseEntity<List<Follower>> getFollowers(@PathVariable Long userId,
-                                                     @RequestParam int page,
-                                                     @RequestParam int size) {
-    List<Follower> followers = followerService.findAllByUser(userId, page, size);
-    NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId));
+                                                     @PageableDefault(
+                                                       value = Integer.MAX_VALUE
+                                                     ) Pageable pageable) {
+    User user = NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId));
 
-    return ResponseEntity.ok(NullUtil.ifNullThrow(followers, new FollowersNotFoundException()));
+    return ResponseEntity.ok(EmptyUtil.ifEmptyThrow(followerService.findAllByUser(user, pageable), new FollowersNotFoundException()));
   }
 
   @DeleteMapping(value = "followers/{followId}")
   public ResponseEntity<Boolean> deleteFollow(@PathVariable Long followId) {
-    NullUtil.ifNullThrow(userService.findOne(followId), new UserNotFoundException(followId));
-    Boolean isDeleted = followerService.delete(followId);
+    Follower follower = NullUtil.ifNullThrow(followerService.findOne(followId), new FollowerNotFoundException());
+    User follow = NullUtil.ifNullThrow(userService.findOne(follower.getFollow().getId()), new UserNotFoundException(followId));
+    User user = NullUtil.ifNullThrow(userService.getCurrentUser(), new UserNotAuthorizedException());
 
-    return ResponseEntity.ok(BooleanUtil.ifFalseThrow(isDeleted, new FollowerNotFoundException()));
+    return ResponseEntity.ok(BooleanUtil.ifFalseThrow(followerService.delete(user, follow), new FollowerNotFoundException()));
   }
 
 }

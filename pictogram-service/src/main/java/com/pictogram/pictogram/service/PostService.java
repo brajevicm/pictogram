@@ -1,6 +1,8 @@
 package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.model.Post;
+import com.pictogram.pictogram.model.User;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -12,13 +14,15 @@ import java.util.List;
  */
 
 public interface PostService {
-  void save(Post post);
+  Boolean delete(Post post);
+
+  Post save(Post post);
 
   Post findOne(Long id);
 
-  List<Post> findAllByType(String type, int page, int size);
+  List<Post> findAllByType(String type, Pageable pageable);
 
-  List<Post> findAllByUser(Long userId, int page, int size);
+  List<Post> findAllByUser(User user, Pageable pageable);
 
-  List<Post> findAllByFollows(int page, int size);
+  List<Post> findAllByFollows(User user, Pageable pageable);
 }
