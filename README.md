@@ -1,15 +1,9 @@
 # Pictogram
 
 ## Table of Contents
-* [Team members](#team-members)
 * [Introduction](#introduction)
 * [REST API](#rest-api)
 * [Project Demo](#project-demo)
-
-## Team members
- * Miloš Brajević
- * Igor Ivačić
- * Srđan Stevanović
 
 ## Introduction
 
@@ -82,6 +76,6 @@ Authorization:Bearer token
 
 ## Project Demo
 
-> To showcase this project in action we will provide a simple Angular application which will be hosted on GitHub Pages.
+> To showcase this project in action a React application will be provided.
 
 > This project will be hosted on Heroku.
