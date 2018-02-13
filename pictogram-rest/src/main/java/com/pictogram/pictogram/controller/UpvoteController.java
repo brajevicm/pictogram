@@ -1,6 +1,8 @@
 package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.exception.user.UserAlreadyUpvotedException;
+import com.pictogram.pictogram.model.Comment;
+import com.pictogram.pictogram.model.Post;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.UpvoteService;
@@ -21,19 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class UpvoteController {
 
   @Autowired
-  UpvoteService upvoteService;
+  private UpvoteService upvoteService;
 
   @Autowired
-  PostService postService;
+  private PostService postService;
 
   @Autowired
-  CommentService commentService;
+  private CommentService commentService;
 
   @Autowired
-  UserService userService;
+  private UserService userService;
 
   @PutMapping(value = "posts/{postId}")
-  public ResponseEntity<String> upvotePost(@PathVariable Long postId) {
+  public ResponseEntity<Post> upvotePost(@PathVariable Long postId) {
     if (postService.findOne(postId).getUpvotePosts().stream()
       .anyMatch(upvotePost ->
         upvotePost.getUser().getUsername().equals(userService.getCurrentUser().getUsername()))) {
@@ -42,11 +44,11 @@ public class UpvoteController {
 
     upvoteService.savePost(postId);
 
-    return ResponseEntity.ok("Post successfully upvoted");
+    return ResponseEntity.ok(null);
   }
 
   @PutMapping(value = "comments/{commentId}")
-  public ResponseEntity<String> upvoteComment(@PathVariable Long commentId) {
+  public ResponseEntity<Comment> upvoteComment(@PathVariable Long commentId) {
     if (commentService.findOne(commentId).getUpvoteComments().stream()
       .anyMatch(upvoteComment ->
         upvoteComment.getUser().getUsername().equals(userService.getCurrentUser().getUsername()))) {
@@ -55,7 +57,7 @@ public class UpvoteController {
 
     upvoteService.saveComment(commentId);
 
-    return ResponseEntity.ok("Comment successfully upvoted");
+    return ResponseEntity.ok(null);
   }
 
 }

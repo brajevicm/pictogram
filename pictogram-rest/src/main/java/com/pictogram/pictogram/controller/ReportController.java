@@ -1,6 +1,8 @@
 package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.exception.user.UserAlreadyReportedException;
+import com.pictogram.pictogram.model.Comment;
+import com.pictogram.pictogram.model.Post;
 import com.pictogram.pictogram.service.CommentService;
 import com.pictogram.pictogram.service.PostService;
 import com.pictogram.pictogram.service.ReportService;
@@ -21,19 +23,19 @@ import org.springframework.web.bind.annotation.RestController;
 public class ReportController {
 
   @Autowired
-  ReportService reportService;
+  private ReportService reportService;
 
   @Autowired
-  PostService postService;
+  private PostService postService;
 
   @Autowired
-  CommentService commentService;
+  private CommentService commentService;
 
   @Autowired
-  UserService userService;
+  private UserService userService;
 
   @PatchMapping(value = "posts/{postId}")
-  public ResponseEntity<String> reportPost(@PathVariable Long postId) {
+  public ResponseEntity<Post> reportPost(@PathVariable Long postId) {
     if (postService.findOne(postId).getReportPosts().stream()
       .anyMatch(reportPost ->
         reportPost.getUser().getUsername().equals(userService.getCurrentUser().getUsername()))) {
@@ -42,11 +44,11 @@ public class ReportController {
 
     reportService.savePost(postId);
 
-    return ResponseEntity.ok("Post successfully reported");
+    return ResponseEntity.ok(null);
   }
 
   @PatchMapping(value = "comments/{commentId}")
-  public ResponseEntity<String> reportComment(@PathVariable Long commentId) {
+  public ResponseEntity<Comment> reportComment(@PathVariable Long commentId) {
     if (commentService.findOne(commentId).getReportComments().stream()
       .anyMatch(reportComment ->
         reportComment.getUser().getUsername().equals(userService.getCurrentUser().getUsername()))) {
@@ -55,7 +57,7 @@ public class ReportController {
 
     reportService.saveComment(commentId);
 
-    return ResponseEntity.ok("Comment successfully reported");
+    return ResponseEntity.ok(null);
   }
 
 }

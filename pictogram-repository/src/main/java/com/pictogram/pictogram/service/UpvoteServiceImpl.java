@@ -16,19 +16,16 @@ import org.springframework.stereotype.Service;
 public class UpvoteServiceImpl implements UpvoteService {
 
   @Autowired
-  ActionRepository actionRepository;
+  private ActionRepository actionRepository;
 
   @Autowired
-  PostService postService;
+  private PostService postService;
 
   @Autowired
-  CommentService commentService;
+  private CommentService commentService;
 
   @Autowired
-  UserService userService;
-
-  @Autowired
-  TimeProviderUtil timeProviderUtil;
+  private UserService userService;
 
   @Override
   public void savePost(Long postId) {
@@ -36,7 +33,7 @@ public class UpvoteServiceImpl implements UpvoteService {
     User user = userService.getCurrentUser();
     UpvotePost upvotePost = new UpvotePost();
     upvotePost.setUser(user);
-    upvotePost.setCreatedDate(timeProviderUtil.now());
+    upvotePost.setCreatedDate(TimeProviderUtil.now());
     upvotePost.setSeen(false);
     upvotePost.setPost(post);
 
@@ -49,7 +46,7 @@ public class UpvoteServiceImpl implements UpvoteService {
     User user = userService.getCurrentUser();
     UpvoteComment upvoteComment = new UpvoteComment();
     upvoteComment.setUser(user);
-    upvoteComment.setCreatedDate(timeProviderUtil.now());
+    upvoteComment.setCreatedDate(TimeProviderUtil.now());
     upvoteComment.setSeen(false);
     upvoteComment.setComment(comment);
 

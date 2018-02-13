@@ -16,19 +16,16 @@ import org.springframework.stereotype.Service;
 public class ReportServiceImpl implements ReportService {
 
   @Autowired
-  ActionRepository actionRepository;
+  private ActionRepository actionRepository;
 
   @Autowired
-  PostService postService;
+  private PostService postService;
 
   @Autowired
-  CommentService commentService;
+  private CommentService commentService;
 
   @Autowired
-  UserService userService;
-
-  @Autowired
-  TimeProviderUtil timeProviderUtil;
+  private UserService userService;
 
   @Override
   public void savePost(Long postId) {
@@ -36,7 +33,7 @@ public class ReportServiceImpl implements ReportService {
     User user = userService.getCurrentUser();
     ReportPost reportPost = new ReportPost();
     reportPost.setUser(user);
-    reportPost.setCreatedDate(timeProviderUtil.now());
+    reportPost.setCreatedDate(TimeProviderUtil.now());
     reportPost.setSeen(false);
     reportPost.setPost(post);
 
@@ -49,7 +46,7 @@ public class ReportServiceImpl implements ReportService {
     User user = userService.getCurrentUser();
     ReportComment reportComment = new ReportComment();
     reportComment.setUser(user);
-    reportComment.setCreatedDate(timeProviderUtil.now());
+    reportComment.setCreatedDate(TimeProviderUtil.now());
     reportComment.setSeen(false);
     reportComment.setComment(comment);
 
