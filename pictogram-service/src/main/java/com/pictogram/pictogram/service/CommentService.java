@@ -1,6 +1,7 @@
 package com.pictogram.pictogram.service;
 
 import com.pictogram.pictogram.model.Comment;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public interface CommentService {
 
   Comment findOne(Long commentId);
 
-  List<Comment> findAllByUser(Long userId, int page, int size);
+  List<Comment> findAllByUser(Long userId, Pageable pageable);
 
   List<Comment> findAllByPost(Long postId, int page, int size);
 }

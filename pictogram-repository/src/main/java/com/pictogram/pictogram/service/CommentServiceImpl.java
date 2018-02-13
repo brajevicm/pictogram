@@ -6,6 +6,7 @@ import com.pictogram.pictogram.util.TimeProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -66,11 +67,10 @@ public class CommentServiceImpl implements CommentService {
   }
 
   @Override
-  public List<Comment> findAllByUser(Long userId, int page, int size) {
+  public List<Comment> findAllByUser(Long userId, Pageable pageable) {
     User user = userService.findOne(userId);
-
-    PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
-    List<Comment> comments = pageToCommentsList(commentRepository.findAllByUser(user, pageRequest));
+//    PageRequest pageRequest = new PageRequest(page, size, Sort.Direction.DESC, "createdDate");
+    List<Comment> comments = pageToCommentsList(commentRepository.findAllByUser(user, pageable));
     filterComments(comments);
 
     return comments;

@@ -2,8 +2,16 @@ package com.pictogram.pictogram.controller;
 
 import com.pictogram.pictogram.dto.PostDto;
 import com.pictogram.pictogram.exception.post.PostNotFoundException;
+import com.pictogram.pictogram.exception.post.PostsNotFoundException;
+import com.pictogram.pictogram.exception.user.UserNotAuthorizedException;
+import com.pictogram.pictogram.exception.user.UserNotFoundException;
 import com.pictogram.pictogram.model.Post;
 import com.pictogram.pictogram.service.PostService;
+import com.pictogram.pictogram.service.UserService;
+import com.pictogram.pictogram.util.EmptyUtil;
+import com.pictogram.pictogram.util.NullUtil;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +31,14 @@ import java.util.List;
  */
 @RestController
 public class PostController {
+  Log logger = LogFactory.getLog(PostController.class);
+
 
   @Autowired
-  PostService postService;
+  private PostService postService;
+
+  @Autowired
+  private UserService userService;
 
   //  @TODO Fix image upload
   @PostMapping(value = "posts", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
@@ -67,35 +80,34 @@ public class PostController {
                                              @RequestParam int size) {
     List<Post> posts = postService.findAllByType(type, page, size);
 
-    return ResponseEntity.ok(posts);
+    return ResponseEntity.ok(EmptyUtil.ifEmptyThrow(posts, new PostsNotFoundException()));
   }
 
   @GetMapping(value = "posts/{postId}")
   public ResponseEntity<Post> getPost(@PathVariable Long postId) {
     Post post = postService.findOne(postId);
 
-    if (post == null) {
-      throw new PostNotFoundException(postId);
-    }
-
-    return ResponseEntity.ok(post);
+    return ResponseEntity.ok(NullUtil.ifNullThrow(post, new PostNotFoundException(postId)));
   }
 
   @GetMapping(value = "users/{userId}/posts")
   public ResponseEntity<List<Post>> getPostsFromUser(@PathVariable Long userId,
                                                      @RequestParam int page,
                                                      @RequestParam int size) {
+    NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId));
     List<Post> posts = postService.findAllByUser(userId, page, size);
 
-    return ResponseEntity.ok(posts);
+    return ResponseEntity.ok(EmptyUtil.ifEmptyThrow(posts, new PostsNotFoundException()));
   }
 
   @GetMapping(value = "followers/posts")
   public ResponseEntity<List<Post>> getPostsFromFollows(@RequestParam int page,
                                                         @RequestParam int size) {
+    NullUtil.ifNullThrow(userService.getCurrentUser(), new UserNotAuthorizedException());
+
     List<Post> posts = postService.findAllByFollows(page, size);
 
-    return ResponseEntity.ok(posts);
+    return ResponseEntity.ok(EmptyUtil.ifEmptyThrow(posts, new PostsNotFoundException()));
   }
 
 }

@@ -4,11 +4,17 @@ import com.pictogram.pictogram.dto.CommentDto;
 import com.pictogram.pictogram.exception.comment.CommentNotFoundException;
 import com.pictogram.pictogram.exception.comment.CommentsNotFoundException;
 import com.pictogram.pictogram.exception.user.UserNotAuthorizedException;
+import com.pictogram.pictogram.exception.user.UserNotFoundException;
 import com.pictogram.pictogram.model.Comment;
 import com.pictogram.pictogram.service.CommentService;
+import com.pictogram.pictogram.service.UserService;
 import com.pictogram.pictogram.util.BooleanUtil;
+import com.pictogram.pictogram.util.EmptyUtil;
 import com.pictogram.pictogram.util.NullUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,7 +30,10 @@ import java.util.List;
 public class CommentController {
 
   @Autowired
-  CommentService commentService;
+  private CommentService commentService;
+
+  @Autowired
+  private UserService userService;
 
   @PostMapping(value = "posts/{postId}/comments")
   public ResponseEntity<Comment> createPost(@PathVariable Long postId,
@@ -49,12 +58,15 @@ public class CommentController {
 
   @GetMapping(value = "users/{userId}/comments")
   public ResponseEntity<List<Comment>> getCommentsForUser(@PathVariable Long userId,
-                                                          @RequestParam int page,
-                                                          @RequestParam int size) {
+                                                          @PageableDefault(
+                                                            sort = "createdDate",
+                                                            direction = Sort.Direction.DESC,
+                                                            value = Integer.MAX_VALUE) Pageable pageable) {
+    NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId));
     String entity = "User";
-    List<Comment> comments = commentService.findAllByUser(userId, page, size);
+    List<Comment> comments = commentService.findAllByUser(userId, pageable);
 
-    return ResponseEntity.ok(NullUtil.ifNullThrow(comments, new CommentsNotFoundException(entity)));
+    return ResponseEntity.ok(EmptyUtil.ifEmptyThrow(comments, new CommentsNotFoundException(entity)));
   }
 
   @DeleteMapping(value = "comments/{commentId}")
