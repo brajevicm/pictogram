@@ -7,11 +7,11 @@ package com.pictogram.pictogram.util;
  * Mail: brajevicms@gmail.com
  */
 public class NullUtil {
-  public static <T> T ifNullReturn(T toCheck, T ifNull) {
-    if (toCheck == null) {
-      return ifNull;
+  public static <T, S extends Exception> T ifNotNullThrow(T toCheck, S throwException) throws S {
+    if (toCheck != null) {
+      throw throwException;
     }
-    return toCheck;
+    return null;
   }
 
   public static <T, S extends Exception> T ifNullThrow(T toCheck, S throwException) throws S {

@@ -1,14 +1,16 @@
 package com.pictogram.pictogram.controller;
 
-import com.pictogram.pictogram.util.NullUtil;
-import com.pictogram.pictogram.util.TimeProvider;
 import com.pictogram.pictogram.dto.UserDto;
+import com.pictogram.pictogram.exception.user.UserAlreadyAuthorizedException;
+import com.pictogram.pictogram.exception.user.UserNotAuthorizedException;
 import com.pictogram.pictogram.exception.user.UserNotFoundException;
+import com.pictogram.pictogram.exception.user.UsernameAlreadyExistsException;
 import com.pictogram.pictogram.jwt.JwtUser;
+import com.pictogram.pictogram.jwt.TokenUtil;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.service.UserService;
 import com.pictogram.pictogram.storage.StorageService;
-import com.pictogram.pictogram.jwt.TokenUtil;
+import com.pictogram.pictogram.util.NullUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -46,9 +48,6 @@ public class UserController {
   private UserService userService;
 
   @Autowired
-  TimeProvider timeProvider;
-
-  @Autowired
   StorageService storageService;
 
   @GetMapping(value = "user", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -61,50 +60,52 @@ public class UserController {
   }
 
   @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<String> registerUser(@RequestParam String username,
+  public ResponseEntity<User> registerUser(@RequestParam String username,
                                              @RequestParam String password,
                                              @RequestParam String firstName,
                                              @RequestParam String lastName,
                                              @RequestParam String email,
                                              @RequestParam MultipartFile file) throws URISyntaxException {
+    NullUtil.ifNotNullThrow(userService.getCurrentUser(), new UserAlreadyAuthorizedException());
+    NullUtil.ifNotNullThrow(userService.findByUsername(username),
+      new UsernameAlreadyExistsException(username));
+
+    String profileImage = storageService.store(file);
+
     User user = new User();
-    String fullImagePath = "";
-    try {
-      byte[] bytes = file.getBytes();
-      Path path = Paths.get("" + file.getOriginalFilename());
-      Files.write(path, bytes);
-      fullImagePath = path.toString();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
     user.setUsername(username);
     user.setPassword(password);
     user.setFirstName(firstName);
     user.setLastName(lastName);
     user.setEmail(email);
-    user.setProfileImage(fullImagePath);
-    userService.save(user);
+    user.setProfileImage(profileImage);
 
-    return ResponseEntity.created(new URI("/users")).build();
+    User newUser = userService.save(user);
+    Long userId = newUser.getId();
+
+    return ResponseEntity.ok(NullUtil.ifNullThrow(newUser, new UserNotFoundException(userId)));
   }
 
   @PostMapping(value = "${jwt.route.authentication.register}", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<String> registerUser(@RequestBody UserDto userDto) throws URISyntaxException {
+  public ResponseEntity<User> registerUser(@RequestBody UserDto userDto) {
+    String username = userDto.getUsername();
+
+    NullUtil.ifNotNullThrow(userService.getCurrentUser(), new UserAlreadyAuthorizedException());
+    NullUtil.ifNotNullThrow(userService.findByUsername(userDto.getUsername()),
+      new UsernameAlreadyExistsException(username));
+
     User user = new User();
-    user.setUsername(userDto.getUsername());
+    user.setUsername(username);
     user.setPassword(userDto.getPassword());
     user.setFirstName(userDto.getFirstName());
     user.setLastName(userDto.getLastName());
     user.setEmail(userDto.getEmail());
     user.setProfileImage(userDto.getProfileImage());
-    user.setEnabled(true);
-    user.setCreatedDate(timeProvider.now());
-    user.setLastPasswordResetDate(timeProvider.now());
-    user.setAuthorities(null);
 
-    userService.save(user);
+    User newUser = userService.save(user);
+    Long userId = newUser.getId();
 
-    return ResponseEntity.created(new URI("/users")).build();
+    return ResponseEntity.ok(NullUtil.ifNullThrow(newUser, new UserNotFoundException(userId)));
   }
 
   @GetMapping(value = "users/{userId}")
@@ -114,8 +115,12 @@ public class UserController {
 
   @PutMapping(value = "users/{userId}")
   public ResponseEntity<User> editUserById(@PathVariable Long userId,
-                                             @RequestBody UserDto userDto) {
-    User user = new User();
+                                           @RequestBody UserDto userDto) {
+    User user = NullUtil.ifNullThrow(userService.findOne(userId), new UserNotFoundException(userId));
+    if (!userService.getCurrentUser().equals(user)) {
+      throw new UserNotAuthorizedException();
+    }
+
     user.setUsername(userDto.getUsername());
     user.setPassword(userDto.getPassword());
     user.setFirstName(userDto.getFirstName());

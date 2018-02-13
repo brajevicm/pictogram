@@ -10,9 +10,9 @@ import com.pictogram.pictogram.model.User;
  * Mail: brajevicms@gmail.com
  */
 public interface UserService {
-  void save(User user);
+  User save(User user);
 
-  void update(Long userId, User user);
+  User update(Long userId, User user);
 
   User findOne(Long userId);
 

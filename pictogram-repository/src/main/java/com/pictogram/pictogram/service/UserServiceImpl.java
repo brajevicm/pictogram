@@ -5,6 +5,8 @@ import com.pictogram.pictogram.model.Authority;
 import com.pictogram.pictogram.model.AuthorityName;
 import com.pictogram.pictogram.model.User;
 import com.pictogram.pictogram.repository.UserRepository;
+import org.apache.juli.logging.Log;
+import org.apache.juli.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,21 +33,21 @@ public class UserServiceImpl implements UserService {
   TimeProvider timeProvider;
 
   @Override
-  public void save(User user) {
+  public User save(User user) {
+    user.setEnabled(true);
+    user.setCreatedDate(timeProvider.now());
+    user.setLastPasswordResetDate(timeProvider.now());
+    user.setAuthorities(getNewlyCreatedUserAuthorities());
+    user.setPassword(hashPassword(user.getPassword()));
 
-    userRepository.save(user);
+    return userRepository.save(user);
   }
 
   @Override
-  public void update(Long userId, User user) {
-    User editedUser = userRepository.findOne(userId);
-    editedUser.setFirstName(user.getFirstName());
-    editedUser.setLastName(user.getLastName());
-    editedUser.setEmail(user.getEmail());
-    editedUser.setProfileImage(user.getProfileImage());
-    editedUser.setPassword(hashPassword(user.getPassword()));
+  public User update(Long userId, User user) {
+    user.setPassword(hashPassword(user.getPassword()));
 
-    userRepository.save(editedUser);
+    return userRepository.save(user);
   }
 
   @Override
