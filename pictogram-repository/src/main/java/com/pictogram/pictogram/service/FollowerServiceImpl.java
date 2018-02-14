@@ -26,7 +26,6 @@ public class FollowerServiceImpl implements FollowerService {
   @Autowired
   private UserService userService;
 
-
   @Override
   public Follower save(User user, User follow) {
     Follower follower = new Follower();
