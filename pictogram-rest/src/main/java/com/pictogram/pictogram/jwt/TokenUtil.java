@@ -34,9 +34,6 @@ public class TokenUtil implements Serializable {
   static final String AUDIENCE_TABLET = "tablet";
   private static final long serialVersionUID = 246986342520092170L;
 
-  @Autowired
-  private TimeProviderUtil timeProviderUtil;
-
   @Value("${jwt.secret}")
   private String secret;
 
@@ -75,7 +72,7 @@ public class TokenUtil implements Serializable {
   private Boolean isTokenExpired(String token) {
     final Date expirationDate = getExpirationDateFromToken(token);
 
-    return expirationDate.before(timeProviderUtil.now());
+    return expirationDate.before(TimeProviderUtil.now());
   }
 
   private Boolean isCreatedBeforeLastPasswordReset(Date created, Date lastPasswordReset) {
@@ -109,7 +106,7 @@ public class TokenUtil implements Serializable {
   }
 
   private String doGenerateToken(Map<String, Object> claims, String subject, String audience) {
-    final Date createdDate = timeProviderUtil.now();
+    final Date createdDate = TimeProviderUtil.now();
     final Date expirationDate = calculateExpirationDate(createdDate);
 
     return Jwts.builder()
@@ -142,7 +139,7 @@ public class TokenUtil implements Serializable {
   }
 
   public String refreshToken(String token) {
-    final Date createdDate = timeProviderUtil.now();
+    final Date createdDate = TimeProviderUtil.now();
     final Date expirationDate = calculateExpirationDate(createdDate);
 
     final Claims claims = getAllClaimsFomToken(token);

@@ -21,20 +21,18 @@ import java.util.List;
 public class FollowerServiceImpl implements FollowerService {
 
   @Autowired
-  FollowerRepository followerRepository;
+  private FollowerRepository followerRepository;
 
   @Autowired
-  UserService userService;
+  private UserService userService;
 
-  @Autowired
-  TimeProviderUtil timeProviderUtil;
 
   @Override
   public Follower save(User user, User follow) {
     Follower follower = new Follower();
     follower.setUser(user);
     follower.setFollow(follow);
-    follower.setCreatedDate(timeProviderUtil.now());
+    follower.setCreatedDate(TimeProviderUtil.now());
 
     return followerRepository.save(follower);
   }
