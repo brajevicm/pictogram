@@ -5,7 +5,7 @@
         <groupId>com.pictogram</groupId>
         <artifactId>pictogram</artifactId>
         <version>0.8-SNAPSHOT</version>
-        <relativePath/>
+        <relativePath>../</relativePath>
     </parent>
     <artifactId>pictogram-service</artifactId>
     <packaging>jar</packaging>
